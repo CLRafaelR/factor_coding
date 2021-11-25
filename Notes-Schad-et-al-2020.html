@@ -17,7 +17,7 @@ class: center, middle, inverse, title-slide
 ## Schad et al (2020)日本語注解
 ### 小川雅貴
 ### 東京大学
-### 2021/12/17 (updated: 2021-11-24)
+### 2021/12/17 (updated: 2021-11-25)
 
 ---
 
@@ -46,18 +46,25 @@ ChromeまたはFirefoxをお使いになることをお勧めいたします。
 .white[**右矢印➝**を押すと次のスライドに移ります]
 
 ---
+class: inverse, middle, center
+
+
+# 必要なパッケージ・関数の読み込み
+
+&lt;!-- get a flipbook version of the my_cars code chunk - pauses are where parentheses are balanced --&gt;
+---
 
 count: false
  
 
-.panel1-my_test-auto[
+.panel1-load-packages-sources-auto[
 
 ```r
-*source("http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.6.3.R")
+*library(tidyverse)
 ```
 ]
  
-.panel2-my_test-auto[
+.panel2-load-packages-sources-auto[
 
 ]
 
@@ -65,15 +72,126 @@ count: false
 count: false
  
 
-.panel1-my_test-auto[
+.panel1-load-packages-sources-auto[
 
 ```r
-source("http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.6.3.R")
+library(tidyverse)
+*library(lme4)
+```
+]
+ 
+.panel2-load-packages-sources-auto[
+
+]
+
+---
+count: false
+ 
+
+.panel1-load-packages-sources-auto[
+
+```r
+library(tidyverse)
+library(lme4)
+*library(hypr)
+```
+]
+ 
+.panel2-load-packages-sources-auto[
+
+]
+
+---
+count: false
+ 
+
+.panel1-load-packages-sources-auto[
+
+```r
+library(tidyverse)
+library(lme4)
+library(hypr)
+
+*# Rmarkdownをknitする際には，`source()`の項  # Rmarkdownをknitする際には，`source()`の項
+```
+]
+ 
+.panel2-load-packages-sources-auto[
+
+]
+
+---
+count: false
+ 
+
+.panel1-load-packages-sources-auto[
+
+```r
+library(tidyverse)
+library(lme4)
+library(hypr)
+
+# Rmarkdownをknitする際には，`source()`の項  # Rmarkdownをknitする際には，`source()`の項
+*# `local = knitr::knit_global()`  # `local = knitr::knit_global()`
+```
+]
+ 
+.panel2-load-packages-sources-auto[
+
+]
+
+---
+count: false
+ 
+
+.panel1-load-packages-sources-auto[
+
+```r
+library(tidyverse)
+library(lme4)
+library(hypr)
+
+# Rmarkdownをknitする際には，`source()`の項  # Rmarkdownをknitする際には，`source()`の項
+# `local = knitr::knit_global()`  # `local = knitr::knit_global()`
+# を指定する
+#
+# https://bookdown.org/yihui/rmarkdown-cookbook/source-script.html
+*source(
+* "http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.6.3.R",
+* local = knitr::knit_global()
+* )
+```
+]
+ 
+.panel2-load-packages-sources-auto[
+
+]
+
+---
+count: false
+ 
+
+.panel1-load-packages-sources-auto[
+
+```r
+library(tidyverse)
+library(lme4)
+library(hypr)
+
+# Rmarkdownをknitする際には，`source()`の項  # Rmarkdownをknitする際には，`source()`の項
+# `local = knitr::knit_global()`  # `local = knitr::knit_global()`
+# を指定する
+#
+# https://bookdown.org/yihui/rmarkdown-cookbook/source-script.html
+source(
+  "http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.6.3.R",
+  local = knitr::knit_global()
+  )
 *#source("http://read.psych.uni-potsdam.de/pmr2/attachments/article/188/SchadEtAlJML2019.R")  #source("http://read.psych.uni-potsdam.de/pmr2/attachments/article/188/SchadEtAlJML2019.R")
 ```
 ]
  
-.panel2-my_test-auto[
+.panel2-load-packages-sources-auto[
 
 ]
 
@@ -81,47 +199,35 @@ source("http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.
 count: false
  
 
-.panel1-my_test-auto[
+.panel1-load-packages-sources-auto[
 
 ```r
-source("http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.6.3.R")
+library(tidyverse)
+library(lme4)
+library(hypr)
+
+# Rmarkdownをknitする際には，`source()`の項  # Rmarkdownをknitする際には，`source()`の項
+# `local = knitr::knit_global()`  # `local = knitr::knit_global()`
+# を指定する
+#
+# https://bookdown.org/yihui/rmarkdown-cookbook/source-script.html
+source(
+  "http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.6.3.R",
+  local = knitr::knit_global()
+  )
 #source("http://read.psych.uni-potsdam.de/pmr2/attachments/article/188/SchadEtAlJML2019.R")  #source("http://read.psych.uni-potsdam.de/pmr2/attachments/article/188/SchadEtAlJML2019.R")
 
-*(1 + 1)
+# 乱数を固定する
+*set.seed(1)
 ```
 ]
  
-.panel2-my_test-auto[
+.panel2-load-packages-sources-auto[
 
-```
-[1] 2
-```
-]
-
----
-count: false
- 
-
-.panel1-my_test-auto[
-
-```r
-source("http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.6.3.R")
-#source("http://read.psych.uni-potsdam.de/pmr2/attachments/article/188/SchadEtAlJML2019.R")  #source("http://read.psych.uni-potsdam.de/pmr2/attachments/article/188/SchadEtAlJML2019.R")
-
-(1 + 1) |&gt;
-* sqrt()
-```
-]
- 
-.panel2-my_test-auto[
-
-```
-[1] 1.414214
-```
 ]
 
 &lt;style&gt;
-.panel1-my_test-auto {
+.panel1-load-packages-sources-auto {
   color: black;
   width: 38.6060606060606%;
   hight: 32%;
@@ -129,7 +235,7 @@ source("http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.
   padding-left: 1%;
   font-size: 80%
 }
-.panel2-my_test-auto {
+.panel2-load-packages-sources-auto {
   color: black;
   width: 59.3939393939394%;
   hight: 32%;
@@ -137,7 +243,7 @@ source("http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.
   padding-left: 1%;
   font-size: 80%
 }
-.panel3-my_test-auto {
+.panel3-load-packages-sources-auto {
   color: black;
   width: NA%;
   hight: 33%;
@@ -151,7 +257,76 @@ source("http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.
 
 
 
+---
+class: inverse, middle, center
 
+
+# Conceptual explanation of default contrasts (p.3)
+
+---
+
+## Treatment contrast 処理対比
+
+&lt;!-- ^[以下，各対比の和訳は[R commanderにおける和訳](https://r-forge.r-project.org/scm/viewvc.php/pkg/po/R-ja.po?view=markup&amp;revision=98&amp;root=rcmdr&amp;pathrev=235)に基づく] --&gt;
+
+.pull-left[
+
+- 実験的介入treatmentの効果を，非介入群との比較で検討
+  - 実験群 vs 統制群
+{{content}}
+
+]
+
+--
+
+- 各実験群を同一の統制群と比べる
+{{content}}
+
+--
+
+- 例
+{{content}}
+
+--
+
+  - 様々なプライミング効果を，同一の統制群と比べる
+      1. 音韻的プライミング
+      2. 綴字プライミング
+      3. プライミングなし（統制群）
+{{content}}
+
+--
+
+  - 対比は次の2つ
+      1. 音韻的プライミング vs プライミングなし（統制群）
+      2. 綴字プライミング vs プライミングなし（統制群）
+{{content}}
+
+.pull-right + * { clear: both; }
+
+.pull-right[
+
+&lt;img src="figures/schema-treatment-contrasts-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+::: columns
+
+:::: column
+
+おおおおお
+
+::::
+
+:::: column
+
+ああああ
+
+::::
+
+:::
 
 ---
 
@@ -270,7 +445,7 @@ count: false
 .panel1-my_cars-auto[
 
 ```r
-cars %&gt;%
+cars |&gt;
 * filter(speed &gt; 4)
 ```
 ]
@@ -337,8 +512,8 @@ count: false
 .panel1-my_cars-auto[
 
 ```r
-cars %&gt;%
-  filter(speed &gt; 4) %&gt;%
+cars |&gt;
+  filter(speed &gt; 4) |&gt;
 * ggplot()
 ```
 ]
@@ -354,8 +529,8 @@ count: false
 .panel1-my_cars-auto[
 
 ```r
-cars %&gt;%
-  filter(speed &gt; 4) %&gt;%
+cars |&gt;
+  filter(speed &gt; 4) |&gt;
   ggplot() +
 * aes(x = speed)
 ```
@@ -372,8 +547,8 @@ count: false
 .panel1-my_cars-auto[
 
 ```r
-cars %&gt;%
-  filter(speed &gt; 4) %&gt;%
+cars |&gt;
+  filter(speed &gt; 4) |&gt;
   ggplot() +
   aes(x = speed) +
 * aes(y = dist)
@@ -391,8 +566,8 @@ count: false
 .panel1-my_cars-auto[
 
 ```r
-cars %&gt;%
-  filter(speed &gt; 4) %&gt;%
+cars |&gt;
+  filter(speed &gt; 4) |&gt;
   ggplot() +
   aes(x = speed) +
   aes(y = dist) +
@@ -414,8 +589,8 @@ count: false
 .panel1-my_cars-auto[
 
 ```r
-cars %&gt;%
-  filter(speed &gt; 4) %&gt;%
+cars |&gt;
+  filter(speed &gt; 4) |&gt;
   ggplot() +
   aes(x = speed) +
   aes(y = dist) +
@@ -657,8 +832,8 @@ count: false
 .panel1-cars_multi-5[
 
 ```r
-cars %&gt;%
-  sample_frac(size = 1, replace = TRUE) %&gt;%
+cars |&gt;
+  sample_frac(size = 1, replace = TRUE) |&gt;
   ggplot() +
   aes(x = speed) +
   aes(y = dist) +
@@ -685,8 +860,8 @@ count: false
 .panel1-cars_multi-5[
 
 ```r
-cars %&gt;%
-  sample_frac(size = 1, replace = TRUE) %&gt;%
+cars |&gt;
+  sample_frac(size = 1, replace = TRUE) |&gt;
   ggplot() +
   aes(x = speed) +
   aes(y = dist) +
@@ -713,8 +888,8 @@ count: false
 .panel1-cars_multi-5[
 
 ```r
-cars %&gt;%
-  sample_frac(size = 1, replace = TRUE) %&gt;%
+cars |&gt;
+  sample_frac(size = 1, replace = TRUE) |&gt;
   ggplot() +
   aes(x = speed) +
   aes(y = dist) +
@@ -741,8 +916,8 @@ count: false
 .panel1-cars_multi-5[
 
 ```r
-cars %&gt;%
-  sample_frac(size = 1, replace = TRUE) %&gt;%
+cars |&gt;
+  sample_frac(size = 1, replace = TRUE) |&gt;
   ggplot() +
   aes(x = speed) +
   aes(y = dist) +
@@ -769,8 +944,8 @@ count: false
 .panel1-cars_multi-5[
 
 ```r
-cars %&gt;%
-  sample_frac(size = 1, replace = TRUE) %&gt;%
+cars |&gt;
+  sample_frac(size = 1, replace = TRUE) |&gt;
   ggplot() +
   aes(x = speed) +
   aes(y = dist) +

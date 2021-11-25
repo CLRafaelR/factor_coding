@@ -5,6 +5,8 @@ author: "小川雅貴"
 institute: "東京大学"
 date: "2021/12/17 (updated: `r Sys.Date()`)"
 output:
+  #revealjs::revealjs_presentation:
+  #  theme: "night"
   xaringan::moon_reader:
     lib_dir: libs
     css: [default, hygge, ninjutsu]
@@ -41,9 +43,6 @@ knitr::opts_chunk$set(
   cache.path = "cache/"
 )
 library(flipbookr)
-library(tidyverse)
-library(lme4)
-library(hypr)
 ```
 
 class: middle center hide-slide-number
@@ -69,18 +68,145 @@ ChromeまたはFirefoxをお使いになることをお勧めいたします。
 .white[**右矢印➝**を押すと次のスライドに移ります]
 
 ---
+class: inverse, middle, center
 
-`r chunk_reveal("my_test")`
 
-```{r my_test, include = FALSE}
-source("http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.6.3.R")
+# 必要なパッケージ・関数の読み込み
+
+<!-- get a flipbook version of the my_cars code chunk - pauses are where parentheses are balanced -->
+---
+
+`r chunk_reveal("load-packages-sources")`
+
+```{r load-packages-sources, include = FALSE, eval = TRUE}
+library(tidyverse)
+library(lme4)
+library(hypr)
+
+# Rmarkdownをknitする際には，`source()`の項
+# `local = knitr::knit_global()`
+# を指定する
+#
+# https://bookdown.org/yihui/rmarkdown-cookbook/source-script.html
+source(
+  "http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.6.3.R",
+  local = knitr::knit_global()
+  )
 #source("http://read.psych.uni-potsdam.de/pmr2/attachments/article/188/SchadEtAlJML2019.R")
 
-(1 + 1) |>
-  sqrt()
+# 乱数を固定する
+set.seed(1)
 ```
 
+---
+class: inverse, middle, center
 
+
+# Conceptual explanation of default contrasts (p.3)
+
+---
+
+## Treatment contrast 処理対比
+
+<!-- ^[以下，各対比の和訳は[R commanderにおける和訳](https://r-forge.r-project.org/scm/viewvc.php/pkg/po/R-ja.po?view=markup&revision=98&root=rcmdr&pathrev=235)に基づく] -->
+
+.pull-left[
+
+- 実験的介入treatmentの効果を，非介入群との比較で検討
+  - 実験群 vs 統制群
+{{content}}
+
+]
+
+--
+
+- 各実験群を同一の統制群と比べる
+{{content}}
+
+--
+
+- 例
+{{content}}
+
+--
+
+  - 様々なプライミング効果を，同一の統制群と比べる
+      1. 音韻的プライミング
+      2. 綴字プライミング
+      3. プライミングなし（統制群）
+{{content}}
+
+--
+
+  - 対比は次の2つ
+      1. 音韻的プライミング vs プライミングなし（統制群）
+      2. 綴字プライミング vs プライミングなし（統制群）
+{{content}}
+
+.pull-right + * { clear: both; }
+
+.pull-right[
+
+```{r schema-treatment-contrasts, echo = FALSE}
+#M <- matrix(
+#  c(0.8, 0.4),
+#  nrow = 2,
+#  ncol = 1,
+#  byrow = FALSE
+#  )
+mixedDesign(
+  B = 2,
+  W = NULL,
+  n = 5,
+  M = matrix(
+      c(0.8, 0.4),
+      nrow = 2,
+      ncol = 1,
+      byrow = FALSE
+    ),
+  SD = 0.20,
+  long = TRUE
+  ) |>
+  rename(F = B_A) |>
+  mutate(
+    F = case_when(
+      F == "A1" ~ "F1",
+      F == "A2" ~ "F2",
+      TRUE ~ "NA_character_"
+    )
+  ) |>
+  group_by(F) |>
+  summarize(
+    N = length(DV),
+    M = mean(DV),
+    SD = sd(DV),
+    SE = SD/sqrt(N)
+  ) |>
+  (
+    \(d){
+      qplot(
+        x = F, y = M,
+        group = 1,
+        data = d,
+        geom = c("point", "line")
+      )
+    }
+  )() +
+  geom_errorbar(
+    aes(
+      max = M + SE,
+      min = M - SE
+    ),
+    width = 0
+  ) + 
+  #scale_y_continuous(breaks=c(250,275,300)) + 
+  labs(
+    y = "Mean DV",
+    x = "Factor F"
+  )
+```
+
+]
 
 ---
 
@@ -128,8 +254,8 @@ class: inverse, middle, center
 `r chunk_reveal("my_cars")`
 
 ```{r my_cars, include = FALSE}
-cars %>%
-  filter(speed > 4) %>%
+cars |>
+  filter(speed > 4) |>
   ggplot() +
   aes(x = speed) + #BREAK
   aes(y = dist) + #BREAK
@@ -204,8 +330,8 @@ class: inverse, center, middle
 `r chunk_reveal("cars_multi", break_type = 5, title = "### see multiple realizations of code")`
 
 ```{r cars_multi, include = FALSE}
-cars %>% 
-  sample_frac(size = 1, replace = TRUE) %>%      
+cars |> 
+  sample_frac(size = 1, replace = TRUE) |>      
   ggplot() +              
   aes(x = speed) +
   aes(y = dist) +
