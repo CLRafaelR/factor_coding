@@ -10,6 +10,7 @@ output:
   xaringan::moon_reader:
     lib_dir: libs
     css: [default, hygge, ninjutsu]
+    #css: [ninjutsu]
     nature:
       ratio: 16:9
       #highlightStyle: github
@@ -101,49 +102,99 @@ set.seed(1)
 ---
 class: inverse, middle, center
 
-
 # Conceptual explanation of default contrasts (p.3)
 
 ---
+class: inverse, middle, split-50
 
-## Treatment contrast 処理対比
+.column[
 
-<!-- ^[以下，各対比の和訳は[R commanderにおける和訳](https://r-forge.r-project.org/scm/viewvc.php/pkg/po/R-ja.po?view=markup&revision=98&root=rcmdr&pathrev=235)に基づく] -->
+```{r testtest, echo = FALSE}
+#M <- matrix(
+#  c(0.8, 0.4),
+#  nrow = 2,
+#  ncol = 1,
+#  byrow = FALSE
+#  )
+mixedDesign(
+  B = 2,
+  W = NULL,
+  n = 5,
+  M = matrix(
+      c(0.8, 0.4),
+      nrow = 2,
+      ncol = 1,
+      byrow = FALSE
+    ),
+  SD = 0.20,
+  long = TRUE
+  ) |>
+  rename(F = B_A) |>
+  mutate(
+    F = case_when(
+      F == "A1" ~ "F1",
+      F == "A2" ~ "F2",
+      TRUE ~ "NA_character_"
+    )
+  ) |>
+  group_by(F) |>
+  summarize(
+    N = length(DV),
+    M = mean(DV),
+    SD = sd(DV),
+    SE = SD/sqrt(N)
+  ) |>
+  (
+    \(d){
+      qplot(
+        x = F, y = M,
+        group = 1,
+        data = d,
+        geom = c("point", "line")
+      )
+    }
+  )() +
+  geom_errorbar(
+    aes(
+      max = M + SE,
+      min = M - SE
+    ),
+    width = 0
+  ) + 
+  #scale_y_continuous(breaks=c(250,275,300)) + 
+  labs(
+    y = "Mean DV",
+    x = "Factor F"
+  )
+```
 
-.pull-left[
+]
 
-- 実験的介入treatmentの効果を，非介入群との比較で検討
-  - 実験群 vs 統制群
+.column[
+A whole sentence
+
++ one `Markdown` bullet point
 {{content}}
 
 ]
 
 --
 
-- 各実験群を同一の統制群と比べる
++ a second bullet point
 {{content}}
 
 --
 
-- 例
++ a third bullet point
 {{content}}
 
---
+---
+class: inverse, middle, split-50
 
-  - 様々なプライミング効果を，同一の統制群と比べる
-      1. 音韻的プライミング
-      2. 綴字プライミング
-      3. プライミングなし（統制群）
-{{content}}
 
---
+## Treatment contrast 処理対比
 
-  - 対比は次の2つ
-      1. 音韻的プライミング vs プライミングなし（統制群）
-      2. 綴字プライミング vs プライミングなし（統制群）
-{{content}}
-
-.pull-right + * { clear: both; }
+<!-- ^[以下，各対比の和訳は[R commanderにおける和訳](https://r-forge.r-project.org/scm/viewvc.php/pkg/po/R-ja.po?view=markup&revision=98&root=rcmdr&pathrev=235)に基づく] -->
 
 .pull-right[
 
@@ -207,6 +258,42 @@ mixedDesign(
 ```
 
 ]
+
+.pull-left[
+
+- 実験的介入treatmentの効果を，非介入群との比較で検討
+  - 実験群 vs 統制群
+{{content}}
+
+]
+
+--
+
+- 各実験群を同一の統制群と比べる
+{{content}}
+
+--
+
+- 例
+{{content}}
+
+--
+
+  - 様々なプライミング効果を，同一の統制群と比べる
+      1. 音韻的プライミング
+      2. 綴字プライミング
+      3. プライミングなし（統制群）
+{{content}}
+
+--
+
+  - 対比は次の2つ
+      1. 音韻的プライミング vs プライミングなし（統制群）
+      2. 綴字プライミング vs プライミングなし（統制群）
+{{content}}
+
+
+<!--.pull-right + * { clear: both; }-->
 
 ---
 
@@ -349,15 +436,6 @@ cars |>
 
 ---
 
-`r chunk_reveal("test", left_assign = "detect")`
-
-```{r test, include=FALSE}
-# hello
-jam <- "hi"
-```
-
-
-
 <!-- adjust font size in this css code chunk, currently 80 -->
 
 ```{css, eval = TRUE, echo = FALSE}
@@ -380,15 +458,36 @@ code.r.hljs.remark-code:hover{
   width: 500px;
   border-style: solid;
 }
+
+.highlight-last-item > ul > li, 
+.highlight-last-item > ol > li {
+  opacity: 0.5;
+}
+
+.highlight-last-item > ul > li:last-of-type,
+.highlight-last-item > ol > li:last-of-type {
+  opacity: 1;
+}
+
+.column:first-of-type {float:left}
+.column:last-of-type {float:right}
+
+.split-30 .column:first-of-type {width: 30%}
+.split-30 .column:last-of-type {width: 70%}
+.split-40 .column:first-of-type {width: 40%}
+.split-40 .column:last-of-type {width: 60%}
+.split-50 .column:first-of-type {width: 50%}
+.split-50 .column:last-of-type {width: 50%}
+.split-60 .column:first-of-type {width: 60%}
+.split-60 .column:last-of-type {width: 40%}
+.split-70 .column:first-of-type {width: 70%}
+.split-70 .column:last-of-type {width: 30%}
+
+.pull-right + * {
+  clear: both;
+}
+
+.pull-right + * {
+  clear: both;
+}
 ```
-
-
-
----
-
-# Notes: 
-
-- This minimal flipbook assumes you are online when you build and view.  It is going to find the most recent remark.js info online.
-
-- xaringan/remark.js slideshows are not self contained, single file slide shows.  Make sure you ship all the associated files that are created to display your flipbooks/slideshows.  I like to push .html and associated files to github repository and use Github Pages to host for beyond local sharing. :-)
-

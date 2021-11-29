@@ -17,7 +17,7 @@ class: center, middle, inverse, title-slide
 ## Schad et al (2020)日本語注解
 ### 小川雅貴
 ### 東京大学
-### 2021/12/17 (updated: 2021-11-25)
+### 2021/12/17 (updated: 2021-11-29)
 
 ---
 
@@ -260,14 +260,48 @@ source(
 ---
 class: inverse, middle, center
 
-
 # Conceptual explanation of default contrasts (p.3)
 
 ---
+class: inverse, middle, split-50
+
+.column[
+
+&lt;img src="figures/testtest-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+]
+
+.column[
+A whole sentence
+
++ one `Markdown` bullet point
+{{content}}
+
+]
+
+--
+
++ a second bullet point
+{{content}}
+
+--
+
++ a third bullet point
+{{content}}
+
+---
+class: inverse, middle, split-50
+
 
 ## Treatment contrast 処理対比
 
 &lt;!-- ^[以下，各対比の和訳は[R commanderにおける和訳](https://r-forge.r-project.org/scm/viewvc.php/pkg/po/R-ja.po?view=markup&amp;revision=98&amp;root=rcmdr&amp;pathrev=235)に基づく] --&gt;
+
+.pull-right[
+
+&lt;img src="figures/schema-treatment-contrasts-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+]
 
 .pull-left[
 
@@ -302,31 +336,8 @@ class: inverse, middle, center
       2. 綴字プライミング vs プライミングなし（統制群）
 {{content}}
 
-.pull-right + * { clear: both; }
 
-.pull-right[
-
-&lt;img src="figures/schema-treatment-contrasts-1.png" width="576" style="display: block; margin: auto;" /&gt;
-
-]
-
----
-
-::: columns
-
-:::: column
-
-おおおおお
-
-::::
-
-:::: column
-
-ああああ
-
-::::
-
-:::
+&lt;!--.pull-right + * { clear: both; }--&gt;
 
 ---
 
@@ -999,59 +1010,6 @@ cars |&gt;
 
 ---
 
-count: false
- 
-
-.panel1-test-auto[
-
-```r
-# hello
-*jam &lt;- "hi"
-
-jam
-```
-]
- 
-.panel2-test-auto[
-
-```
-[1] "hi"
-```
-]
-
-&lt;style&gt;
-.panel1-test-auto {
-  color: black;
-  width: 38.6060606060606%;
-  hight: 32%;
-  float: left;
-  padding-left: 1%;
-  font-size: 80%
-}
-.panel2-test-auto {
-  color: black;
-  width: 59.3939393939394%;
-  hight: 32%;
-  float: left;
-  padding-left: 1%;
-  font-size: 80%
-}
-.panel3-test-auto {
-  color: black;
-  width: NA%;
-  hight: 33%;
-  float: left;
-  padding-left: 1%;
-  font-size: 80%
-}
-&lt;/style&gt;
-
-
-
-
-
-
-
 &lt;!-- adjust font size in this css code chunk, currently 80 --&gt;
 
 &lt;style type="text/css"&gt;
@@ -1074,18 +1032,39 @@ code.r.hljs.remark-code:hover{
   width: 500px;
   border-style: solid;
 }
+
+.highlight-last-item &gt; ul &gt; li, 
+.highlight-last-item &gt; ol &gt; li {
+  opacity: 0.5;
+}
+
+.highlight-last-item &gt; ul &gt; li:last-of-type,
+.highlight-last-item &gt; ol &gt; li:last-of-type {
+  opacity: 1;
+}
+
+.column:first-of-type {float:left}
+.column:last-of-type {float:right}
+
+.split-30 .column:first-of-type {width: 30%}
+.split-30 .column:last-of-type {width: 70%}
+.split-40 .column:first-of-type {width: 40%}
+.split-40 .column:last-of-type {width: 60%}
+.split-50 .column:first-of-type {width: 50%}
+.split-50 .column:last-of-type {width: 50%}
+.split-60 .column:first-of-type {width: 60%}
+.split-60 .column:last-of-type {width: 40%}
+.split-70 .column:first-of-type {width: 70%}
+.split-70 .column:last-of-type {width: 30%}
+
+.pull-right + * {
+  clear: both;
+}
+
+.pull-right + * {
+  clear: both;
+}
 &lt;/style&gt;
-
-
-
----
-
-# Notes: 
-
-- This minimal flipbook assumes you are online when you build and view.  It is going to find the most recent remark.js info online.
-
-- xaringan/remark.js slideshows are not self contained, single file slide shows.  Make sure you ship all the associated files that are created to display your flipbooks/slideshows.  I like to push .html and associated files to github repository and use Github Pages to host for beyond local sharing. :-)
-
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
