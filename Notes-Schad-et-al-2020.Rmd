@@ -24,8 +24,8 @@ output:
         scroll: false
         touch: true
         click: false
-      includes:
-            after_body: doc-creation/assets/remarkjs_extended.html
+    includes:
+      after_body: doc-creation/assets/remarkjs_extended.html
 pdflink: "PDF files are currently unavailable"
 ---
 
@@ -114,29 +114,99 @@ class: inverse, middle, split-50
 
 <!-- ^[以下，各対比の和訳は[R commanderにおける和訳](https://r-forge.r-project.org/scm/viewvc.php/pkg/po/R-ja.po?view=markup&revision=98&root=rcmdr&pathrev=235)に基づく] -->
 
-.pull-left[
+::: columns
+
+:::: pull-left
 
 - 実験的介入treatmentの効果を，非介入群との比較で検討
   - 実験群 vs 統制群
-{{content}}
-]
+- 各実験群を同一の統制群と比べる
+--
+- 例：様々なプライミング効果を，同一の統制群と比べる
+    1. 音韻的プライミング
+    2. 綴字プライミング
+    3. プライミングなし（統制群）
+--
+  - 対比は次の2つ
+      1. 音韻的プライミング vs プライミングなし（統制群）
+      2. 綴字プライミング vs プライミングなし（統制群）
 
-.pull-right[
+::::
+
+:::: pull-right
 
 ```{r schema-treatment-contrasts, echo = FALSE}
-tribble(
+demoData <- tribble(
   ~priming, ~rt,
+  "control", 374,
   "phonological", 267,
-  "orthographic", 304,
-  "control", 374 
+  "orthographic", 304
+) |>
+mutate(
+  diff.from.baseline = rt - first(rt)
 )
 
+#https://stackoverflow.com/questions/53553977/drawing-elements-arrows-circle-in-ggplot-r-to-show-the-difference-between
+
+baseline <- demoData |>
+  filter(priming == "control") |>
+  dplyr::select(rt) |>
+  pull()
+
+demoData |>
+  ggplot(
+    aes(
+      x = priming,
+      y = rt
+    )
+  ) +
+  geom_col() +
+  geom_segment(
+    aes(
+      x = "control",
+      y = baseline,
+      xend = "control",
+      yend = baseline + 100
+    )
+  ) +
+  geom_segment(
+    aes(
+      x = "control",
+      y = baseline + 100,
+      xend = "orthographic",
+      yend = baseline + 100
+    )
+  ) +
+  geom_segment(
+    aes(
+      x = "orthographic",
+      y = baseline + 100,
+      xend = "orthographic",
+      yend = demoData |>
+        filter(priming == "orthographic") |>
+        dplyr::select(rt) |>
+        pull()
+    ),
+    arrow = arrow()
+  ) +
+  theme_bw()
+```
+
+::::
+
+:::
+
+
+---
+
+```{r}
 #M <- matrix(
 #  c(0.8, 0.4),
 #  nrow = 2,
 #  ncol = 1,
 #  byrow = FALSE
 #  )
+
 mixedDesign(
   B = 2,
   W = NULL,
@@ -188,24 +258,6 @@ mixedDesign(
     x = "Factor F"
   )
 ```
-
-]
-
---
-
-- 各実験群を同一の統制群と比べる
-{{content}}
---
-- 例：様々なプライミング効果を，同一の統制群と比べる
-    1. 音韻的プライミング
-    2. 綴字プライミング
-    3. プライミングなし（統制群）
-{{content}}
---
-  - 対比は次の2つ
-      1. 音韻的プライミング vs プライミングなし（統制群）
-      2. 綴字プライミング vs プライミングなし（統制群）
-{{content}}
 
 ---
 

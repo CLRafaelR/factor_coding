@@ -17,7 +17,7 @@ class: center, middle, inverse, title-slide
 ## Schad et al (2020)日本語注解
 ### 小川雅貴
 ### 東京大学
-### 2021/12/17 (updated: 2021-11-29)
+### 2021/12/17 (updated: 2021-12-03)
 
 ---
 
@@ -270,34 +270,98 @@ class: inverse, middle, split-50
 
 &lt;!-- ^[以下，各対比の和訳は[R commanderにおける和訳](https://r-forge.r-project.org/scm/viewvc.php/pkg/po/R-ja.po?view=markup&amp;revision=98&amp;root=rcmdr&amp;pathrev=235)に基づく] --&gt;
 
-.pull-left[
+::: columns
+
+:::: pull-left
 
 - 実験的介入treatmentの効果を，非介入群との比較で検討
   - 実験群 vs 統制群
-{{content}}
-]
-
-.pull-right[
-
-&lt;img src="figures/schema-treatment-contrasts-1.png" width="576" style="display: block; margin: auto;" /&gt;
-
-]
-
---
-
 - 各実験群を同一の統制群と比べる
-{{content}}
 --
 - 例：様々なプライミング効果を，同一の統制群と比べる
     1. 音韻的プライミング
     2. 綴字プライミング
     3. プライミングなし（統制群）
-{{content}}
 --
   - 対比は次の2つ
       1. 音韻的プライミング vs プライミングなし（統制群）
       2. 綴字プライミング vs プライミングなし（統制群）
-{{content}}
+
+::::
+
+:::: pull-right
+
+&lt;img src="figures/schema-treatment-contrasts-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
+
+
+---
+
+
+```r
+#M &lt;- matrix(
+#  c(0.8, 0.4),
+#  nrow = 2,
+#  ncol = 1,
+#  byrow = FALSE
+#  )
+
+mixedDesign(
+  B = 2,
+  W = NULL,
+  n = 5,
+  M = matrix(
+      c(0.8, 0.4),
+      nrow = 2,
+      ncol = 1,
+      byrow = FALSE
+    ),
+  SD = 0.20,
+  long = TRUE
+  ) |&gt;
+  rename(F = B_A) |&gt;
+  mutate(
+    F = case_when(
+      F == "A1" ~ "F1",
+      F == "A2" ~ "F2",
+      TRUE ~ "NA_character_"
+    )
+  ) |&gt;
+  group_by(F) |&gt;
+  summarize(
+    N = length(DV),
+    M = mean(DV),
+    SD = sd(DV),
+    SE = SD/sqrt(N)
+  ) |&gt;
+  (
+    \(d){
+      qplot(
+        x = F, y = M,
+        group = 1,
+        data = d,
+        geom = c("point", "line")
+      )
+    }
+  )() +
+  geom_errorbar(
+    aes(
+      max = M + SE,
+      min = M - SE
+    ),
+    width = 0
+  ) + 
+  #scale_y_continuous(breaks=c(250,275,300)) + 
+  labs(
+    y = "Mean DV",
+    x = "Factor F"
+  )
+```
+
+&lt;img src="figures/unnamed-chunk-2-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1124,6 +1188,7 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   }
   preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
 })(document);</script>
+<script src="doc-creation/assets/pandoc.js"></script>
 
 <script>
 slideshow._releaseMath = function(el) {
