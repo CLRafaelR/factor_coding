@@ -28,6 +28,7 @@
 .vscode
 confidential/*
 deprecated/*
+doc-creation
 doc-creation/
 doc-creation/*
 *_cache/
