@@ -101,6 +101,44 @@ source(
 set.seed(1)
 ```
 
+```{r ggplot2-theme-settings, echo = FALSE, include = FALSE}
+theme_set(
+  theme_bw() +
+  theme(
+    #legend.position = "top",
+    legend.text = element_text(size = 12),
+    legend.title = element_text(size = 16),
+    axis.title.x = element_text(
+      vjust = 0.5,
+      size = 16,
+      margin = margin(
+        t = 10,
+        r = 0,
+        b = 0,
+        l = 0
+        )
+    ),
+    axis.title.y = element_text(
+      vjust = 0.5,
+      size = 16,
+      margin = margin(
+        t = 0,
+        r = 10,
+        b = 0,
+        l = 0
+        )
+    ),
+    axis.text = element_text(
+      size = rel(1.2)
+      ),
+    strip.text.x = element_text(
+      size = rel(1.5)
+      )
+  )
+)
+library(gghighlight)
+```
+
 ---
 class: inverse, middle, center
 
@@ -160,7 +198,52 @@ demoData |>
       y = rt
     )
   ) +
-  geom_col() +
+  geom_col(
+    aes(
+      fill = priming
+    ),
+    show.legend = FALSE
+  ) +
+  scale_colour_manual(
+    aesthetics = c("colour", "fill"),
+    values = if_else(demoData$priming == "control", "red", "grey")
+  ) +
+  #### from control to orthographic
+  geom_segment(
+    aes(
+      x = "control",
+      y = baseline,
+      xend = "control",
+      yend = baseline + 50
+    )#,
+    #position = position_nudge(
+    #  x = 0.25
+    #)
+  ) +
+  geom_segment(
+    aes(
+      x = "control",
+      y = baseline + 50,
+      xend = "orthographic",
+      yend = baseline + 50
+    )#,
+    #position = position_nudge(
+    #  x = (0.25, 0)
+    #)
+  ) +
+  geom_segment(
+    aes(
+      x = "orthographic",
+      y = baseline + 50,
+      xend = "orthographic",
+      yend = demoData |>
+        filter(priming == "orthographic") |>
+        dplyr::select(rt) |>
+        pull()
+    ),
+    arrow = arrow()
+  ) +
+  #### from control to phonological
   geom_segment(
     aes(
       x = "control",
@@ -173,23 +256,25 @@ demoData |>
     aes(
       x = "control",
       y = baseline + 100,
-      xend = "orthographic",
+      xend = "phonological",
       yend = baseline + 100
     )
   ) +
   geom_segment(
     aes(
-      x = "orthographic",
+      x = "phonological",
       y = baseline + 100,
-      xend = "orthographic",
+      xend = "phonological",
       yend = demoData |>
-        filter(priming == "orthographic") |>
+        filter(priming == "phonological") |>
         dplyr::select(rt) |>
         pull()
     ),
     arrow = arrow()
-  ) +
-  theme_bw()
+  )# +
+  #gghighlight(
+  #  priming == "control"
+  #)
 ```
 
 ::::
