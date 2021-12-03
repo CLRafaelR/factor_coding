@@ -1,0 +1,136 @@
+class: inverse, middle, split-50
+
+## Repeated contrast
+
+::: columns
+
+:::: pull-left
+
+- 隣り合う水準同士を比較
+  - 実験群1 vs 実験群2
+  - 実験群2 vs 実験群3...
+
+--
+
+- 例：語の頻度の効果を，隣り合う水準と比べる
+    1. 低頻度
+    2. 中頻度
+    3. 高頻度
+
+--
+
+  - 対比は次の2つ
+      1. 中頻度 vs 低頻度
+      2. 高頻度 vs 中頻度
+
+::::
+
+:::: pull-right
+
+```{r schema-repeated-contrasts, echo = FALSE}
+demoDataFreq <- tribble(
+  ~frequency, ~rt,
+  "low", 401,
+  "medium", 304,
+  "high", 267
+) |>
+mutate(
+  lag.rt = rt - lag(rt),
+  frequency = factor(
+    frequency,
+    levels = c("low", "medium", "high")
+  )
+)
+
+label.y <- demoDataFreq |>
+  filter(
+    frequency != "low"
+  ) |>
+  mutate(
+    rt = rt + abs(lag.rt)/2,
+    label = c(
+      "paste(italic(β)[1], '= medium - low')",
+      "paste(italic(β)[2], '= high - medium')"
+    )
+  )
+
+demoDataFreq |>
+  ggplot(
+    aes(
+      x = frequency,
+      y = rt
+    )
+  ) +
+  geom_col() +
+  #### grand mean as intercept
+  geom_hline(
+    yintercept = mean(demoDataFreq$rt),
+    linetype = "dashed",
+    color = "red",
+    size = 2
+  ) +
+  geom_label(
+    aes(
+      x = "low",
+      y = mean(rt),
+    ),
+    parse = TRUE,
+    label = "paste(italic(β)[0], '= Grand Mean')"
+  ) +
+  #### difference between low and medium
+  geom_segment(
+    aes(
+      x = "medium",
+      y = demoDataFreq |>
+        filter(frequency == "low") |>
+        dplyr::select(rt) |>
+        pull(),
+      xend = "medium",
+      yend = demoDataFreq |>
+        filter(frequency == "medium") |>
+        dplyr::select(rt) |>
+        pull()
+    ),
+    arrow = arrow(
+      length = unit(0.1, "inches"),
+      ends = "both"
+    )
+  ) +
+  #### difference between medium and high
+  geom_segment(
+    aes(
+      x = "high",
+      y = demoDataFreq |>
+        filter(frequency == "medium") |>
+        dplyr::select(rt) |>
+        pull(),
+      xend = "high",
+      yend = demoDataFreq |>
+        filter(frequency == "high") |>
+        dplyr::select(rt) |>
+        pull()
+    ),
+    arrow = arrow(
+      length = unit(0.1, "inches"),
+      ends = "both"
+    )
+  ) +
+  geom_label(
+    data = label.y,
+    aes(
+      x = frequency,
+      y = rt,
+      label = label
+    ),
+    parse = TRUE
+  ) +
+  labs(
+    x = "Priming Type",
+    y = "Reaction Time"
+  )
+```
+
+::::
+
+:::
+

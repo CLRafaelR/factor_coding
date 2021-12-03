@@ -1,0 +1,120 @@
+class: inverse, middle, split-50
+
+## Sum contrast 零和対比
+
+::: columns
+
+:::: pull-left
+
+- 実験的介入treatmentの効果を，全ての群の平均との比較で検討
+  - 実験群 vs 全体平均
+
+--
+
+- 例：様々なプライミング効果を，全体平均と比べる
+    1. 音韻的プライミング
+    2. 綴字プライミング
+    3. プライミングなし（統制群）
+
+--
+
+  - 対比は次の2つ
+      1. 音韻的プライミング vs 全体平均
+      2. 綴字プライミング vs 全体平均
+
+::::
+
+:::: pull-right
+
+```{r schema-sum-contrasts, echo = FALSE}
+baseline <- demoData |>
+  filter(priming == "control") |>
+  dplyr::select(rt) |>
+  pull()
+
+label.y <- demoData |>
+  filter(
+    priming != "control"
+  ) |>
+  mutate(
+    rt = rt + abs(diff.from.GM)/2,
+    label = c(
+      "paste(italic(β)[1], '= Grand Mean - control')",
+      "paste(italic(β)[2], '= Grand Mean - control')"
+    )
+  )
+
+demoData |>
+  ggplot(
+    aes(
+      x = priming,
+      y = rt
+    )
+  ) +
+  geom_col() +
+  #### grand mean as intercept
+  geom_hline(
+    yintercept = mean(demoData$rt),
+    linetype = "dashed",
+    color = "red",
+    size = 2
+  ) +
+  geom_label(
+    aes(
+      x = "control",
+      y = mean(rt),
+    ),
+    parse = TRUE,
+    label = "paste(italic(β)[0], '= Grand Mean')"
+  ) +
+  #### difference between grand mean and orthographic
+  geom_segment(
+    aes(
+      x = "orthographic",
+      y = mean(rt),
+      xend = "orthographic",
+      yend = demoData |>
+        filter(priming == "orthographic") |>
+        dplyr::select(rt) |>
+        pull()
+    ),
+    arrow = arrow(
+      length = unit(0.1, "inches"),
+      ends = "both"
+    )
+  ) +
+  #### difference between grand mean and phonological
+  geom_segment(
+    aes(
+      x = "phonological",
+      y = mean(rt),
+      xend = "phonological",
+      yend = demoData |>
+        filter(priming == "phonological") |>
+        dplyr::select(rt) |>
+        pull()
+    ),
+    arrow = arrow(
+      length = unit(0.1, "inches"),
+      ends = "both"
+    )
+  ) +
+  geom_label(
+    data = label.y,
+    aes(
+      x = priming,
+      y = rt,
+      label = label
+    ),
+    parse = TRUE
+  ) +
+  labs(
+    x = "Priming Type",
+    y = "Reaction Time"
+  )
+```
+
+::::
+
+:::
+

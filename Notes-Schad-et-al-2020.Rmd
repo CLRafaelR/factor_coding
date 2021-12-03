@@ -42,7 +42,7 @@ knitr::opts_chunk$set(
   warning = FALSE,
   message = FALSE,
   comment = "",
-  cache = TRUE,
+  cache = FALSE,
   cache.path = "cache/"
 )
 library(flipbookr)
@@ -81,7 +81,7 @@ class: inverse, middle, center
 
 `r chunk_reveal("load-packages-sources")`
 
-```{r load-packages-sources, include = FALSE, eval = TRUE}
+```{r load-packages-sources, include = FALSE, eval = TRUE, cache = FALSE}
 library(tidyverse)
 library(lme4)
 library(hypr)
@@ -101,7 +101,7 @@ source(
 set.seed(1)
 ```
 
-```{r ggplot2-theme-settings, echo = FALSE, include = FALSE}
+```{r ggplot2-theme-settings, echo = FALSE, eval = TRUE, cache = FALSE}
 theme_set(
   theme_bw() +
   theme(
@@ -144,143 +144,22 @@ class: inverse, middle, center
 
 # Conceptual explanation of default contrasts (p.3)
 
+.footnote[以下，各対比の和訳は[R commanderにおける和訳](https://r-forge.r-project.org/scm/viewvc.php/pkg/po/R-ja.po?view=markup&revision=98&root=rcmdr&pathrev=235)に基づく]
+
 ---
-class: inverse, middle, split-50
 
-
-## Treatment contrast 処理対比
-
-<!-- ^[以下，各対比の和訳は[R commanderにおける和訳](https://r-forge.r-project.org/scm/viewvc.php/pkg/po/R-ja.po?view=markup&revision=98&root=rcmdr&pathrev=235)に基づく] -->
-
-::: columns
-
-:::: pull-left
-
-- 実験的介入treatmentの効果を，非介入群との比較で検討
-  - 実験群 vs 統制群
-- 各実験群を同一の統制群と比べる
---
-- 例：様々なプライミング効果を，同一の統制群と比べる
-    1. 音韻的プライミング
-    2. 綴字プライミング
-    3. プライミングなし（統制群）
---
-  - 対比は次の2つ
-      1. 音韻的プライミング vs プライミングなし（統制群）
-      2. 綴字プライミング vs プライミングなし（統制群）
-
-::::
-
-:::: pull-right
-
-```{r schema-treatment-contrasts, echo = FALSE}
-demoData <- tribble(
-  ~priming, ~rt,
-  "control", 374,
-  "phonological", 267,
-  "orthographic", 304
-) |>
-mutate(
-  diff.from.baseline = rt - first(rt)
-)
-
-#https://stackoverflow.com/questions/53553977/drawing-elements-arrows-circle-in-ggplot-r-to-show-the-difference-between
-
-baseline <- demoData |>
-  filter(priming == "control") |>
-  dplyr::select(rt) |>
-  pull()
-
-demoData |>
-  ggplot(
-    aes(
-      x = priming,
-      y = rt
-    )
-  ) +
-  geom_col(
-    aes(
-      fill = priming
-    ),
-    show.legend = FALSE
-  ) +
-  scale_colour_manual(
-    aesthetics = c("colour", "fill"),
-    values = if_else(demoData$priming == "control", "red", "grey")
-  ) +
-  #### from control to orthographic
-  geom_segment(
-    aes(
-      x = "control",
-      y = baseline,
-      xend = "control",
-      yend = baseline + 50
-    )#,
-    #position = position_nudge(
-    #  x = 0.25
-    #)
-  ) +
-  geom_segment(
-    aes(
-      x = "control",
-      y = baseline + 50,
-      xend = "orthographic",
-      yend = baseline + 50
-    )#,
-    #position = position_nudge(
-    #  x = (0.25, 0)
-    #)
-  ) +
-  geom_segment(
-    aes(
-      x = "orthographic",
-      y = baseline + 50,
-      xend = "orthographic",
-      yend = demoData |>
-        filter(priming == "orthographic") |>
-        dplyr::select(rt) |>
-        pull()
-    ),
-    arrow = arrow()
-  ) +
-  #### from control to phonological
-  geom_segment(
-    aes(
-      x = "control",
-      y = baseline,
-      xend = "control",
-      yend = baseline + 100
-    )
-  ) +
-  geom_segment(
-    aes(
-      x = "control",
-      y = baseline + 100,
-      xend = "phonological",
-      yend = baseline + 100
-    )
-  ) +
-  geom_segment(
-    aes(
-      x = "phonological",
-      y = baseline + 100,
-      xend = "phonological",
-      yend = demoData |>
-        filter(priming == "phonological") |>
-        dplyr::select(rt) |>
-        pull()
-    ),
-    arrow = arrow()
-  )# +
-  #gghighlight(
-  #  priming == "control"
-  #)
+```{r child = "manuscripts/02-conceptual-explanation/01-treatment.Rmd"}
 ```
 
-::::
+---
 
-:::
+```{r child = "manuscripts/02-conceptual-explanation/02-sum.Rmd"}
+```
 
+---
+
+```{r child = "manuscripts/02-conceptual-explanation/03-repeated.Rmd"}
+```
 
 ---
 

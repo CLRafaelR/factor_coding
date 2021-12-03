@@ -257,18 +257,23 @@ source(
 
 
 
+
+
 ---
 class: inverse, middle, center
 
 # Conceptual explanation of default contrasts (p.3)
 
----
-class: inverse, middle, split-50
+.footnote[以下，各対比の和訳は[R commanderにおける和訳](https://r-forge.r-project.org/scm/viewvc.php/pkg/po/R-ja.po?view=markup&amp;revision=98&amp;root=rcmdr&amp;pathrev=235)に基づく]
 
+---
+
+
+class: inverse, middle, split-50
 
 ## Treatment contrast 処理対比
 
-&lt;!-- ^[以下，各対比の和訳は[R commanderにおける和訳](https://r-forge.r-project.org/scm/viewvc.php/pkg/po/R-ja.po?view=markup&amp;revision=98&amp;root=rcmdr&amp;pathrev=235)に基づく] --&gt;
+.footnote[dummy contrastとも呼ばれる]
 
 ::: columns
 
@@ -277,12 +282,16 @@ class: inverse, middle, split-50
 - 実験的介入treatmentの効果を，非介入群との比較で検討
   - 実験群 vs 統制群
 - 各実験群を同一の統制群と比べる
+
 --
+
 - 例：様々なプライミング効果を，同一の統制群と比べる
     1. 音韻的プライミング
     2. 綴字プライミング
     3. プライミングなし（統制群）
+
 --
+
   - 対比は次の2つ
       1. 音韻的プライミング vs プライミングなし（統制群）
       2. 綴字プライミング vs プライミングなし（統制群）
@@ -292,6 +301,83 @@ class: inverse, middle, split-50
 :::: pull-right
 
 &lt;img src="figures/schema-treatment-contrasts-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
+
+
+---
+
+
+class: inverse, middle, split-50
+
+## Sum contrast 零和対比
+
+::: columns
+
+:::: pull-left
+
+- 実験的介入treatmentの効果を，全ての群の平均との比較で検討
+  - 実験群 vs 全体平均
+
+--
+
+- 例：様々なプライミング効果を，全体平均と比べる
+    1. 音韻的プライミング
+    2. 綴字プライミング
+    3. プライミングなし（統制群）
+
+--
+
+  - 対比は次の2つ
+      1. 音韻的プライミング vs 全体平均
+      2. 綴字プライミング vs 全体平均
+
+::::
+
+:::: pull-right
+
+&lt;img src="figures/schema-sum-contrasts-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
+
+
+---
+
+
+class: inverse, middle, split-50
+
+## Repeated contrast
+
+::: columns
+
+:::: pull-left
+
+- 隣り合う水準同士を比較
+  - 実験群1 vs 実験群2
+  - 実験群2 vs 実験群3...
+
+--
+
+- 例：語の頻度の効果を，隣り合う水準と比べる
+    1. 低頻度
+    2. 中頻度
+    3. 高頻度
+
+--
+
+  - 対比は次の2つ
+      1. 中頻度 vs 低頻度
+      2. 高頻度 vs 中頻度
+
+::::
+
+:::: pull-right
+
+&lt;img src="figures/schema-repeated-contrasts-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -361,7 +447,7 @@ mixedDesign(
   )
 ```
 
-&lt;img src="figures/unnamed-chunk-2-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ---
 
