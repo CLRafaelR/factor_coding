@@ -43,7 +43,10 @@ knitr::opts_chunk$set(
   message = FALSE,
   comment = "",
   cache = FALSE,
-  cache.path = "cache/"
+  cache.path = "cache/",
+  dev.args = list(family = "Roboto Medium"),
+  dev = "CairoPNG",
+  fig.path = 'figures/Notes-Schad-etal-2020-'
 )
 library(flipbookr)
 ```
@@ -163,6 +166,11 @@ class: inverse, middle, center
 
 ---
 
+```{r child = "manuscripts/02-conceptual-explanation/04-polynomial.Rmd"}
+```
+
+---
+
 ```{r}
 #M <- matrix(
 #  c(0.8, 0.4),
@@ -276,7 +284,7 @@ cars |>
   aes(y = dist) + #BREAK
   geom_point(
     alpha = .8, 
-    color = "blue" 
+    colour = "blue" 
     ) + 
   aes(size = speed) #BREAK
 ```
@@ -321,7 +329,7 @@ ggplot(data = cars) +
     size = 8,
     shape = 21,
     alpha = .9,
-    color = "snow"
+    colour = "snow"
     ) +
   aes(fill = speed) +
   scale_fill_viridis_c(option = "magma") + #ROTATE
@@ -352,7 +360,7 @@ cars |>
   aes(y = dist) +
   geom_count(
     alpha = .7,
-    color = "blue",
+    colour = "blue",
     size = 4
     ) + 
   geom_smooth(method = lm, se = FALSE) +

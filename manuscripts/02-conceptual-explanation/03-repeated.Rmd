@@ -6,7 +6,7 @@ class: inverse, middle, split-50
 
 :::: pull-left
 
-- 隣り合う水準同士を比較
+- （順序が決まっている）隣り合う水準同士を比較
   - 実験群1 vs 実験群2
   - 実験群2 vs 実験群3...
 
@@ -30,9 +30,9 @@ class: inverse, middle, split-50
 ```{r schema-repeated-contrasts, echo = FALSE}
 demoDataFreq <- tribble(
   ~frequency, ~rt,
-  "low", 401,
+  "low", 267,
   "medium", 304,
-  "high", 267
+  "high", 401
 ) |>
 mutate(
   lag.rt = rt - lag(rt),
@@ -47,7 +47,7 @@ label.y <- demoDataFreq |>
     frequency != "low"
   ) |>
   mutate(
-    rt = rt + abs(lag.rt)/2,
+    rt = rt - abs(lag.rt)/2,
     label = c(
       "paste(italic(β)[1], '= medium - low')",
       "paste(italic(β)[2], '= high - medium')"
@@ -61,13 +61,15 @@ demoDataFreq |>
       y = rt
     )
   ) +
-  geom_col() +
+  geom_col(
+    fill = "grey"
+  ) +
   #### grand mean as intercept
   geom_hline(
     yintercept = mean(demoDataFreq$rt),
-    linetype = "dashed",
-    color = "red",
-    size = 2
+    linetype = "dotted",
+    colour = "red",
+    size = 1
   ) +
   geom_label(
     aes(
@@ -94,7 +96,10 @@ demoDataFreq |>
     arrow = arrow(
       length = unit(0.1, "inches"),
       ends = "both"
-    )
+    ),
+    position = position_nudge(x = -0.5),
+    colour = "red",
+    size = 0.75
   ) +
   #### difference between medium and high
   geom_segment(
@@ -113,7 +118,10 @@ demoDataFreq |>
     arrow = arrow(
       length = unit(0.1, "inches"),
       ends = "both"
-    )
+    ),
+    position = position_nudge(x = -0.5),
+    colour = "red",
+    size = 0.75
   ) +
   geom_label(
     data = label.y,
@@ -122,10 +130,11 @@ demoDataFreq |>
       y = rt,
       label = label
     ),
-    parse = TRUE
+    parse = TRUE,
+    position = position_nudge(x = -0.5)
   ) +
   labs(
-    x = "Priming Type",
+    x = "Word Frequency",
     y = "Reaction Time"
   )
 ```

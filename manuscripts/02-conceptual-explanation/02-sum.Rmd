@@ -51,13 +51,15 @@ demoData |>
       y = rt
     )
   ) +
-  geom_col() +
+  geom_col(
+    fill = "grey"
+  ) +
   #### grand mean as intercept
   geom_hline(
     yintercept = mean(demoData$rt),
-    linetype = "dashed",
-    color = "red",
-    size = 2
+    linetype = "dotted",
+    colour = "red",
+    size = 1
   ) +
   geom_label(
     aes(
@@ -81,7 +83,9 @@ demoData |>
     arrow = arrow(
       length = unit(0.1, "inches"),
       ends = "both"
-    )
+    ),
+    colour = "red",
+    size = 0.75
   ) +
   #### difference between grand mean and phonological
   geom_segment(
@@ -97,7 +101,9 @@ demoData |>
     arrow = arrow(
       length = unit(0.1, "inches"),
       ends = "both"
-    )
+    ),
+    colour = "red",
+    size = 0.75
   ) +
   geom_label(
     data = label.y,

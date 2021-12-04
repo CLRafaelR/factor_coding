@@ -17,7 +17,7 @@ class: center, middle, inverse, title-slide
 ## Schad et al (2020)日本語注解
 ### 小川雅貴
 ### 東京大学
-### 2021/12/17 (updated: 2021-12-03)
+### 2021/12/17 (updated: 2021-12-04)
 
 ---
 
@@ -273,8 +273,6 @@ class: inverse, middle, split-50
 
 ## Treatment contrast 処理対比
 
-.footnote[dummy contrastとも呼ばれる]
-
 ::: columns
 
 :::: pull-left
@@ -300,12 +298,13 @@ class: inverse, middle, split-50
 
 :::: pull-right
 
-&lt;img src="figures/schema-treatment-contrasts-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-schema-treatment-contrasts-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
 :::
 
+.footnote[dummy contrastとも呼ばれる]
 
 ---
 
@@ -338,7 +337,7 @@ class: inverse, middle, split-50
 
 :::: pull-right
 
-&lt;img src="figures/schema-sum-contrasts-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-schema-sum-contrasts-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -356,7 +355,7 @@ class: inverse, middle, split-50
 
 :::: pull-left
 
-- 隣り合う水準同士を比較
+- （順序が決まっている）隣り合う水準同士を比較
   - 実験群1 vs 実験群2
   - 実験群2 vs 実験群3...
 
@@ -377,11 +376,52 @@ class: inverse, middle, split-50
 
 :::: pull-right
 
-&lt;img src="figures/schema-repeated-contrasts-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-schema-repeated-contrasts-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
 :::
+
+
+---
+
+
+class: inverse, middle, split-50
+
+## Polynomial contrast 多項式対比
+
+::: columns
+
+:::: pull-left
+
+- （順序と間隔が決まっている）隣り合う水準間の増減傾向を比較
+  - 水準間で同じペースで増加・減少？
+  - 水準間毎に，増加・減少のペースが変わる？
+
+--
+
+- 例：語の頻度の効果を，隣り合う水準と比べる
+    1. 低頻度
+    2. 中頻度
+    3. 高頻度
+
+--
+
+  - 対比は次の2つ
+      1. 1次関数ペース（Linear; どの水準間でも一定ペースで増加・減少？）
+      2. 2次関数ペース（Quadtaric; 次の水準間ほどに増加・減少が激しい・穏やか？）
+
+::::
+
+:::: pull-right
+
+&lt;img src="figures/Notes-Schad-etal-2020-schema-polynomial-contrasts-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
+
+.footnote[[*This type of coding system should be used only with an ordinal variable in which the levels are equally spaced*](https://stats.idre.ucla.edu/r/library/r-library-contrast-coding-systems-for-categorical-variables/#:~:text=This%20type%20of%20coding%20system%20should%20be%20used%20only%20with%20an%20ordinal%20variable%20in%20which%20the%20levels%20are%20equally%20spaced)]
 
 
 ---
@@ -447,7 +487,7 @@ mixedDesign(
   )
 ```
 
-&lt;img src="figures/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -640,7 +680,7 @@ cars |&gt;
 ]
  
 .panel2-my_cars-auto[
-&lt;img src="figures/my_cars_auto_03_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-my_cars_auto_03_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -658,7 +698,7 @@ cars |&gt;
 ]
  
 .panel2-my_cars-auto[
-&lt;img src="figures/my_cars_auto_04_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-my_cars_auto_04_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -677,7 +717,7 @@ cars |&gt;
 ]
  
 .panel2-my_cars-auto[
-&lt;img src="figures/my_cars_auto_05_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-my_cars_auto_05_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -694,13 +734,13 @@ cars |&gt;
   aes(y = dist) +
 * geom_point(
 *   alpha = .8,
-*   color = "blue"
+*   colour = "blue"
 *   )
 ```
 ]
  
 .panel2-my_cars-auto[
-&lt;img src="figures/my_cars_auto_06_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-my_cars_auto_06_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -717,14 +757,14 @@ cars |&gt;
   aes(y = dist) +
   geom_point(
     alpha = .8,
-    color = "blue"
+    colour = "blue"
     ) +
 * aes(size = speed)
 ```
 ]
  
 .panel2-my_cars-auto[
-&lt;img src="figures/my_cars_auto_07_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-my_cars_auto_07_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 &lt;style&gt;
@@ -774,17 +814,17 @@ class: inverse, center, middle
 
 count: false
 ### user defined break! using #BREAK message
-&lt;img src="figures/my_cars_user_01_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-my_cars_user_01_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ---
 count: false
 ### user defined break! using #BREAK message
-&lt;img src="figures/my_cars_user_02_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-my_cars_user_02_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ---
 count: false
 ### user defined break! using #BREAK message
-&lt;img src="figures/my_cars_user_03_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-my_cars_user_03_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 &lt;style&gt;
 .panel1-my_cars-user {
@@ -842,7 +882,7 @@ ggplot(data = cars) +
     size = 8,
     shape = 21,
     alpha = .9,
-    color = "snow"
+    colour = "snow"
     ) +
   aes(fill = speed) +
 * scale_fill_viridis_c(option = "magma")
@@ -850,7 +890,7 @@ ggplot(data = cars) +
 ]
  
 .panel2-my_fill-rotate[
-&lt;img src="figures/my_fill_rotate_01_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-my_fill_rotate_01_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -867,7 +907,7 @@ ggplot(data = cars) +
     size = 8,
     shape = 21,
     alpha = .9,
-    color = "snow"
+    colour = "snow"
     ) +
   aes(fill = speed) +
 * scale_fill_viridis_c(option = "cividis")
@@ -875,7 +915,7 @@ ggplot(data = cars) +
 ]
  
 .panel2-my_fill-rotate[
-&lt;img src="figures/my_fill_rotate_02_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-my_fill_rotate_02_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -892,7 +932,7 @@ ggplot(data = cars) +
     size = 8,
     shape = 21,
     alpha = .9,
-    color = "snow"
+    colour = "snow"
     ) +
   aes(fill = speed) +
 * scale_fill_viridis_c(option = "plasma")
@@ -900,7 +940,7 @@ ggplot(data = cars) +
 ]
  
 .panel2-my_fill-rotate[
-&lt;img src="figures/my_fill_rotate_03_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-my_fill_rotate_03_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 &lt;style&gt;
@@ -960,7 +1000,7 @@ cars |&gt;
   aes(y = dist) +
   geom_count(
     alpha = .7,
-    color = "blue",
+    colour = "blue",
     size = 4
     ) +
   geom_smooth(method = lm, se = FALSE) +
@@ -971,7 +1011,7 @@ cars |&gt;
 ]
  
 .panel2-cars_multi-5[
-&lt;img src="figures/cars_multi_5_01_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-cars_multi_5_01_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -988,7 +1028,7 @@ cars |&gt;
   aes(y = dist) +
   geom_count(
     alpha = .7,
-    color = "blue",
+    colour = "blue",
     size = 4
     ) +
   geom_smooth(method = lm, se = FALSE) +
@@ -999,7 +1039,7 @@ cars |&gt;
 ]
  
 .panel2-cars_multi-5[
-&lt;img src="figures/cars_multi_5_02_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-cars_multi_5_02_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1016,7 +1056,7 @@ cars |&gt;
   aes(y = dist) +
   geom_count(
     alpha = .7,
-    color = "blue",
+    colour = "blue",
     size = 4
     ) +
   geom_smooth(method = lm, se = FALSE) +
@@ -1027,7 +1067,7 @@ cars |&gt;
 ]
  
 .panel2-cars_multi-5[
-&lt;img src="figures/cars_multi_5_03_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-cars_multi_5_03_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1044,7 +1084,7 @@ cars |&gt;
   aes(y = dist) +
   geom_count(
     alpha = .7,
-    color = "blue",
+    colour = "blue",
     size = 4
     ) +
   geom_smooth(method = lm, se = FALSE) +
@@ -1055,7 +1095,7 @@ cars |&gt;
 ]
  
 .panel2-cars_multi-5[
-&lt;img src="figures/cars_multi_5_04_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-cars_multi_5_04_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1072,7 +1112,7 @@ cars |&gt;
   aes(y = dist) +
   geom_count(
     alpha = .7,
-    color = "blue",
+    colour = "blue",
     size = 4
     ) +
   geom_smooth(method = lm, se = FALSE) +
@@ -1083,7 +1123,7 @@ cars |&gt;
 ]
  
 .panel2-cars_multi-5[
-&lt;img src="figures/cars_multi_5_05_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-cars_multi_5_05_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 &lt;style&gt;
