@@ -1,0 +1,177 @@
+class: inverse, middle, split-50
+
+## Helmert contrast ヘルマート対比
+
+::: columns
+
+:::: pull-left
+
+- 「1つの水準を残りの水準の平均と比較する」ことを繰り返す
+  - 水準1 vs 残りの水準（水準2と水準3の平均）
+  - 水準2 vs 残りの水準（水準3）
+
+--
+
+- 例：様々なプライミング効果を，同一の統制群と比べる
+    1. 無効なプライミング1
+    2. 無効なプライミング2
+    3. 有効なプライミング
+
+--
+
+  - 対比は次の2つ
+      1. 無効なプライミング1 vs 無効なプライミング2
+      2. 無効なプライミング vs 有効なプライミング
+
+::::
+
+:::: pull-right
+
+```{r schema-helmert-contrasts, echo = FALSE}
+demoData <- tribble(
+  ~priming, ~group, ~rt,
+  "invalid1", "invalid", 304,
+  "invalid2", "invalid", 267,
+  "valid", "valid", 451
+) |>
+  group_by(group) |>
+  mutate(
+    group.mean.rt = mean(rt)
+  ) |>
+  ungroup() |>
+  mutate(
+    diff.group.mean.rt = group.mean.rt - lag(group.mean.rt),
+    label.y = rt - diff.group.mean.rt/2
+  )
+
+label.y <- demoData |>
+  filter(
+    priming != "invalid1"
+  ) |>
+  mutate(
+    rt = c(
+      demoData |>
+        filter(priming == "invalid1") |>
+        dplyr::select(group.mean.rt) |>
+        pull(),
+      demoData |>
+        filter(priming == "valid") |>
+        dplyr::select(label.y) |>
+        pull()
+    ),
+    label = c(
+      "paste(italic(β)[1], '= invalid2 - invalid1')",
+      "paste(italic(β)[2], '= valid - Mean of invalid')"
+    )
+  )
+
+demoData |>
+  ggplot(
+    aes(
+      x = priming,
+      y = rt
+    )
+  ) +
+  geom_col(
+    fill = "grey"
+  ) +
+  #### grand mean as intercept
+  geom_hline(
+    yintercept = mean(demoData$rt),
+    linetype = "dotted",
+    colour = "red",
+    size = 1
+  ) +
+  geom_label(
+    aes(
+      x = "invalid1",
+      y = mean(rt),
+    ),
+    parse = TRUE,
+    label = "paste(italic(β)[0], '= Grand Mean')"
+  ) +
+  #### difference between invalid2 and invalid1
+  geom_segment(
+    aes(
+      x = "invalid2",
+      y = demoData |>
+        filter(priming == "invalid1") |>
+        dplyr::select(rt) |>
+        pull(),
+      xend = "invalid2",
+      yend = demoData |>
+        filter(priming == "invalid2") |>
+        dplyr::select(rt) |>
+        pull()
+    ),
+    arrow = arrow(
+      length = unit(0.1, "inches"),
+      ends = "both"
+    ),
+    colour = "red",
+    size = 0.75,
+    position = position_nudge(x = -0.5)
+  ) +
+  #### difference between valid and invalid
+  geom_segment(
+    aes(
+      x = "invalid1",
+      y = demoData |>
+        filter(priming == "invalid1") |>
+        dplyr::select(group.mean.rt) |>
+        pull(),
+      xend = "invalid2",
+      yend = demoData |>
+        filter(priming == "invalid1") |>
+        dplyr::select(group.mean.rt) |>
+        pull()
+    ),
+    colour = "red",
+    linetype = "88",
+    size = 0.75,
+    position = position_nudge(
+      x = c(-0.5, 0.5)
+      #width = 0.5,
+      #preserve = "single"
+    )
+  ) +
+  geom_segment(
+    aes(
+      x = "valid",
+      y = demoData |>
+        filter(priming == "valid") |>
+        dplyr::select(rt) |>
+        pull(),
+      xend = "valid",
+      yend = demoData |>
+        filter(priming == "invalid1") |>
+        dplyr::select(group.mean.rt) |>
+        pull()
+    ),
+    arrow = arrow(
+      length = unit(0.1, "inches"),
+      ends = "both"
+    ),
+    colour = "red",
+    size = 0.75,
+    position = position_nudge(x = -0.5)
+  ) +
+  geom_label(
+    data = label.y,
+    aes(
+      x = priming,
+      y = rt,
+      label = label
+    ),
+    parse = TRUE,
+    position = position_nudge(x = -0.5)
+  ) +
+  labs(
+    x = "Priming Type",
+    y = "Reaction Time"
+  )
+```
+
+::::
+
+:::

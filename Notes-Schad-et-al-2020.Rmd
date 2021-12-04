@@ -171,6 +171,11 @@ class: inverse, middle, center
 
 ---
 
+```{r child = "manuscripts/02-conceptual-explanation/05-helmert.Rmd"}
+```
+
+---
+
 ```{r}
 #M <- matrix(
 #  c(0.8, 0.4),
@@ -195,7 +200,7 @@ mixedDesign(
   rename(F = B_A) |>
   mutate(
     F = case_when(
-      F == "A1" ~ "F1",
+      F == "A1" ~ "88",
       F == "A2" ~ "F2",
       TRUE ~ "NA_character_"
     )

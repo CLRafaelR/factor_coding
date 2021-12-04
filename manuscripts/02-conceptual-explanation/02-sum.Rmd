@@ -27,11 +27,6 @@ class: inverse, middle, split-50
 :::: pull-right
 
 ```{r schema-sum-contrasts, echo = FALSE}
-baseline <- demoData |>
-  filter(priming == "control") |>
-  dplyr::select(rt) |>
-  pull()
-
 label.y <- demoData |>
   filter(
     priming != "control"

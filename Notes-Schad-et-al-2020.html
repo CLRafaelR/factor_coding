@@ -427,6 +427,44 @@ class: inverse, middle, split-50
 ---
 
 
+class: inverse, middle, split-50
+
+## Helmert contrast ヘルマート対比
+
+::: columns
+
+:::: pull-left
+
+- 「1つの水準を残りの水準の平均と比較する」ことを繰り返す
+  - 水準1 vs 残りの水準（水準2と水準3の平均）
+  - 水準2 vs 残りの水準（水準3）
+
+--
+
+- 例：様々なプライミング効果を，同一の統制群と比べる
+    1. 無効なプライミング1
+    2. 無効なプライミング2
+    3. 有効なプライミング
+
+--
+
+  - 対比は次の2つ
+      1. 無効なプライミング1 vs 無効なプライミング2
+      2. 無効なプライミング vs 有効なプライミング
+
+::::
+
+:::: pull-right
+
+&lt;img src="figures/Notes-Schad-etal-2020-schema-helmert-contrasts-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
+
+---
+
+
 ```r
 #M &lt;- matrix(
 #  c(0.8, 0.4),
@@ -451,7 +489,7 @@ mixedDesign(
   rename(F = B_A) |&gt;
   mutate(
     F = case_when(
-      F == "A1" ~ "F1",
+      F == "A1" ~ "88",
       F == "A2" ~ "F2",
       TRUE ~ "NA_character_"
     )
@@ -487,7 +525,7 @@ mixedDesign(
   )
 ```
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-7-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ---
 
