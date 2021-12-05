@@ -17,7 +17,7 @@ class: center, middle, inverse, title-slide
 ## Schad et al (2020)日本語注解
 ### 小川雅貴
 ### 東京大学
-### 2021/12/17 (updated: 2021-12-04)
+### 2021/12/17 (updated: 2021-12-05)
 
 ---
 
@@ -465,31 +465,390 @@ class: inverse, middle, split-50
 ---
 
 
-```r
-#M &lt;- matrix(
-#  c(0.8, 0.4),
-#  nrow = 2,
-#  ncol = 1,
-#  byrow = FALSE
-#  )
+class: inverse, middle, center
 
+# Basic concepts illustrated using a two-level factor (pp.3--8)
+
+---
+
+class: inverse, middle
+&lt;!-- class: inverse, middle, split-50 --&gt;
+
+## 1要因2水準の実験で，応答変数の平均値を比較
+
+- シミュレーション用データを作る
+  - [`mixedDesign()`](http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.6.3.R)を使う
+  - 1要因2水準
+      1. F1: 0.8秒
+      1. F2: 0.4秒
+  - 実験参加者数10人
+
+---
+
+count: false
+ 
+
+.panel1-simdat-auto[
+
+```r
+*mixedDesign(
+* B = 2,
+* W = NULL,
+* n = 5,
+* M = matrix(
+*   c(0.8, 0.4),
+*   nrow = 2,
+*   ncol = 1,
+*   byrow = FALSE
+* ),
+* SD = 0.20,
+* long = TRUE
+*) 
+```
+]
+ 
+.panel2-simdat-auto[
+
+```
+   B_A id        DV
+1   A1  1 0.9966353
+2   A1  2 0.8469313
+3   A1  3 0.7120188
+4   A1  4 0.4993981
+5   A1  5 0.9450165
+6   A2  6 0.1829254
+7   A2  7 0.1952930
+8   A2  8 0.6083695
+9   A2  9 0.5556112
+10  A2 10 0.4578009
+```
+]
+
+---
+count: false
+ 
+
+.panel1-simdat-auto[
+
+```r
 mixedDesign(
   B = 2,
   W = NULL,
   n = 5,
   M = matrix(
-      c(0.8, 0.4),
-      nrow = 2,
-      ncol = 1,
-      byrow = FALSE
-    ),
+    c(0.8, 0.4),
+    nrow = 2,
+    ncol = 1,
+    byrow = FALSE
+  ),
   SD = 0.20,
   long = TRUE
-  ) |&gt;
+) |&gt;
+* rename(F = B_A)
+```
+]
+ 
+.panel2-simdat-auto[
+
+```
+    F id        DV
+1  A1  1 1.0666837
+2  A1  2 0.7705529
+3  A1  3 0.8699326
+4  A1  4 0.7804781
+5  A1  5 0.5123527
+6  A2  6 0.2230473
+7  A2  7 0.2290151
+8  A2  8 0.3255675
+9  A2  9 0.6597312
+10 A2 10 0.5626389
+```
+]
+
+---
+count: false
+ 
+
+.panel1-simdat-auto[
+
+```r
+mixedDesign(
+  B = 2,
+  W = NULL,
+  n = 5,
+  M = matrix(
+    c(0.8, 0.4),
+    nrow = 2,
+    ncol = 1,
+    byrow = FALSE
+  ),
+  SD = 0.20,
+  long = TRUE
+) |&gt;
+  rename(F = B_A) |&gt;
+* mutate(
+*   F = case_when(
+*     F == "A1" ~ "F1",
+*     F == "A2" ~ "F2",
+*     TRUE ~ "NA_character_"
+*   )
+* )
+```
+]
+ 
+.panel2-simdat-auto[
+
+```
+    F id        DV
+1  F1  1 0.8628495
+2  F1  2 0.6593246
+3  F1  3 0.8513677
+4  F1  4 0.5550898
+5  F1  5 1.0713683
+6  F2  6 0.7095530
+7  F2  7 0.3012087
+8  F2  8 0.1834667
+9  F2  9 0.4641799
+10 F2 10 0.3415917
+```
+]
+
+---
+count: false
+ 
+
+.panel1-simdat-auto[
+
+```r
+mixedDesign(
+  B = 2,
+  W = NULL,
+  n = 5,
+  M = matrix(
+    c(0.8, 0.4),
+    nrow = 2,
+    ncol = 1,
+    byrow = FALSE
+  ),
+  SD = 0.20,
+  long = TRUE
+) |&gt;
   rename(F = B_A) |&gt;
   mutate(
     F = case_when(
-      F == "A1" ~ "88",
+      F == "A1" ~ "F1",
+      F == "A2" ~ "F2",
+      TRUE ~ "NA_character_"
+    )
+  ) |&gt;
+* group_by(F)
+```
+]
+ 
+.panel2-simdat-auto[
+
+```
+# A tibble: 10 x 3
+# Groups:   F [2]
+   F     id       DV
+   &lt;chr&gt; &lt;fct&gt; &lt;dbl&gt;
+ 1 F1    1     0.997
+ 2 F1    2     0.718
+ 3 F1    3     1.03 
+ 4 F1    4     0.665
+ 5 F1    5     0.590
+ 6 F2    6     0.630
+ 7 F2    7     0.232
+ 8 F2    8     0.473
+ 9 F2    9     0.512
+10 F2    10    0.153
+```
+]
+
+---
+count: false
+ 
+
+.panel1-simdat-auto[
+
+```r
+mixedDesign(
+  B = 2,
+  W = NULL,
+  n = 5,
+  M = matrix(
+    c(0.8, 0.4),
+    nrow = 2,
+    ncol = 1,
+    byrow = FALSE
+  ),
+  SD = 0.20,
+  long = TRUE
+) |&gt;
+  rename(F = B_A) |&gt;
+  mutate(
+    F = case_when(
+      F == "A1" ~ "F1",
+      F == "A2" ~ "F2",
+      TRUE ~ "NA_character_"
+    )
+  ) |&gt;
+  group_by(F) |&gt;
+* summarize(
+*   N = length(DV),
+*   M = mean(DV),
+*   SD = sd(DV),
+*   SE = SD/sqrt(N)
+* )
+```
+]
+ 
+.panel2-simdat-auto[
+
+```
+# A tibble: 2 x 5
+  F         N     M    SD     SE
+  &lt;chr&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+1 F1        5   0.8   0.2 0.0894
+2 F2        5   0.4   0.2 0.0894
+```
+]
+
+---
+count: false
+ 
+
+.panel1-simdat-auto[
+
+```r
+mixedDesign(
+  B = 2,
+  W = NULL,
+  n = 5,
+  M = matrix(
+    c(0.8, 0.4),
+    nrow = 2,
+    ncol = 1,
+    byrow = FALSE
+  ),
+  SD = 0.20,
+  long = TRUE
+) |&gt;
+  rename(F = B_A) |&gt;
+  mutate(
+    F = case_when(
+      F == "A1" ~ "F1",
+      F == "A2" ~ "F2",
+      TRUE ~ "NA_character_"
+    )
+  ) |&gt;
+  group_by(F) |&gt;
+  summarize(
+    N = length(DV),
+    M = mean(DV),
+    SD = sd(DV),
+    SE = SD/sqrt(N)
+  ) |&gt;
+* (
+*   \(d){
+*     qplot(
+*       x = F, y = M,
+*       group = 1,
+*       data = d,
+*       geom = c("point", "line")
+*     )
+*   }
+* )()
+```
+]
+ 
+.panel2-simdat-auto[
+&lt;img src="figures/Notes-Schad-etal-2020-simdat_auto_06_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-simdat-auto[
+
+```r
+mixedDesign(
+  B = 2,
+  W = NULL,
+  n = 5,
+  M = matrix(
+    c(0.8, 0.4),
+    nrow = 2,
+    ncol = 1,
+    byrow = FALSE
+  ),
+  SD = 0.20,
+  long = TRUE
+) |&gt;
+  rename(F = B_A) |&gt;
+  mutate(
+    F = case_when(
+      F == "A1" ~ "F1",
+      F == "A2" ~ "F2",
+      TRUE ~ "NA_character_"
+    )
+  ) |&gt;
+  group_by(F) |&gt;
+  summarize(
+    N = length(DV),
+    M = mean(DV),
+    SD = sd(DV),
+    SE = SD/sqrt(N)
+  ) |&gt;
+  (
+    \(d){
+      qplot(
+        x = F, y = M,
+        group = 1,
+        data = d,
+        geom = c("point", "line")
+      )
+    }
+  )() +
+* geom_errorbar(
+*   aes(
+*     max = M + SE,
+*     min = M - SE
+*   ),
+*   width = 0
+* )
+```
+]
+ 
+.panel2-simdat-auto[
+&lt;img src="figures/Notes-Schad-etal-2020-simdat_auto_07_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-simdat-auto[
+
+```r
+mixedDesign(
+  B = 2,
+  W = NULL,
+  n = 5,
+  M = matrix(
+    c(0.8, 0.4),
+    nrow = 2,
+    ncol = 1,
+    byrow = FALSE
+  ),
+  SD = 0.20,
+  long = TRUE
+) |&gt;
+  rename(F = B_A) |&gt;
+  mutate(
+    F = case_when(
+      F == "A1" ~ "F1",
       F == "A2" ~ "F2",
       TRUE ~ "NA_character_"
     )
@@ -517,43 +876,46 @@ mixedDesign(
       min = M - SE
     ),
     width = 0
-  ) + 
-  #scale_y_continuous(breaks=c(250,275,300)) + 
-  labs(
-    y = "Mean DV",
-    x = "Factor F"
-  )
+  ) +
+* labs(
+*   y = "Mean DV",
+*   x = "Factor F"
+* )
 ```
+]
+ 
+.panel2-simdat-auto[
+&lt;img src="figures/Notes-Schad-etal-2020-simdat_auto_08_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
+]
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-7-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;style&gt;
+.panel1-simdat-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-simdat-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-simdat-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
 
----
 
-# Hi!
-
---
-
-This 'minimal flipbook' template has a couple of classic examples to get you building your first flipbooks!
-
---
-
-flipbooks are code-movies.  The frames of the movies are slides. Here we use the R package {xaringan} to create a remark.js slideshow. 
-
---
-
-Slide breaks are indicated with `---` (be careful trailing white space is not allowed)
-
---
-
-flipbookr's `chunk_reveal()` disassembles a single code chunk and creates the "build" of multiple partial-code chunks on different slides (the --- is automatically generated for you too).  
-
---
-
-We use `chunk_reveal()` it 'inline', not in a code chunk. 
-
---
-
-Let's start!
 
 
 
