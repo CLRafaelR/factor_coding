@@ -25,7 +25,7 @@ https://stackoverflow.com/questions/67750561/vertically-scrollable-code-with-rst
 `r chunk_reveal("simdat")`
 
 ```{r simdat, include = FALSE}
-mixedDesign(
+simdat <- mixedDesign(
   B = 2,
   W = NULL,
   n = 5,
@@ -53,6 +53,11 @@ mixedDesign(
     SD = sd(DV),
     SE = SD / sqrt(N)
   ) |>
+  ungroup()
+```
+
+```{r fig-simdat, include = FALSE}
+simdat |>
   (
     \(d){
       qplot(
