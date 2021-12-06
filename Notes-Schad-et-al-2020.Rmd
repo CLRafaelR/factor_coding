@@ -33,6 +33,7 @@ pdflink: "PDF files are currently unavailable"
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(
+  include = FALSE,
   fig.path = "figures/",
   fig.width = 8,  #6
   fig.height = 6, #4
@@ -86,8 +87,10 @@ class: inverse, middle, center
 
 ```{r load-packages-sources, include = FALSE, eval = TRUE, cache = FALSE}
 library(tidyverse)
+library(broom)
 library(lme4)
 library(hypr)
+library(knitr)
 
 # Rmarkdownをknitする際には，`source()`の項
 # `local = knitr::knit_global()`
