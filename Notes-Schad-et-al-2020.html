@@ -8,6 +8,7 @@
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/hygge.css" rel="stylesheet" />
     <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
+    <link href="libs/remark-css/robot.css" rel="stylesheet" />
   </head>
   <body>
     <textarea id="source">
@@ -17,7 +18,7 @@ class: center, middle, inverse, title-slide
 ## Schad et al (2020)日本語注解
 ### 小川雅貴
 ### 東京大学
-### 2021/12/17 (updated: 2021-12-06)
+### 2021/12/17 (updated: 2021-12-07)
 
 ---
 
@@ -37,7 +38,7 @@ ChromeまたはFirefoxをお使いになることをお勧めいたします。
 また，HTMLスライドの中身が正しく読み込まれない場合には，
 ブラウザの更新ボタンを押して，再度スライドを読み込んでください。
 なお，本スライドのPDF版は
-&lt;a href=PDF files are currently unavailable&gt;こちら&lt;i class="fas fa-file-pdf"&gt;&lt;/i&gt;&lt;/a&gt;
+&lt;a href=https://htmlpreview.github.io/?https://github.com/CLRafaelR/factor_coding/blob/main/Notes-Schad-et-al-2020.html&gt;こちら&lt;i class="fas fa-file-pdf"&gt;&lt;/i&gt;&lt;/a&gt;
 にございます。
 ]
 
@@ -76,6 +77,23 @@ count: false
 
 ```r
 library(tidyverse)
+*library(broom)
+```
+]
+ 
+.panel2-load-packages-sources-auto[
+
+]
+
+---
+count: false
+ 
+
+.panel1-load-packages-sources-auto[
+
+```r
+library(tidyverse)
+library(broom)
 *library(lme4)
 ```
 ]
@@ -92,6 +110,7 @@ count: false
 
 ```r
 library(tidyverse)
+library(broom)
 library(lme4)
 *library(hypr)
 ```
@@ -109,6 +128,7 @@ count: false
 
 ```r
 library(tidyverse)
+library(broom)
 library(lme4)
 library(hypr)
 *library(knitr)
@@ -127,6 +147,7 @@ count: false
 
 ```r
 library(tidyverse)
+library(broom)
 library(lme4)
 library(hypr)
 library(knitr)
@@ -147,6 +168,7 @@ count: false
 
 ```r
 library(tidyverse)
+library(broom)
 library(lme4)
 library(hypr)
 library(knitr)
@@ -168,6 +190,7 @@ count: false
 
 ```r
 library(tidyverse)
+library(broom)
 library(lme4)
 library(hypr)
 library(knitr)
@@ -196,6 +219,7 @@ count: false
 
 ```r
 library(tidyverse)
+library(broom)
 library(lme4)
 library(hypr)
 library(knitr)
@@ -225,6 +249,7 @@ count: false
 
 ```r
 library(tidyverse)
+library(broom)
 library(lme4)
 library(hypr)
 library(knitr)
@@ -293,6 +318,8 @@ class: inverse, middle, center
 
 
 class: inverse, middle, split-50
+
+name: treatment-contrast
 
 ## Treatment contrast 処理対比
 
@@ -502,6 +529,11 @@ class: inverse, middle
 1. シミュレーション用データを作成
 2. シミュレーションの結果を図や表で確認
 3. シミュレーション用データに対し線形モデルを構築
+    - とりあえず線形モデルを作るとどうなるか試す
+4. Default contrast coding: treatment contrasts
+5. Defining hypotheses
+6. Sum contrast
+7. Cell means parameterization
 
 ---
 
@@ -653,10 +685,10 @@ mixedDesign(
 ) |&gt;
   rename(F = B_A) |&gt;
 * mutate(
-*   F = case_when(
-*     F == "A1" ~ "F1",
-*     F == "A2" ~ "F2",
-*     TRUE ~ "NA_character_"
+*   F = fct_recode(
+*     F,
+*     F1 = "A1",
+*     F2 = "A2"
 *   )
 * )
 ```
@@ -709,10 +741,10 @@ mixedDesign(
 ) |&gt;
   rename(F = B_A) |&gt;
   mutate(
-    F = case_when(
-      F == "A1" ~ "F1",
-      F == "A2" ~ "F2",
-      TRUE ~ "NA_character_"
+    F = fct_recode(
+      F,
+      F1 = "A1",
+      F2 = "A2"
     )
   ) -&gt;
 * simdat
@@ -753,10 +785,10 @@ mixedDesign(
 ) |&gt;
   rename(F = B_A) |&gt;
   mutate(
-    F = case_when(
-      F == "A1" ~ "F1",
-      F == "A2" ~ "F2",
-      TRUE ~ "NA_character_"
+    F = fct_recode(
+      F,
+      F1 = "A1",
+      F2 = "A2"
     )
   ) -&gt;
   simdat
@@ -769,7 +801,7 @@ mixedDesign(
 
 ```
 'data.frame':	10 obs. of  3 variables:
- $ F : chr  "F1" "F1" "F1" "F1" ...
+ $ F : Factor w/ 2 levels "F1","F2": 1 1 1 1 1 2 2 2 2 2
  $ id: Factor w/ 10 levels "1","2","3","4",..: 1 2 3 4 5 6 7 8 9 10
  $ DV: num  0.469 0.893 0.882 0.77 0.985 ...
 ```
@@ -817,8 +849,8 @@ mixedDesign(
 ### シミュレーションの結果を図や表で確認
 
 - 1要因2水準
-    1. F1: 0.8秒
-    1. F2: 0.4秒
+    1. F1: 0.8秒（標準偏差0.2秒）
+    1. F2: 0.4秒（標準偏差0.2秒）
 
 :::::
 
@@ -869,7 +901,7 @@ simdat  |&gt;
 # A tibble: 10 x 3
 # Groups:   F [2]
    F     id       DV
-   &lt;chr&gt; &lt;fct&gt; &lt;dbl&gt;
+   &lt;fct&gt; &lt;fct&gt; &lt;dbl&gt;
  1 F1    1     0.679
  2 F1    2     0.719
  3 F1    3     1.15 
@@ -906,7 +938,7 @@ simdat  |&gt;
 ```
 # A tibble: 2 x 5
   F         N     M    SD     SE
-  &lt;chr&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+  &lt;fct&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
 1 F1        5   0.8   0.2 0.0894
 2 F2        5   0.4   0.2 0.0894
 ```
@@ -936,7 +968,7 @@ simdat  |&gt;
 ```
 # A tibble: 2 x 5
   F         N     M    SD     SE
-  &lt;chr&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+  &lt;fct&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
 1 F1        5   0.8   0.2 0.0894
 2 F2        5   0.4   0.2 0.0894
 ```
@@ -1137,7 +1169,7 @@ simdat  |&gt;
 # A tibble: 10 x 3
 # Groups:   F [2]
    F     id       DV
-   &lt;chr&gt; &lt;fct&gt; &lt;dbl&gt;
+   &lt;fct&gt; &lt;fct&gt; &lt;dbl&gt;
  1 F1    1     0.679
  2 F1    2     0.719
  3 F1    3     1.15 
@@ -1174,7 +1206,7 @@ simdat  |&gt;
 ```
 # A tibble: 2 x 5
   F         N     M    SD     SE
-  &lt;chr&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+  &lt;fct&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
 1 F1        5   0.8   0.2 0.0894
 2 F2        5   0.4   0.2 0.0894
 ```
@@ -1204,7 +1236,7 @@ simdat  |&gt;
 ```
 # A tibble: 2 x 5
   F         N     M    SD     SE
-  &lt;chr&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+  &lt;fct&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
 1 F1        5   0.8   0.2 0.0894
 2 F2        5   0.4   0.2 0.0894
 ```
@@ -1227,6 +1259,7 @@ simdat  |&gt;
   ) |&gt;
   ungroup() |&gt;
 * kable(
+*   digits = 2,
 *   col.names = c(
 *     'Levels of Factor',
 *     'N. of data points',
@@ -1242,8 +1275,8 @@ simdat  |&gt;
 
 |Levels of Factor | N. of data points| Mean RT| Std. Dev.| Std. Err.|
 |:----------------|-----------------:|-------:|---------:|---------:|
-|F1               |                 5|     0.8|       0.2| 0.0894427|
-|F2               |                 5|     0.4|       0.2| 0.0894427|
+|F1               |                 5|     0.8|       0.2|      0.09|
+|F2               |                 5|     0.4|       0.2|      0.09|
 ]
 
 &lt;style&gt;
@@ -1279,20 +1312,489 @@ simdat  |&gt;
 
 ---
 
+::: columns
+
+:::: pull-left
+
 ::::: block
 
-### シミュレーション用データに対し線形モデルを構築作成
+### シミュレーション用データに対し線形モデルを構築
 
-- [`mixedDesign()`](http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.6.3.R)を使う
-- 1要因2水準
-    1. F1: 0.8秒
-    1. F2: 0.4秒
-- 実験参加者数10人
+- 水準間で応答変数の平均が有意に異なるか，線形モデルで確認
+
+
+```r
+lm(DV ~ F, simdat) -&gt;
+  m_F
+```
+
+- 切片 (intercept, 0.8)
+  - F1の下での応答変数の平均 `\(\hat{{\mu}_1}\)`
+- 傾き (intercept, -0.4)
+  - F2の下での応答変数の平均とF1の下での応答変数の平均の差 `\(\hat{{\mu}_2} - \hat{{\mu}_1}\)`
+
 
 :::::
 
+::::
+
+:::: pull-right
+
+
+|Predictor   | Estimate|95% CI           | `\(t\)`-value| `\(p\)`-value|
+|:-----------|--------:|:----------------|---------:|---------:|
+|(Intercept) |      0.8|[0.594, 1.006]   |      8.94|      0.00|
+|FF2         |     -0.4|[-0.692, -0.108] |     -3.16|      0.01|
+
+&lt;img src="figures/Notes-Schad-etal-2020-tab-lm-simdat-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
+
 ---
 
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### シミュレーション用データに対し線形モデルを構築
+
+- 95%信頼区間 (95% Confidence Interval)
+  - 平均値 `\(\pm 1.96 \times \text{標準誤差 (Standanrd Error)}\)`
+  - 「100回実験して95回は真値を含むような区間」
+- `\(t\)` 値
+  - この `\(t\)` 値は，自由度が `\((\text{（その水準から得られたデータポイント数）}-1) \times 2\)` の `\(t\)` 分布に従う
+  - この `\(t\)` 分布の両側2.5%の範囲にあれば，有意
+  - `\((5-1) \times 2 = 8\)` なので，今回の `\(t\)` 値は， `\(t(8)\)` に従う
+  - `\(t(8)\)` の両側2.5%の範囲は， `\(t \leq 2.31, 2.31 \leq t\)`
+  - `\(t\)` 値が上記区間に入っていれば，有意
+
+:::::
+
+::::
+
+:::: pull-right
+
+
+|Predictor   | Estimate|95% CI           | `\(t\)`-value| `\(p\)`-value|
+|:-----------|--------:|:----------------|---------:|---------:|
+|(Intercept) |      0.8|[0.594, 1.006]   |      8.94|      0.00|
+|FF2         |     -0.4|[-0.692, -0.108] |     -3.16|      0.01|
+
+&lt;img src="figures/Notes-Schad-etal-2020-tab-lm-simdat-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
+
+---
+
+count: false
+ 
+
+.panel1-tab-lm-simdat-auto[
+
+```r
+*m_F
+```
+]
+ 
+.panel2-tab-lm-simdat-auto[
+
+```
+
+Call:
+lm(formula = DV ~ F, data = simdat)
+
+Coefficients:
+(Intercept)          FF2  
+        0.8         -0.4  
+```
+]
+
+---
+count: false
+ 
+
+.panel1-tab-lm-simdat-auto[
+
+```r
+m_F |&gt;
+* tidy(
+*   conf.int = TRUE,
+*   conf.level = 0.95
+* )
+```
+]
+ 
+.panel2-tab-lm-simdat-auto[
+
+```
+# A tibble: 2 x 7
+  term        estimate std.error statistic   p.value conf.low conf.high
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)    0.8      0.0894      8.94 0.0000194    0.594     1.01 
+2 FF2           -0.400    0.126      -3.16 0.0133      -0.692    -0.108
+```
+]
+
+---
+count: false
+ 
+
+.panel1-tab-lm-simdat-auto[
+
+```r
+m_F |&gt;
+  tidy(
+    conf.int = TRUE,
+    conf.level = 0.95
+  ) |&gt;
+* mutate(
+*   `95% CI` = paste0(
+*     "[",
+*     conf.low |&gt; round(3),
+*     ", ",
+*     conf.high |&gt; round(3),
+*     "]"
+*   )
+* )
+```
+]
+ 
+.panel2-tab-lm-simdat-auto[
+
+```
+# A tibble: 2 x 8
+  term        estimate std.error statistic   p.value conf.low conf.high `95% CI`
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;   
+1 (Intercept)    0.8      0.0894      8.94 0.0000194    0.594     1.01  [0.594,~
+2 FF2           -0.400    0.126      -3.16 0.0133      -0.692    -0.108 [-0.692~
+```
+]
+
+---
+count: false
+ 
+
+.panel1-tab-lm-simdat-auto[
+
+```r
+m_F |&gt;
+  tidy(
+    conf.int = TRUE,
+    conf.level = 0.95
+  ) |&gt;
+  mutate(
+    `95% CI` = paste0(
+      "[",
+      conf.low |&gt; round(3),
+      ", ",
+      conf.high |&gt; round(3),
+      "]"
+    )
+  ) |&gt;
+* relocate(
+*   `95% CI`, .after = estimate
+* )
+```
+]
+ 
+.panel2-tab-lm-simdat-auto[
+
+```
+# A tibble: 2 x 8
+  term        estimate `95% CI`   std.error statistic p.value conf.low conf.high
+  &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)    0.8   [0.594, 1~    0.0894      8.94 1.94e-5    0.594     1.01 
+2 FF2           -0.400 [-0.692, ~    0.126      -3.16 1.33e-2   -0.692    -0.108
+```
+]
+
+---
+count: false
+ 
+
+.panel1-tab-lm-simdat-auto[
+
+```r
+m_F |&gt;
+  tidy(
+    conf.int = TRUE,
+    conf.level = 0.95
+  ) |&gt;
+  mutate(
+    `95% CI` = paste0(
+      "[",
+      conf.low |&gt; round(3),
+      ", ",
+      conf.high |&gt; round(3),
+      "]"
+    )
+  ) |&gt;
+  relocate(
+    `95% CI`, .after = estimate
+  ) |&gt;
+* dplyr::select(
+*   -c(
+*     std.error,
+*     conf.low,
+*     conf.high
+*   )
+* )
+```
+]
+ 
+.panel2-tab-lm-simdat-auto[
+
+```
+# A tibble: 2 x 5
+  term        estimate `95% CI`         statistic   p.value
+  &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)    0.8   [0.594, 1.006]        8.94 0.0000194
+2 FF2           -0.400 [-0.692, -0.108]     -3.16 0.0133   
+```
+]
+
+---
+count: false
+ 
+
+.panel1-tab-lm-simdat-auto[
+
+```r
+m_F |&gt;
+  tidy(
+    conf.int = TRUE,
+    conf.level = 0.95
+  ) |&gt;
+  mutate(
+    `95% CI` = paste0(
+      "[",
+      conf.low |&gt; round(3),
+      ", ",
+      conf.high |&gt; round(3),
+      "]"
+    )
+  ) |&gt;
+  relocate(
+    `95% CI`, .after = estimate
+  ) |&gt;
+  dplyr::select(
+    -c(
+      std.error,
+      conf.low,
+      conf.high
+    )
+  ) |&gt;
+* kable(
+*   digits = 2,
+*   escape = FALSE,
+*   col.names = c(
+*     'Predictor',
+*     'Estimate',
+*     '95% CI',
+*     '$t$-value',
+*     '$p$-value'
+*   )
+* )
+```
+]
+ 
+.panel2-tab-lm-simdat-auto[
+
+|Predictor   | Estimate|95% CI           | `\(t\)`-value| `\(p\)`-value|
+|:-----------|--------:|:----------------|---------:|---------:|
+|(Intercept) |      0.8|[0.594, 1.006]   |      8.94|      0.00|
+|FF2         |     -0.4|[-0.692, -0.108] |     -3.16|      0.01|
+]
+
+&lt;style&gt;
+.panel1-tab-lm-simdat-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-tab-lm-simdat-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-tab-lm-simdat-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### Default contrast coding: treatment contrasts
+
+- 切片 (intercept, 0.8)
+  - F1の下での応答変数の平均 `\(\hat{{\mu}_1}\)`
+- 傾き (intercept, -0.4)
+  - F2の下での応答変数の平均とF1の下での応答変数の平均の差 `\(\hat{{\mu}_2} - \hat{{\mu}_1}\)`
+
+なぜ，切片と傾きがこの値になるのか？？
+
+--
+
+`\(\because\)` デフォルトでは，Rは，名義尺度に[treatment contrast](#treatment-contrast)を適用するため
+
+:::::
+
+::::
+
+:::: pull-right
+
+
+
+```r
+lm(DV ~ F, simdat) -&gt;
+  m_F
+```
+&lt;img src="figures/Notes-Schad-etal-2020-fig-simdat-2-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
+
+---
+
+count: false
+ 
+
+.panel1-treatment-simdat-auto[
+
+```r
+*simdat$F
+```
+]
+ 
+.panel2-treatment-simdat-auto[
+
+```
+ [1] F1 F1 F1 F1 F1 F2 F2 F2 F2 F2
+Levels: F1 F2
+```
+]
+
+---
+count: false
+ 
+
+.panel1-treatment-simdat-auto[
+
+```r
+simdat$F |&gt;
+* contrasts()
+```
+]
+ 
+.panel2-treatment-simdat-auto[
+
+```
+   F2
+F1  0
+F2  1
+```
+]
+
+&lt;style&gt;
+.panel1-treatment-simdat-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-treatment-simdat-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-treatment-simdat-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### Default contrast coding: treatment contrasts
+
+[treatment contrast](#treatment-contrast)
+
+  ~  
+
+    Rがデフォルトで名義尺度に適用する対比
+
+:::::
+
+::::
+
+:::: pull-right
+
+
+
+```r
+lm(DV ~ F, simdat) -&gt;
+  m_F
+```
+&lt;img src="figures/Notes-Schad-etal-2020-fig-simdat-2-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
+
+---
+
+&lt;!--
+5. Defining hypotheses
+6. Sum contrast
+7. Cell means parameterization
+--&gt;
 
 ---
 class: inverse, middle, center

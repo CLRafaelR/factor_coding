@@ -1,5 +1,7 @@
 class: inverse, middle, split-50
 
+name: treatment-contrast
+
 ## Treatment contrast 処理対比
 
 ::: columns

@@ -72,12 +72,12 @@ mixedDesign(
 ) |>
   rename(F = B_A) |>
   mutate(
-    F = case_when(
-      F == "A1" ~ "F1",
-      F == "A2" ~ "F2",
-      TRUE ~ "NA_character_"
+    F = fct_recode(
+      F,
+      F1 = "A1",
+      F2 = "A2"
     )
-  ) -> 
+  ) ->
   simdat
 
 str(simdat)
@@ -160,48 +160,201 @@ simdat  |>
 
 ---
 
+::: columns
+
+:::: pull-left
+
 ::::: block
 
 ### シミュレーション用データに対し線形モデルを構築
 
 - 水準間で応答変数の平均が有意に異なるか，線形モデルで確認
-- （要因のコーディングを何も考えないで，とりあえず実行）
+
+```{r lm-simdat, include = TRUE}
+lm(DV ~ F, simdat) ->
+  m_F
+```
+
+- 切片 (intercept, `r m_F |> tidy() |> filter(term == "(Intercept)") |> pull(estimate)`)
+  - F1の下での応答変数の平均 $\hat{{\mu}_1}$
+- 傾き (intercept, `r m_F |> tidy() |> filter(term == "FF2") |> pull(estimate)`)
+  - F2の下での応答変数の平均とF1の下での応答変数の平均の差 $\hat{{\mu}_2} - \hat{{\mu}_1}$
+
 
 :::::
 
----
+::::
 
-`r chunk_reveal("lm-simdat")`
+:::: pull-right
 
-```{r lm-simdat}
-lm(DV ~ F, simdat) ->
-  m_F
-
-m_F |>
-  tidy()
+```{r tab-lm-simdat, ref.label=c('tab-lm-simdat', 'fig-simdat'), echo = FALSE, eval = TRUE}
 ```
+
+::::
+
+:::
+
 ---
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### シミュレーション用データに対し線形モデルを構築
+
+- 95%信頼区間 (95% Confidence Interval)
+  - 平均値 $\pm `r qnorm(0.975) |> round(3)` \times \text{標準誤差 (Standanrd Error)}$
+  - 「100回実験して95回は真値を含むような区間」
+- $t$ 値
+  - この $t$ 値は，自由度が $(\text{（その水準から得られたデータポイント数）}-1) \times 2$ の $t$ 分布に従う
+  - この $t$ 分布の両側2.5%の範囲にあれば，有意
+  - $(5-1) \times 2 = `r (5-1) * 2`$ なので，今回の $t$ 値は， $t(`r (5-1) * 2`)$ に従う
+  - $t(`r (5-1) * 2`)$ の両側2.5%の範囲は， $t \leq `r qt(0.025, df = (5-1) * 2) |> abs() |> round(2)`, `r qt(0.975, df = (5-1) * 2) |> abs() |> round(2)` \leq t$
+  - $t$ 値が上記区間に入っていれば，有意
+
+:::::
+
+::::
+
+:::: pull-right
+
+```{r tab-lm-simdat, ref.label=c('tab-lm-simdat', 'fig-simdat'), echo = FALSE, eval = TRUE}
+```
+
+::::
+
+:::
+
+---
+
+`r chunk_reveal("tab-lm-simdat")`
+
+```{r tab-lm-simdat, include = FALSE}
+m_F |>
+  tidy(
+    conf.int = TRUE,
+    conf.level = 0.95
+  ) |>
+  mutate(
+    `95% CI` = paste0(
+      "[",
+      conf.low |> round(3),
+      ", ",
+      conf.high |> round(3),
+      "]"
+    )
+  ) |>
+  relocate(
+    `95% CI`, .after = estimate
+  ) |>
+  dplyr::select(
+    -c(
+      std.error,
+      conf.low,
+      conf.high
+    )
+  ) |>
+  kable(
+    digits = 2,
+    escape = FALSE,
+    col.names = c(
+      'Predictor',
+      'Estimate',
+      '95% CI',
+      '$t$-value',
+      '$p$-value'
+    )
+  )
+```
+
+---
+
+::: columns
+
+:::: pull-left
 
 ::::: block
 
 ### Default contrast coding: treatment contrasts
 
-- 水準間で応答変数の平均が有意に異なるか，線形モデルで確認
-- （要因のコーディングを何も考えないで，とりあえず実行）
+- 切片 (intercept, `r m_F |> tidy() |> filter(term == "(Intercept)") |> pull(estimate)`)
+  - F1の下での応答変数の平均 $\hat{{\mu}_1}$
+- 傾き (intercept, `r m_F |> tidy() |> filter(term == "FF2") |> pull(estimate)`)
+  - F2の下での応答変数の平均とF1の下での応答変数の平均の差 $\hat{{\mu}_2} - \hat{{\mu}_1}$
+
+なぜ，切片と傾きがこの値になるのか？？
+
+--
+
+$\because$ デフォルトでは，Rは，名義尺度に[treatment contrast](#treatment-contrast)を適用するため
 
 :::::
 
+::::
+
+:::: pull-right
+
+
+```{r lm-simdat-2, ref.label=c('lm-simdat'), echo = TRUE, eval = FALSE}
+```
+```{r fig-simdat-2, ref.label=c('fig-simdat'), echo = FALSE, eval = TRUE}
+```
+
+::::
+
+:::
+
 ---
 
-`r chunk_reveal("lm-simdat")`
+`r chunk_reveal("treatment-simdat")`
 
-```{r}
-lm(DV ~ F, simdat) ->
-  m_F
-
-m_F |>
-  tidy()
+```{r treatment-simdat, include = FALSE}
+simdat$F |>
+  contrasts()
 ```
+
+---
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### Default contrast coding: treatment contrasts
+
+Rがデフォルトで名義尺度に適用する対比
+
+$$
+x =
+\begin{cases}
+0 & \text{F1 のとき} \\
+1 & \text{F2 のとき}
+\end{cases}
+$$
+
+```{r lm-simdat-2, ref.label=c('treatment-simdat'), echo = TRUE, eval = TRUE}
+```
+
+
+$$
+\overbrace{y}^{\text{応答変数}} = \overbrace{{\beta}_0}^{\text{切片}} + \overbrace{{\beta}_1}^{\text{傾き}} x
+$$
+
+:::::
+
+::::
+
+:::: pull-right
+
+
+::::
+
+:::
+
+---
 
 <!--
 5. Defining hypotheses

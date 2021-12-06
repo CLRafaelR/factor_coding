@@ -9,8 +9,10 @@ output:
   #  theme: "night"
   xaringan::moon_reader:
     lib_dir: libs
-    css: [default, hygge, ninjutsu]
-    #css: [ninjutsu]
+    # css: [default, hygge, ninjutsu]
+    css: [default, hygge, ninjutsu, robot]
+    # css: [default, hygge, ninjutsu, robot-fonts]
+    # css: [ninjutsu]
     nature:
       ratio: 16:9
       #highlightStyle: github
@@ -26,14 +28,14 @@ output:
         click: false
     includes:
       after_body: doc-creation/assets/remarkjs_extended.html
-pdflink: "PDF files are currently unavailable"
+pdflink: "https://htmlpreview.github.io/?https://github.com/CLRafaelR/factor_coding/blob/main/Notes-Schad-et-al-2020.html"
 ---
 
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(
-  include = FALSE,
+  #include = FALSE,
   fig.path = "figures/",
   fig.width = 8,  #6
   fig.height = 6, #4
@@ -56,7 +58,11 @@ class: middle center hide-slide-number
 
 
 ```{r, include = FALSE, cache = FALSE}
-basename <- ifelse(exists("basename"), basename, "slide")
+basename <- ifelse(
+  exists("basename"),
+  basename,
+  "slide"
+)
 ```
 
 
