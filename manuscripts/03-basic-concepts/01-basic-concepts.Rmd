@@ -24,8 +24,12 @@ https://stackoverflow.com/questions/67750561/vertically-scrollable-code-with-rst
 
 `r chunk_reveal("simdat")`
 
+<!--
+#### the number of between-subject factors
+-->
+
 ```{r simdat, include = FALSE}
-simdat <- mixedDesign(
+mixedDesign(
   B = 2,
   W = NULL,
   n = 5,
@@ -45,7 +49,14 @@ simdat <- mixedDesign(
       F == "A2" ~ "F2",
       TRUE ~ "NA_character_"
     )
-  ) |>
+  ) -> 
+  simdat
+
+str(simdat)
+```
+
+```{r fig-simdat, include = FALSE}
+simdat  |>
   group_by(F) |>
   summarize(
     N = length(DV),
@@ -53,11 +64,7 @@ simdat <- mixedDesign(
     SD = sd(DV),
     SE = SD / sqrt(N)
   ) |>
-  ungroup()
-```
-
-```{r fig-simdat, include = FALSE}
-simdat |>
+  ungroup() |>
   (
     \(d){
       qplot(

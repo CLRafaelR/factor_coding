@@ -17,7 +17,7 @@ class: center, middle, inverse, title-slide
 ## Schad et al (2020)日本語注解
 ### 小川雅貴
 ### 東京大学
-### 2021/12/17 (updated: 2021-12-05)
+### 2021/12/17 (updated: 2021-12-06)
 
 ---
 
@@ -485,6 +485,10 @@ class: inverse, middle
 
 ---
 
+&lt;!--
+https://stackoverflow.com/questions/67750561/vertically-scrollable-code-with-rstudio-and-xaringan
+--&gt;
+
 count: false
  
 
@@ -640,29 +644,13 @@ mixedDesign(
       F == "A2" ~ "F2",
       TRUE ~ "NA_character_"
     )
-  ) |&gt;
-* group_by(F)
+  ) -&gt;
+* simdat
 ```
 ]
  
 .panel2-simdat-auto[
 
-```
-# A tibble: 10 x 3
-# Groups:   F [2]
-   F     id       DV
-   &lt;chr&gt; &lt;fct&gt; &lt;dbl&gt;
- 1 F1    1     0.997
- 2 F1    2     0.718
- 3 F1    3     1.03 
- 4 F1    4     0.665
- 5 F1    5     0.590
- 6 F2    6     0.630
- 7 F2    7     0.232
- 8 F2    8     0.473
- 9 F2    9     0.512
-10 F2    10    0.153
-```
 ]
 
 ---
@@ -692,200 +680,21 @@ mixedDesign(
       F == "A2" ~ "F2",
       TRUE ~ "NA_character_"
     )
-  ) |&gt;
-  group_by(F) |&gt;
-* summarize(
-*   N = length(DV),
-*   M = mean(DV),
-*   SD = sd(DV),
-*   SE = SD/sqrt(N)
-* )
+  ) -&gt;
+  simdat
+
+*str(simdat)
 ```
 ]
  
 .panel2-simdat-auto[
 
 ```
-# A tibble: 2 x 5
-  F         N     M    SD     SE
-  &lt;chr&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
-1 F1        5   0.8   0.2 0.0894
-2 F2        5   0.4   0.2 0.0894
+'data.frame':	10 obs. of  3 variables:
+ $ F : chr  "F1" "F1" "F1" "F1" ...
+ $ id: Factor w/ 10 levels "1","2","3","4",..: 1 2 3 4 5 6 7 8 9 10
+ $ DV: num  0.469 0.893 0.882 0.77 0.985 ...
 ```
-]
-
----
-count: false
- 
-
-.panel1-simdat-auto[
-
-```r
-mixedDesign(
-  B = 2,
-  W = NULL,
-  n = 5,
-  M = matrix(
-    c(0.8, 0.4),
-    nrow = 2,
-    ncol = 1,
-    byrow = FALSE
-  ),
-  SD = 0.20,
-  long = TRUE
-) |&gt;
-  rename(F = B_A) |&gt;
-  mutate(
-    F = case_when(
-      F == "A1" ~ "F1",
-      F == "A2" ~ "F2",
-      TRUE ~ "NA_character_"
-    )
-  ) |&gt;
-  group_by(F) |&gt;
-  summarize(
-    N = length(DV),
-    M = mean(DV),
-    SD = sd(DV),
-    SE = SD/sqrt(N)
-  ) |&gt;
-* (
-*   \(d){
-*     qplot(
-*       x = F, y = M,
-*       group = 1,
-*       data = d,
-*       geom = c("point", "line")
-*     )
-*   }
-* )()
-```
-]
- 
-.panel2-simdat-auto[
-&lt;img src="figures/Notes-Schad-etal-2020-simdat_auto_06_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
-]
-
----
-count: false
- 
-
-.panel1-simdat-auto[
-
-```r
-mixedDesign(
-  B = 2,
-  W = NULL,
-  n = 5,
-  M = matrix(
-    c(0.8, 0.4),
-    nrow = 2,
-    ncol = 1,
-    byrow = FALSE
-  ),
-  SD = 0.20,
-  long = TRUE
-) |&gt;
-  rename(F = B_A) |&gt;
-  mutate(
-    F = case_when(
-      F == "A1" ~ "F1",
-      F == "A2" ~ "F2",
-      TRUE ~ "NA_character_"
-    )
-  ) |&gt;
-  group_by(F) |&gt;
-  summarize(
-    N = length(DV),
-    M = mean(DV),
-    SD = sd(DV),
-    SE = SD/sqrt(N)
-  ) |&gt;
-  (
-    \(d){
-      qplot(
-        x = F, y = M,
-        group = 1,
-        data = d,
-        geom = c("point", "line")
-      )
-    }
-  )() +
-* geom_errorbar(
-*   aes(
-*     max = M + SE,
-*     min = M - SE
-*   ),
-*   width = 0
-* )
-```
-]
- 
-.panel2-simdat-auto[
-&lt;img src="figures/Notes-Schad-etal-2020-simdat_auto_07_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
-]
-
----
-count: false
- 
-
-.panel1-simdat-auto[
-
-```r
-mixedDesign(
-  B = 2,
-  W = NULL,
-  n = 5,
-  M = matrix(
-    c(0.8, 0.4),
-    nrow = 2,
-    ncol = 1,
-    byrow = FALSE
-  ),
-  SD = 0.20,
-  long = TRUE
-) |&gt;
-  rename(F = B_A) |&gt;
-  mutate(
-    F = case_when(
-      F == "A1" ~ "F1",
-      F == "A2" ~ "F2",
-      TRUE ~ "NA_character_"
-    )
-  ) |&gt;
-  group_by(F) |&gt;
-  summarize(
-    N = length(DV),
-    M = mean(DV),
-    SD = sd(DV),
-    SE = SD/sqrt(N)
-  ) |&gt;
-  (
-    \(d){
-      qplot(
-        x = F, y = M,
-        group = 1,
-        data = d,
-        geom = c("point", "line")
-      )
-    }
-  )() +
-  geom_errorbar(
-    aes(
-      max = M + SE,
-      min = M - SE
-    ),
-    width = 0
-  ) +
-* labs(
-*   y = "Mean DV",
-*   x = "Factor F"
-* )
-```
-]
- 
-.panel2-simdat-auto[
-&lt;img src="figures/Notes-Schad-etal-2020-simdat_auto_08_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 &lt;style&gt;
@@ -914,6 +723,12 @@ mixedDesign(
   font-size: 80%
 }
 &lt;/style&gt;
+
+
+
+&lt;!--
+#### the number of between-subject factors
+--&gt;
 
 
 
