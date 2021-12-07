@@ -565,7 +565,7 @@ count: false
 .panel1-simdat-auto[
 
 ```r
-*mixedDesign(
+*simdat &lt;- mixedDesign(
 #### 被験者間計画での水準数 ####
 * B = 2,
 #### 被験者内計画での水準数 ####
@@ -586,6 +586,8 @@ count: false
 #### 「1試行1データ」の整然データでデータフレームを作成 ####
 * long = TRUE
 *) 
+
+simdat
 ```
 ]
  
@@ -613,7 +615,7 @@ count: false
 .panel1-simdat-auto[
 
 ```r
-mixedDesign(
+simdat &lt;- mixedDesign(
 #### 被験者間計画での水準数 ####
   B = 2,
 #### 被験者内計画での水準数 ####
@@ -635,6 +637,8 @@ mixedDesign(
   long = TRUE
 ) |&gt;
 * rename(F = B_A)
+
+simdat
 ```
 ]
  
@@ -662,7 +666,7 @@ count: false
 .panel1-simdat-auto[
 
 ```r
-mixedDesign(
+simdat &lt;- mixedDesign(
 #### 被験者間計画での水準数 ####
   B = 2,
 #### 被験者内計画での水準数 ####
@@ -691,6 +695,8 @@ mixedDesign(
 *     F2 = "A2"
 *   )
 * )
+
+simdat
 ```
 ]
  
@@ -718,7 +724,7 @@ count: false
 .panel1-simdat-auto[
 
 ```r
-mixedDesign(
+simdat &lt;- mixedDesign(
 #### 被験者間計画での水準数 ####
   B = 2,
 #### 被験者内計画での水準数 ####
@@ -746,54 +752,11 @@ mixedDesign(
       F1 = "A1",
       F2 = "A2"
     )
-  ) -&gt;
-* simdat
-```
-]
- 
-.panel2-simdat-auto[
-
-]
-
----
-count: false
- 
-
-.panel1-simdat-auto[
-
-```r
-mixedDesign(
-#### 被験者間計画での水準数 ####
-  B = 2,
-#### 被験者内計画での水準数 ####
-  W = NULL,
-#### 被験者間計画での1水準あたりの実験参加者数 ####
-  #### 実験参加者総数は，`B * n` ####  #### 実験参加者総数は，`B * n` ####
-  n = 5,
-#### 水準ごとの応答変数の平均を示した行列 ####
-#### 各行に水準ごとの応答変数の平均を入れる ####
-  M = matrix(
-    c(0.8, 0.4),
-    nrow = 2,
-    ncol = 1,
-    byrow = FALSE
-  ),
-#### 要因の標準偏差 ####
-  SD = 0.20,
-#### 「1試行1データ」の整然データでデータフレームを作成 ####
-  long = TRUE
-) |&gt;
-  rename(F = B_A) |&gt;
-  mutate(
-    F = fct_recode(
-      F,
-      F1 = "A1",
-      F2 = "A2"
-    )
-  ) -&gt;
-  simdat
+  )
 
 *str(simdat)
+
+simdat
 ```
 ]
  
@@ -803,7 +766,21 @@ mixedDesign(
 'data.frame':	10 obs. of  3 variables:
  $ F : Factor w/ 2 levels "F1","F2": 1 1 1 1 1 2 2 2 2 2
  $ id: Factor w/ 10 levels "1","2","3","4",..: 1 2 3 4 5 6 7 8 9 10
- $ DV: num  0.469 0.893 0.882 0.77 0.985 ...
+ $ DV: num  0.997 0.718 1.029 0.665 0.59 ...
+```
+
+```
+    F id        DV
+1  F1  1 0.9970951
+2  F1  2 0.7182121
+3  F1  3 1.0289054
+4  F1  4 0.6654797
+5  F1  5 0.5903077
+6  F2  6 0.6299035
+7  F2  7 0.2321012
+8  F2  8 0.4727070
+9  F2  9 0.5123584
+10 F2 10 0.1529298
 ```
 ]
 
@@ -870,16 +847,16 @@ count: false
 
 ```
     F id        DV
-1  F1  1 0.6789582
-2  F1  2 0.7186350
-3  F1  3 1.1502744
-4  F1  4 0.6755488
-5  F1  5 0.7765836
-6  F2  6 0.2568798
-7  F2  7 0.2973043
-8  F2  8 0.3199993
-9  F2  9 0.7493109
-10 F2 10 0.3765058
+1  F1  1 0.4692311
+2  F1  2 0.8933631
+3  F1  3 0.8818619
+4  F1  4 0.7703547
+5  F1  5 0.9851893
+6  F2  6 0.7113722
+7  F2  7 0.2172433
+8  F2  8 0.4066271
+9  F2  9 0.2312398
+10 F2 10 0.4335175
 ```
 ]
 
@@ -890,7 +867,7 @@ count: false
 .panel1-fig-simdat-auto[
 
 ```r
-simdat  |&gt;
+simdat |&gt;
 * group_by(F)
 ```
 ]
@@ -902,16 +879,16 @@ simdat  |&gt;
 # Groups:   F [2]
    F     id       DV
    &lt;fct&gt; &lt;fct&gt; &lt;dbl&gt;
- 1 F1    1     0.679
- 2 F1    2     0.719
- 3 F1    3     1.15 
- 4 F1    4     0.676
- 5 F1    5     0.777
- 6 F2    6     0.257
- 7 F2    7     0.297
- 8 F2    8     0.320
- 9 F2    9     0.749
-10 F2    10    0.377
+ 1 F1    1     0.469
+ 2 F1    2     0.893
+ 3 F1    3     0.882
+ 4 F1    4     0.770
+ 5 F1    5     0.985
+ 6 F2    6     0.711
+ 7 F2    7     0.217
+ 8 F2    8     0.407
+ 9 F2    9     0.231
+10 F2    10    0.434
 ```
 ]
 
@@ -922,7 +899,7 @@ count: false
 .panel1-fig-simdat-auto[
 
 ```r
-simdat  |&gt;
+simdat |&gt;
   group_by(F) |&gt;
 * summarise(
 *   N = length(DV),
@@ -951,7 +928,7 @@ count: false
 .panel1-fig-simdat-auto[
 
 ```r
-simdat  |&gt;
+simdat |&gt;
   group_by(F) |&gt;
   summarise(
     N = length(DV),
@@ -981,7 +958,7 @@ count: false
 .panel1-fig-simdat-auto[
 
 ```r
-simdat  |&gt;
+simdat |&gt;
   group_by(F) |&gt;
   summarise(
     N = length(DV),
@@ -1014,7 +991,7 @@ count: false
 .panel1-fig-simdat-auto[
 
 ```r
-simdat  |&gt;
+simdat |&gt;
   group_by(F) |&gt;
   summarise(
     N = length(DV),
@@ -1054,7 +1031,7 @@ count: false
 .panel1-fig-simdat-auto[
 
 ```r
-simdat  |&gt;
+simdat |&gt;
   group_by(F) |&gt;
   summarise(
     N = length(DV),
@@ -1138,16 +1115,16 @@ count: false
 
 ```
     F id        DV
-1  F1  1 0.6789582
-2  F1  2 0.7186350
-3  F1  3 1.1502744
-4  F1  4 0.6755488
-5  F1  5 0.7765836
-6  F2  6 0.2568798
-7  F2  7 0.2973043
-8  F2  8 0.3199993
-9  F2  9 0.7493109
-10 F2 10 0.3765058
+1  F1  1 0.4692311
+2  F1  2 0.8933631
+3  F1  3 0.8818619
+4  F1  4 0.7703547
+5  F1  5 0.9851893
+6  F2  6 0.7113722
+7  F2  7 0.2172433
+8  F2  8 0.4066271
+9  F2  9 0.2312398
+10 F2 10 0.4335175
 ```
 ]
 
@@ -1158,7 +1135,7 @@ count: false
 .panel1-tab-simdat-auto[
 
 ```r
-simdat  |&gt;
+simdat |&gt;
 * group_by(F)
 ```
 ]
@@ -1170,16 +1147,16 @@ simdat  |&gt;
 # Groups:   F [2]
    F     id       DV
    &lt;fct&gt; &lt;fct&gt; &lt;dbl&gt;
- 1 F1    1     0.679
- 2 F1    2     0.719
- 3 F1    3     1.15 
- 4 F1    4     0.676
- 5 F1    5     0.777
- 6 F2    6     0.257
- 7 F2    7     0.297
- 8 F2    8     0.320
- 9 F2    9     0.749
-10 F2    10    0.377
+ 1 F1    1     0.469
+ 2 F1    2     0.893
+ 3 F1    3     0.882
+ 4 F1    4     0.770
+ 5 F1    5     0.985
+ 6 F2    6     0.711
+ 7 F2    7     0.217
+ 8 F2    8     0.407
+ 9 F2    9     0.231
+10 F2    10    0.434
 ```
 ]
 
@@ -1190,7 +1167,7 @@ count: false
 .panel1-tab-simdat-auto[
 
 ```r
-simdat  |&gt;
+simdat |&gt;
   group_by(F) |&gt;
 * summarise(
 *   N = length(DV),
@@ -1219,7 +1196,7 @@ count: false
 .panel1-tab-simdat-auto[
 
 ```r
-simdat  |&gt;
+simdat |&gt;
   group_by(F) |&gt;
   summarise(
     N = length(DV),
@@ -1249,7 +1226,7 @@ count: false
 .panel1-tab-simdat-auto[
 
 ```r
-simdat  |&gt;
+simdat |&gt;
   group_by(F) |&gt;
   summarise(
     N = length(DV),
@@ -1324,14 +1301,13 @@ simdat  |&gt;
 
 
 ```r
-lm(DV ~ F, simdat) -&gt;
-  m_F
+m_F &lt;- lm(DV ~ F, simdat)
 ```
 
 - 切片 (intercept, 0.8)
-  - F1の下での応答変数の平均 `\(\hat{{\mu}_1}\)`
+  - F1の下での応答変数の平均 `\(\widehat{{\mu}_{\text{F1}}}\)`
 - 傾き (intercept, -0.4)
-  - F2の下での応答変数の平均とF1の下での応答変数の平均の差 `\(\hat{{\mu}_2} - \hat{{\mu}_1}\)`
+  - F2の下での応答変数の平均とF1の下での応答変数の平均の差 `\(\widehat{{\mu}_{\text{F2}}} - \widehat{{\mu}_{\text{F1}}}\)`
 
 
 :::::
@@ -1346,7 +1322,7 @@ lm(DV ~ F, simdat) -&gt;
 |(Intercept) |      0.8|[0.594, 1.006]   |      8.94|      0.00|
 |FF2         |     -0.4|[-0.692, -0.108] |     -3.16|      0.01|
 
-&lt;img src="figures/Notes-Schad-etal-2020-tab-lm-simdat-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-tab-lm-simdat2-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -1436,8 +1412,8 @@ m_F |&gt;
 # A tibble: 2 x 7
   term        estimate std.error statistic   p.value conf.low conf.high
   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-1 (Intercept)    0.8      0.0894      8.94 0.0000194    0.594     1.01 
-2 FF2           -0.400    0.126      -3.16 0.0133      -0.692    -0.108
+1 (Intercept)      0.8    0.0894      8.94 0.0000194    0.594     1.01 
+2 FF2             -0.4    0.126      -3.16 0.0133      -0.692    -0.108
 ```
 ]
 
@@ -1471,8 +1447,8 @@ m_F |&gt;
 # A tibble: 2 x 8
   term        estimate std.error statistic   p.value conf.low conf.high `95% CI`
   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;   
-1 (Intercept)    0.8      0.0894      8.94 0.0000194    0.594     1.01  [0.594,~
-2 FF2           -0.400    0.126      -3.16 0.0133      -0.692    -0.108 [-0.692~
+1 (Intercept)      0.8    0.0894      8.94 0.0000194    0.594     1.01  [0.594,~
+2 FF2             -0.4    0.126      -3.16 0.0133      -0.692    -0.108 [-0.692~
 ```
 ]
 
@@ -1509,8 +1485,8 @@ m_F |&gt;
 # A tibble: 2 x 8
   term        estimate `95% CI`   std.error statistic p.value conf.low conf.high
   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-1 (Intercept)    0.8   [0.594, 1~    0.0894      8.94 1.94e-5    0.594     1.01 
-2 FF2           -0.400 [-0.692, ~    0.126      -3.16 1.33e-2   -0.692    -0.108
+1 (Intercept)      0.8 [0.594, 1~    0.0894      8.94 1.94e-5    0.594     1.01 
+2 FF2             -0.4 [-0.692, ~    0.126      -3.16 1.33e-2   -0.692    -0.108
 ```
 ]
 
@@ -1554,8 +1530,8 @@ m_F |&gt;
 # A tibble: 2 x 5
   term        estimate `95% CI`         statistic   p.value
   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;
-1 (Intercept)    0.8   [0.594, 1.006]        8.94 0.0000194
-2 FF2           -0.400 [-0.692, -0.108]     -3.16 0.0133   
+1 (Intercept)      0.8 [0.594, 1.006]        8.94 0.0000194
+2 FF2             -0.4 [-0.692, -0.108]     -3.16 0.0133   
 ```
 ]
 
@@ -1654,9 +1630,9 @@ m_F |&gt;
 ### Default contrast coding: treatment contrasts
 
 - 切片 (intercept, 0.8)
-  - F1の下での応答変数の平均 `\(\hat{{\mu}_1}\)`
+  - F1の下での応答変数の平均 `\(\widehat{{\mu}_{\text{F1}}}\)`
 - 傾き (intercept, -0.4)
-  - F2の下での応答変数の平均とF1の下での応答変数の平均の差 `\(\hat{{\mu}_2} - \hat{{\mu}_1}\)`
+  - F2の下での応答変数の平均とF1の下での応答変数の平均の差 `\(\widehat{{\mu}_{\text{F2}}} - \widehat{{\mu}_{\text{F1}}}\)`
 
 なぜ，切片と傾きがこの値になるのか？？
 
@@ -1673,8 +1649,7 @@ m_F |&gt;
 
 
 ```r
-lm(DV ~ F, simdat) -&gt;
-  m_F
+m_F &lt;- lm(DV ~ F, simdat)
 ```
 &lt;img src="figures/Notes-Schad-etal-2020-fig-simdat-2-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
@@ -1686,31 +1661,11 @@ lm(DV ~ F, simdat) -&gt;
 
 count: false
  
-
+### Treatment contrastsとその意味
 .panel1-treatment-simdat-auto[
 
 ```r
-*simdat$F
-```
-]
- 
-.panel2-treatment-simdat-auto[
-
-```
- [1] F1 F1 F1 F1 F1 F2 F2 F2 F2 F2
-Levels: F1 F2
-```
-]
-
----
-count: false
- 
-
-.panel1-treatment-simdat-auto[
-
-```r
-simdat$F |&gt;
-* contrasts()
+*contrasts(simdat$F)
 ```
 ]
  
@@ -1722,11 +1677,15 @@ F1  0
 F2  1
 ```
 ]
+ 
+.panel3-treatment-simdat-auto[
+`$$x = \begin{cases} 0 &amp; \text{F1 のとき} \\ 1 &amp; \text{F2 のとき} \end{cases}$$`
+]
 
 &lt;style&gt;
 .panel1-treatment-simdat-auto {
   color: black;
-  width: 38.6060606060606%;
+  width: 28.7040816326531%;
   hight: 32%;
   float: left;
   padding-left: 1%;
@@ -1734,7 +1693,7 @@ F2  1
 }
 .panel2-treatment-simdat-auto {
   color: black;
-  width: 59.3939393939394%;
+  width: 38.6020408163265%;
   hight: 32%;
   float: left;
   padding-left: 1%;
@@ -1742,7 +1701,7 @@ F2  1
 }
 .panel3-treatment-simdat-auto {
   color: black;
-  width: NA%;
+  width: 29.6938775510204%;
   hight: 33%;
   float: left;
   padding-left: 1%;
@@ -1764,11 +1723,39 @@ F2  1
 
 ### Default contrast coding: treatment contrasts
 
-[treatment contrast](#treatment-contrast)
+Rがデフォルトで名義尺度に適用する対比
 
-  ~  
+`$$x =
+\begin{cases}
+0 &amp; \text{F1 のとき} \\
+1 &amp; \text{F2 のとき}
+\end{cases}$$`
 
-    Rがデフォルトで名義尺度に適用する対比
+
+
+
+
+`$$\therefore \begin{align}\overbrace{y}^{\text{応答変数}} &amp; = \overbrace{{\beta}_0}^{\text{切片}} + \overbrace{{\beta}_1}^{\text{傾き}} x\\
+&amp; =
+\begin{cases}
+{\beta}_0 + {\beta}_1 \times 0 &amp; \text{F1 のとき}\\
+{\beta}_0 + {\beta}_1 \times 1 &amp; \text{F2 のとき}
+\end{cases}\\
+&amp; =
+\begin{cases}
+{\beta}_0 &amp; \text{F1 のとき}\\
+{\beta}_0 + {\beta}_1 &amp; \text{F2 のとき}
+\end{cases}\\
+&amp; =
+\begin{cases}
+0.8 &amp; \text{F1 のとき}\\
+0.8 + (-0.4) &amp; \text{F2 のとき}
+\end{cases}\\
+&amp; =
+\begin{cases}
+0.8 &amp; \text{F1 のとき}\\
+0.4 &amp; \text{F2 のとき}
+\end{cases}\end{align}$$`
 
 :::::
 
@@ -1776,12 +1763,22 @@ F2  1
 
 :::: pull-right
 
+&lt;!--
 
+`$$\begin{align}\overbrace{y}^{\text{応答変数}} &amp; = \overbrace{{\beta}_0}^{\text{切片}} + \overbrace{{\beta}_1}^{\text{傾き}} x\\
+&amp; =
+\begin{cases}
+{\beta}_0 + {\beta}_1 \times 0 &amp; \text{F1 のとき}\\
+{\beta}_0 + {\beta}_1 \times 1 &amp; \text{F2 のとき}
+\end{cases}\\
+&amp; =
+\begin{cases}
+{\beta}_0 &amp; \text{F1 のとき}\\
+{\beta}_0 + {\beta}_1 &amp; \text{F2 のとき}
+\end{cases}\end{align}$$`
 
-```r
-lm(DV ~ F, simdat) -&gt;
-  m_F
-```
+--&gt;
+
 &lt;img src="figures/Notes-Schad-etal-2020-fig-simdat-2-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
@@ -1790,10 +1787,439 @@ lm(DV ~ F, simdat) -&gt;
 
 ---
 
+::::: block
+
+### Defining hypotheses
+
+Treatment contrastの下では，
+
+- 傾き `\({\beta}_1\)`
+  - 「実験条件の応答変数の平均値」と「統制条件での応答変数の平均値」の差
+  - ( `\({\mu}_{\text{F2}} - {\mu}_{\text{F1}}\)` )
+- 切片 `\({\beta}_0\)`
+  - 統制条件での応答変数の平均値
+  - ( `\({\mu}_{\text{F1}}\)` )
+
+--
+
+↑切片や傾きの意味を言語化しただけ
+
+--
+
+**切片や傾きを通じて，どのような帰無仮説を棄却しようとしているのか？**
+
+:::::
+
+---
+
+::::: block
+
+#### 傾き `\({\beta}_1\)` に関する帰無仮説 `\(H_0\)`
+
+帰無仮説：傾きが存在しない
+
+--
+
+`\(H_0: {\beta}_1 = 0\)`
+
+--
+
+`\(H_0: {\mu}_{\text{F2}} - {\mu}_{\text{F1}} = 0\)`
+
+:::::
+
+
+::::: block
+
+#### 切片 `\({\beta}_0\)` に関する帰無仮説 `\(H_0\)`
+
+帰無仮説：切片が存在しない
+
+--
+
+`\(H_0: {\beta}_0 = 0\)`
+
+--
+
+`\(H_0: {\mu}_{\text{F1}} = 0\)`
+
+:::::
+
+---
+
+#### 統制条件とする水準を変えるには
+
+- Rは，水準をアルファベット順に読み込み，アルファベット順に数値（0,1）を付与する
+- アルファベット順に関係なく，特定の水準を統制条件としたい場合には
+  
+---
+
+count: false
+ 
+#### 統制条件とする水準を変えるには
+.panel1-recode-simdat-auto[
+
+```r
+*simdat &lt;- simdat
+
+simdat
+```
+]
+ 
+.panel2-recode-simdat-auto[
+
+```
+    F id        DV
+1  F1  1 0.4692311
+2  F1  2 0.8933631
+3  F1  3 0.8818619
+4  F1  4 0.7703547
+5  F1  5 0.9851893
+6  F2  6 0.7113722
+7  F2  7 0.2172433
+8  F2  8 0.4066271
+9  F2  9 0.2312398
+10 F2 10 0.4335175
+```
+]
+
+---
+count: false
+ 
+#### 統制条件とする水準を変えるには
+.panel1-recode-simdat-auto[
+
+```r
+simdat &lt;- simdat |&gt;
+* mutate(
+*   Fb = fct_relevel(
+*     F,
+*     "F2",
+*     "F1"
+*   )
+* )
+
+simdat
+```
+]
+ 
+.panel2-recode-simdat-auto[
+
+```
+    F id        DV Fb
+1  F1  1 0.4692311 F1
+2  F1  2 0.8933631 F1
+3  F1  3 0.8818619 F1
+4  F1  4 0.7703547 F1
+5  F1  5 0.9851893 F1
+6  F2  6 0.7113722 F2
+7  F2  7 0.2172433 F2
+8  F2  8 0.4066271 F2
+9  F2  9 0.2312398 F2
+10 F2 10 0.4335175 F2
+```
+]
+
+---
+count: false
+ 
+#### 統制条件とする水準を変えるには
+.panel1-recode-simdat-auto[
+
+```r
+simdat &lt;- simdat |&gt;
+  mutate(
+    Fb = fct_relevel(
+      F,
+      "F2",
+      "F1"
+    )
+  )
+
+*contrasts(simdat$Fb)
+
+simdat
+```
+]
+ 
+.panel2-recode-simdat-auto[
+
+```
+   F1
+F2  0
+F1  1
+```
+
+```
+    F id        DV Fb
+1  F1  1 0.4692311 F1
+2  F1  2 0.8933631 F1
+3  F1  3 0.8818619 F1
+4  F1  4 0.7703547 F1
+5  F1  5 0.9851893 F1
+6  F2  6 0.7113722 F2
+7  F2  7 0.2172433 F2
+8  F2  8 0.4066271 F2
+9  F2  9 0.2312398 F2
+10 F2 10 0.4335175 F2
+```
+]
+
+---
+count: false
+ 
+#### 統制条件とする水準を変えるには
+.panel1-recode-simdat-auto[
+
+```r
+simdat &lt;- simdat |&gt;
+  mutate(
+    Fb = fct_relevel(
+      F,
+      "F2",
+      "F1"
+    )
+  )
+
+contrasts(simdat$Fb)
+
+*contrasts(simdat$F)
+
+simdat
+```
+]
+ 
+.panel2-recode-simdat-auto[
+
+```
+   F1
+F2  0
+F1  1
+```
+
+```
+   F2
+F1  0
+F2  1
+```
+
+```
+    F id        DV Fb
+1  F1  1 0.4692311 F1
+2  F1  2 0.8933631 F1
+3  F1  3 0.8818619 F1
+4  F1  4 0.7703547 F1
+5  F1  5 0.9851893 F1
+6  F2  6 0.7113722 F2
+7  F2  7 0.2172433 F2
+8  F2  8 0.4066271 F2
+9  F2  9 0.2312398 F2
+10 F2 10 0.4335175 F2
+```
+]
+
+&lt;style&gt;
+.panel1-recode-simdat-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-recode-simdat-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-recode-simdat-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+::: columns
+
+:::: pull-left
+
+**F2を統制条件にした場合**
+
+
+```r
+m1_mr &lt;- lm(DV ~ Fb, simdat)
+```
+
+
+|Predictor   | Estimate|95% CI         | `\(t\)`-value| `\(p\)`-value|
+|:-----------|--------:|:--------------|---------:|---------:|
+|(Intercept) |      0.4|[0.194, 0.606] |      4.47|      0.00|
+|FbF1        |      0.4|[0.108, 0.692] |      3.16|      0.01|
+
+`$$x =
+\begin{cases}
+0 &amp; \text{F2 のとき} \\
+1 &amp; \text{F1 のとき}
+\end{cases}$$`
+
+`$$\therefore\begin{align}
+%\overbrace{y}^{\text{応答変数}} &amp; = \overbrace{{\beta}_0}^{\text{切片}} + \overbrace{{\beta}_1}^{\text{傾き}} x\\
+y &amp; = {\beta}_0 + {\beta}_1 x\\
+&amp; =
+\begin{cases}
+{\beta}_0 + {\beta}_1 \times 0 &amp; \text{F2 のとき}\\
+{\beta}_0 + {\beta}_1 \times 1 &amp; \text{F1 のとき}
+\end{cases}\\
+&amp; =
+\begin{cases}
+0.4 &amp; \text{F2 のとき}\\
+0.4 + (0.4) &amp; \text{F1 のとき}
+\end{cases}\\
+&amp; =
+\begin{cases}
+0.4 &amp; \text{F2 のとき}\\
+0.8 &amp; \text{F1 のとき}
+\end{cases}\end{align}$$`
+
+::::
+
+:::: pull-right
+
+F1が統制条件である場合
+
+
+```r
+m_F &lt;- lm(DV ~ F, simdat)
+```
+
+
+|Predictor   | Estimate|95% CI           | `\(t\)`-value| `\(p\)`-value|
+|:-----------|--------:|:----------------|---------:|---------:|
+|(Intercept) |      0.8|[0.594, 1.006]   |      8.94|      0.00|
+|FF2         |     -0.4|[-0.692, -0.108] |     -3.16|      0.01|
+
+`$$x =
+\begin{cases}
+0 &amp; \text{F1 のとき} \\
+1 &amp; \text{F2 のとき}
+\end{cases}$$`
+
+`$$\therefore \begin{align}
+%\overbrace{y}^{\text{応答変数}} &amp; = \overbrace{{\beta}_0}^{\text{切片}} + \overbrace{{\beta}_1}^{\text{傾き}} x\\
+y &amp; = {\beta}_0 + {\beta}_1 x\\
+&amp; =
+\begin{cases}
+{\beta}_0 + {\beta}_1 \times 0 &amp; \text{F1 のとき}\\
+{\beta}_0 + {\beta}_1 \times 1 &amp; \text{F2 のとき}
+\end{cases}\\
+&amp; =
+\begin{cases}
+0.8 &amp; \text{F1 のとき}\\
+0.8 + (-0.4) &amp; \text{F2 のとき}
+\end{cases}\\
+&amp; =
+\begin{cases}
+0.8 &amp; \text{F1 のとき}\\
+0.4 &amp; \text{F2 のとき}
+\end{cases}\end{align}$$`
+
+::::
+
+:::
+
+---
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+**F2を統制条件にした場合**
+
+#### 傾き `\({\beta}_1\)` に関する帰無仮説 `\(H_0\)`
+
+帰無仮説：傾きが存在しない
+
+--
+
+`\(H_0: {\beta}_1 = 0\)`
+
+--
+
+`\(H_0: {\mu}_{\text{F1}} - {\mu}_{\text{F2}} = 0\)`
+
+:::::
+
+
+::::: block
+
+#### 切片 `\({\beta}_0\)` に関する帰無仮説 `\(H_0\)`
+
+帰無仮説：切片が存在しない
+
+--
+
+`\(H_0: {\beta}_0 = 0\)`
+
+--
+
+`\(H_0: {\mu}_{\text{F2}} = 0\)`
+
+:::::
+
+::::
+
+:::: pull-right
+
+::::: block
+
+F1が統制条件である場合
+
+#### 傾き `\({\beta}_1\)` に関する帰無仮説 `\(H_0\)`
+
+帰無仮説：傾きが存在しない
+
+`\(H_0: {\beta}_1 = 0\)`
+
+`\(H_0: {\mu}_{\text{F2}} - {\mu}_{\text{F1}} = 0\)`
+
+:::::
+
+
+::::: block
+
+#### 切片 `\({\beta}_0\)` に関する帰無仮説 `\(H_0\)`
+
+帰無仮説：切片が存在しない
+
+`\(H_0: {\beta}_0 = 0\)`
+
+`\(H_0: {\mu}_{\text{F1}} = 0\)`
+
+:::::
+
+::::
+
+:::
+
+---
+
 &lt;!--
-5. Defining hypotheses
-6. Sum contrast
-7. Cell means parameterization
+1. Sum contrast
+2. Cell means parameterization
 --&gt;
 
 ---

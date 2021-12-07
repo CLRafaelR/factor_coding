@@ -42,14 +42,14 @@ class: inverse, middle
 https://stackoverflow.com/questions/67750561/vertically-scrollable-code-with-rstudio-and-xaringan
 -->
 
-`r chunk_reveal("simdat")`
+`r chunk_reveal("simdat", left_assign=TRUE)`
 
 <!--
 #### the number of between-subject factors
 -->
 
 ```{r simdat, include = FALSE}
-mixedDesign(
+simdat <- mixedDesign(
   #### 被験者間計画での水準数 ####
   B = 2,
   #### 被験者内計画での水準数 ####
@@ -77,8 +77,7 @@ mixedDesign(
       F1 = "A1",
       F2 = "A2"
     )
-  ) ->
-  simdat
+  )
 
 str(simdat)
 ```
@@ -100,7 +99,7 @@ str(simdat)
 `r chunk_reveal("fig-simdat")`
 
 ```{r fig-simdat, include = FALSE}
-simdat  |>
+simdat |>
   group_by(F) |>
   summarise(
     N = length(DV),
@@ -137,7 +136,7 @@ simdat  |>
 `r chunk_reveal("tab-simdat")`
 
 ```{r tab-simdat, include = FALSE}
-simdat  |>
+simdat |>
   group_by(F) |>
   summarise(
     N = length(DV),
@@ -170,15 +169,17 @@ simdat  |>
 
 - 水準間で応答変数の平均が有意に異なるか，線形モデルで確認
 
-```{r lm-simdat, include = TRUE}
-lm(DV ~ F, simdat) ->
-  m_F
+```{r}
+#| lm-simdat,
+#| include = TRUE
+
+m_F <- lm(DV ~ F, simdat)
 ```
 
 - 切片 (intercept, `r m_F |> tidy() |> filter(term == "(Intercept)") |> pull(estimate)`)
-  - F1の下での応答変数の平均 $\hat{{\mu}_1}$
+  - F1の下での応答変数の平均 $\widehat{{\mu}_{\text{F1}}}$
 - 傾き (intercept, `r m_F |> tidy() |> filter(term == "FF2") |> pull(estimate)`)
-  - F2の下での応答変数の平均とF1の下での応答変数の平均の差 $\hat{{\mu}_2} - \hat{{\mu}_1}$
+  - F2の下での応答変数の平均とF1の下での応答変数の平均の差 $\widehat{{\mu}_{\text{F2}}} - \widehat{{\mu}_{\text{F1}}}$
 
 
 :::::
@@ -187,7 +188,11 @@ lm(DV ~ F, simdat) ->
 
 :::: pull-right
 
-```{r tab-lm-simdat, ref.label=c('tab-lm-simdat', 'fig-simdat'), echo = FALSE, eval = TRUE}
+```{r}
+#| tab-lm-simdat2,
+#| ref.label=c('tab-lm-simdat', 'fig-simdat'),
+#| echo = FALSE,
+#| eval = TRUE
 ```
 
 ::::
@@ -220,7 +225,11 @@ lm(DV ~ F, simdat) ->
 
 :::: pull-right
 
-```{r tab-lm-simdat, ref.label=c('tab-lm-simdat', 'fig-simdat'), echo = FALSE, eval = TRUE}
+```{r}
+#| tab-lm-simdat,
+#| ref.label=c('tab-lm-simdat', 'fig-simdat'),
+#| echo = FALSE,
+#| eval = TRUE
 ```
 
 ::::
@@ -280,9 +289,9 @@ m_F |>
 ### Default contrast coding: treatment contrasts
 
 - 切片 (intercept, `r m_F |> tidy() |> filter(term == "(Intercept)") |> pull(estimate)`)
-  - F1の下での応答変数の平均 $\hat{{\mu}_1}$
+  - F1の下での応答変数の平均 $\widehat{{\mu}_{\text{F1}}}$
 - 傾き (intercept, `r m_F |> tidy() |> filter(term == "FF2") |> pull(estimate)`)
-  - F2の下での応答変数の平均とF1の下での応答変数の平均の差 $\hat{{\mu}_2} - \hat{{\mu}_1}$
+  - F2の下での応答変数の平均とF1の下での応答変数の平均の差 $\widehat{{\mu}_{\text{F2}}} - \widehat{{\mu}_{\text{F1}}}$
 
 なぜ，切片と傾きがこの値になるのか？？
 
@@ -297,9 +306,17 @@ $\because$ デフォルトでは，Rは，名義尺度に[treatment contrast](#t
 :::: pull-right
 
 
-```{r lm-simdat-2, ref.label=c('lm-simdat'), echo = TRUE, eval = FALSE}
+```{r}
+#| lm-simdat-2,
+#| ref.label=c('lm-simdat'),
+#| echo = TRUE,
+#| eval = FALSE
 ```
-```{r fig-simdat-2, ref.label=c('fig-simdat'), echo = FALSE, eval = TRUE}
+```{r}
+#| fig-simdat-2,
+#| ref.label=c('fig-simdat'),
+#| echo = FALSE,
+#| eval = TRUE
 ```
 
 ::::
@@ -308,11 +325,10 @@ $\because$ デフォルトでは，Rは，名義尺度に[treatment contrast](#t
 
 ---
 
-`r chunk_reveal("treatment-simdat")`
+`r chunk_reveal("treatment-simdat", title = "### Treatment contrastsとその意味", display_type = c("code", "output", "md"), md = "$$x = \\begin{cases} 0 & \\text{F1 のとき} \\\\ 1 & \\text{F2 のとき} \\end{cases}$$")`
 
 ```{r treatment-simdat, include = FALSE}
-simdat$F |>
-  contrasts()
+contrasts(simdat$F)
 ```
 
 ---
@@ -327,21 +343,51 @@ simdat$F |>
 
 Rがデフォルトで名義尺度に適用する対比
 
-$$
-x =
+$$x =
 \begin{cases}
 0 & \text{F1 のとき} \\
 1 & \text{F2 のとき}
-\end{cases}
-$$
+\end{cases}$$
 
-```{r lm-simdat-2, ref.label=c('treatment-simdat'), echo = TRUE, eval = TRUE}
+```{r}
+#| lm-simdat-2,
+#| ref.label=c('treatment-simdat'),
+#| include = FALSE,
+#| echo = FALSE,
+#| eval = TRUE,
+#| results = "hold"
 ```
 
+```{r}
+#| include = FALSE,
+#| echo = FALSE,
+#| eval = FALSE,
+#| results = "asis"
 
-$$
-\overbrace{y}^{\text{応答変数}} = \overbrace{{\beta}_0}^{\text{切片}} + \overbrace{{\beta}_1}^{\text{傾き}} x
-$$
+chunk_reveal("treatment-simdat", display_type = c("md", "code", "output"), md = "$$x = \\begin{cases} 0 & \\text{F1 のとき} \\\\ 1 & \\text{F2 のとき} \\end{cases}$$")
+```
+
+$$\therefore \begin{align}\overbrace{y}^{\text{応答変数}} & = \overbrace{{\beta}_0}^{\text{切片}} + \overbrace{{\beta}_1}^{\text{傾き}} x\\
+& =
+\begin{cases}
+{\beta}_0 + {\beta}_1 \times 0 & \text{F1 のとき}\\
+{\beta}_0 + {\beta}_1 \times 1 & \text{F2 のとき}
+\end{cases}\\
+& =
+\begin{cases}
+{\beta}_0 & \text{F1 のとき}\\
+{\beta}_0 + {\beta}_1 & \text{F2 のとき}
+\end{cases}\\
+& =
+\begin{cases}
+`r m_F |> tidy() |> filter(term == "(Intercept)") |> pull(estimate)` & \text{F1 のとき}\\
+`r m_F |> tidy() |> filter(term == "(Intercept)") |> pull(estimate)` + (`r m_F |> tidy() |> filter(term == "FF2") |> pull(estimate)`) & \text{F2 のとき}
+\end{cases}\\
+& =
+\begin{cases}
+`r m_F |> tidy() |> filter(term == "(Intercept)") |> pull(estimate)` & \text{F1 のとき}\\
+`r (m_F |> tidy() |> filter(term == "(Intercept)") |> pull(estimate)) + (m_F |> tidy() |> filter(term == "FF2") |> pull(estimate))` & \text{F2 のとき}
+\end{cases}\end{align}$$
 
 :::::
 
@@ -349,6 +395,321 @@ $$
 
 :::: pull-right
 
+<!--
+
+$$\begin{align}\overbrace{y}^{\text{応答変数}} & = \overbrace{{\beta}_0}^{\text{切片}} + \overbrace{{\beta}_1}^{\text{傾き}} x\\
+& =
+\begin{cases}
+{\beta}_0 + {\beta}_1 \times 0 & \text{F1 のとき}\\
+{\beta}_0 + {\beta}_1 \times 1 & \text{F2 のとき}
+\end{cases}\\
+& =
+\begin{cases}
+{\beta}_0 & \text{F1 のとき}\\
+{\beta}_0 + {\beta}_1 & \text{F2 のとき}
+\end{cases}\end{align}$$
+
+-->
+
+```{r}
+#| fig-simdat-2,
+#| ref.label=c('fig-simdat'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+::::
+
+:::
+
+---
+
+::::: block
+
+### Defining hypotheses
+
+Treatment contrastの下では，
+
+- 傾き ${\beta}_1$
+  - 「実験条件の応答変数の平均値」と「統制条件での応答変数の平均値」の差
+  - ( ${\mu}_{\text{F2}} - {\mu}_{\text{F1}}$ )
+- 切片 ${\beta}_0$
+  - 統制条件での応答変数の平均値
+  - ( ${\mu}_{\text{F1}}$ )
+
+--
+
+↑切片や傾きの意味を言語化しただけ
+
+--
+
+**切片や傾きを通じて，どのような帰無仮説を棄却しようとしているのか？**
+
+:::::
+
+---
+
+::::: block
+
+#### 傾き ${\beta}_1$ に関する帰無仮説 $H_0$
+
+帰無仮説：傾きが存在しない
+
+--
+
+$H_0: {\beta}_1 = 0$
+
+--
+
+$H_0: {\mu}_{\text{F2}} - {\mu}_{\text{F1}} = 0$
+
+:::::
+
+
+::::: block
+
+#### 切片 ${\beta}_0$ に関する帰無仮説 $H_0$
+
+帰無仮説：切片が存在しない
+
+--
+
+$H_0: {\beta}_0 = 0$
+
+--
+
+$H_0: {\mu}_{\text{F1}} = 0$
+
+:::::
+
+---
+
+#### 統制条件とする水準を変えるには
+
+- Rは，水準をアルファベット順に読み込み，アルファベット順に数値（0,1）を付与する
+- アルファベット順に関係なく，特定の水準を統制条件としたい場合には
+  
+---
+
+`r chunk_reveal("recode-simdat", left_assign = TRUE, title = "#### 統制条件とする水準を変えるには")`
+
+```{r}
+#| recode-simdat,
+#| include = FALSE
+
+simdat <- simdat |>
+  mutate(
+    Fb = fct_relevel(
+      F,
+      "F2",
+      "F1"
+    )
+  )
+
+contrasts(simdat$Fb)
+
+contrasts(simdat$F)
+```
+
+---
+
+::: columns
+
+:::: pull-left
+
+**F2を統制条件にした場合**
+
+```{r}
+#| recode-lm-simdat,
+#| echo = TRUE,
+#| eval = TRUE,
+#| include = TRUE
+
+m1_mr <- lm(DV ~ Fb, simdat)
+```
+
+```{r tab-recode-lm-simdat, echo = FALSE, eval = TRUE}
+m1_mr |>
+  tidy(
+    conf.int = TRUE,
+    conf.level = 0.95
+  ) |>
+  mutate(
+    `95% CI` = paste0(
+      "[",
+      conf.low |> round(3),
+      ", ",
+      conf.high |> round(3),
+      "]"
+    )
+  ) |>
+  relocate(
+    `95% CI`, .after = estimate
+  ) |>
+  dplyr::select(
+    -c(
+      std.error,
+      conf.low,
+      conf.high
+    )
+  ) |>
+  kable(
+    digits = 2,
+    escape = FALSE,
+    col.names = c(
+      'Predictor',
+      'Estimate',
+      '95% CI',
+      '$t$-value',
+      '$p$-value'
+    )
+  )
+```
+
+$$x =
+\begin{cases}
+0 & \text{F2 のとき} \\
+1 & \text{F1 のとき}
+\end{cases}$$
+
+$$\therefore\begin{align}
+%\overbrace{y}^{\text{応答変数}} & = \overbrace{{\beta}_0}^{\text{切片}} + \overbrace{{\beta}_1}^{\text{傾き}} x\\
+y & = {\beta}_0 + {\beta}_1 x\\
+& =
+\begin{cases}
+{\beta}_0 + {\beta}_1 \times 0 & \text{F2 のとき}\\
+{\beta}_0 + {\beta}_1 \times 1 & \text{F1 のとき}
+\end{cases}\\
+& =
+\begin{cases}
+`r m1_mr |> tidy() |> filter(term == "(Intercept)") |> pull(estimate)` & \text{F2 のとき}\\
+`r m1_mr |> tidy() |> filter(term == "(Intercept)") |> pull(estimate)` + (`r m1_mr |> tidy() |> filter(term == "FbF1") |> pull(estimate)`) & \text{F1 のとき}
+\end{cases}\\
+& =
+\begin{cases}
+`r m1_mr |> tidy() |> filter(term == "(Intercept)") |> pull(estimate)` & \text{F2 のとき}\\
+`r (m1_mr |> tidy() |> filter(term == "(Intercept)") |> pull(estimate)) + (m1_mr |> tidy() |> filter(term == "FbF1") |> pull(estimate))` & \text{F1 のとき}
+\end{cases}\end{align}$$
+
+::::
+
+:::: pull-right
+
+F1が統制条件である場合
+
+```{r}
+#| ref.label=c('lm-simdat'),
+#| echo = TRUE,
+#| eval = FALSE
+```
+
+```{r}
+#| tab-lm-simdat3,
+#| ref.label=c('tab-lm-simdat'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+$$x =
+\begin{cases}
+0 & \text{F1 のとき} \\
+1 & \text{F2 のとき}
+\end{cases}$$
+
+$$\therefore \begin{align}
+%\overbrace{y}^{\text{応答変数}} & = \overbrace{{\beta}_0}^{\text{切片}} + \overbrace{{\beta}_1}^{\text{傾き}} x\\
+y & = {\beta}_0 + {\beta}_1 x\\
+& =
+\begin{cases}
+{\beta}_0 + {\beta}_1 \times 0 & \text{F1 のとき}\\
+{\beta}_0 + {\beta}_1 \times 1 & \text{F2 のとき}
+\end{cases}\\
+& =
+\begin{cases}
+`r m_F |> tidy() |> filter(term == "(Intercept)") |> pull(estimate)` & \text{F1 のとき}\\
+`r m_F |> tidy() |> filter(term == "(Intercept)") |> pull(estimate)` + (`r m_F |> tidy() |> filter(term == "FF2") |> pull(estimate)`) & \text{F2 のとき}
+\end{cases}\\
+& =
+\begin{cases}
+`r m_F |> tidy() |> filter(term == "(Intercept)") |> pull(estimate)` & \text{F1 のとき}\\
+`r (m_F |> tidy() |> filter(term == "(Intercept)") |> pull(estimate)) + (m_F |> tidy() |> filter(term == "FF2") |> pull(estimate))` & \text{F2 のとき}
+\end{cases}\end{align}$$
+
+::::
+
+:::
+
+---
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+**F2を統制条件にした場合**
+
+#### 傾き ${\beta}_1$ に関する帰無仮説 $H_0$
+
+帰無仮説：傾きが存在しない
+
+--
+
+$H_0: {\beta}_1 = 0$
+
+--
+
+$H_0: {\mu}_{\text{F1}} - {\mu}_{\text{F2}} = 0$
+
+:::::
+
+
+::::: block
+
+#### 切片 ${\beta}_0$ に関する帰無仮説 $H_0$
+
+帰無仮説：切片が存在しない
+
+--
+
+$H_0: {\beta}_0 = 0$
+
+--
+
+$H_0: {\mu}_{\text{F2}} = 0$
+
+:::::
+
+::::
+
+:::: pull-right
+
+::::: block
+
+F1が統制条件である場合
+
+#### 傾き ${\beta}_1$ に関する帰無仮説 $H_0$
+
+帰無仮説：傾きが存在しない
+
+$H_0: {\beta}_1 = 0$
+
+$H_0: {\mu}_{\text{F2}} - {\mu}_{\text{F1}} = 0$
+
+:::::
+
+
+::::: block
+
+#### 切片 ${\beta}_0$ に関する帰無仮説 $H_0$
+
+帰無仮説：切片が存在しない
+
+$H_0: {\beta}_0 = 0$
+
+$H_0: {\mu}_{\text{F1}} = 0$
+
+:::::
 
 ::::
 
@@ -357,7 +718,6 @@ $$
 ---
 
 <!--
-5. Defining hypotheses
-6. Sum contrast
-7. Cell means parameterization
+1. Sum contrast
+2. Cell means parameterization
 -->
