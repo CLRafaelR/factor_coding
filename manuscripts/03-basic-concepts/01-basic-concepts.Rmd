@@ -717,7 +717,193 @@ $H_0: {\mu}_{\text{F1}} = 0$
 
 ---
 
+::::: block
+
+### Sum contrast
+
+- （2水準の場合）一方の水準に-1を，他方の水準に1を充てる
+- 効果全体を全体平均に「中心化」する
+  - 全体平均 (Grand Mean)：各水準の平均を平均した値
+- scaled sum contrasts; effect coding
+  - （2水準の場合）一方の水準に-0.5を，他方の水準に0.5を充てる
+  - 傾きが，2水準の差と同じ値になる
+
+:::::
+
+---
+
+`r chunk_reveal("sum-simdat", title = "### Scaled sum contrastsとその意味", display_type = c("code", "output", "md"), md = c("$$x = \\begin{cases} -0.5 & \\text{F1 のとき} \\\\ 0.5 & \\text{F2 のとき} \\end{cases}$$"), left_assign = TRUE)`
+
+```{r sum-simdat, include = FALSE}
+contrasts(simdat$F) <- c(-0.5, 0.5)
+```
+
+---
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### Sum contrast
+
+- （2水準の場合）一方の水準に-1を，他方の水準に1を充てる
+- 効果全体を全体平均に「中心化」する
+  - 全体平均 (Grand Mean)：各水準の平均を平均した値
+- scaled sum contrasts; effect coding
+  - （2水準の場合）一方の水準に-0.5を，他方の水準に0.5を充てる
+  - 傾きが，2水準の差と同じ値になる
+
+:::::
+
+::::
+
+:::: pull-right
+
+```{r}
+#| sum-lm-simdat,
+#| echo = TRUE,
+#| eval = TRUE,
+#| results = "hide"
+m1_mr <- lm(DV ~ F, simdat)
+```
+
+```{r}
+#| ref.label=c('tab-recode-lm-simdat'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+::::
+
+:::
+
+---
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### (Scaled) Sum contrasts
+
+$$x =
+\begin{cases}
+-0.5 & \text{F1 のとき} \\
+0.5 & \text{F2 のとき}
+\end{cases}$$
+
+$$\therefore \begin{align}\overbrace{y}^{\text{応答変数}} & = \overbrace{{\beta}_0}^{\text{切片}} + \overbrace{{\beta}_1}^{\text{傾き}} x\\
+& =
+\begin{cases}
+{\beta}_0 + {\beta}_1 \times (-0.5) & \text{F1 のとき}\\
+{\beta}_0 + {\beta}_1 \times 0.5 & \text{F2 のとき}
+\end{cases}\\
+& =
+\begin{cases}
+{\beta}_0 - 0.5{\beta}_1 & \text{F1 のとき}\\
+{\beta}_0 + 0.5{\beta}_1 & \text{F2 のとき}
+\end{cases}\\
+& =
+\begin{cases}
+`r m1_mr |> tidy() |> filter(term == "(Intercept)") |> pull(estimate)` - 0.5 \times (`r m1_mr |> tidy() |> filter(term == "F1") |> pull(estimate)`) & \text{F1 のとき}\\
+`r m1_mr |> tidy() |> filter(term == "(Intercept)") |> pull(estimate)` + 0.5 \times (`r m1_mr |> tidy() |> filter(term == "F1") |> pull(estimate)`) & \text{F2 のとき}
+\end{cases}\\
+& =
+\begin{cases}
+`r (m1_mr |> tidy() |> filter(term == "(Intercept)") |> pull(estimate)) - 0.5 * (m1_mr |> tidy() |> filter(term == "F1") |> pull(estimate))` & \text{F1 のとき}\\
+`r (m1_mr |> tidy() |> filter(term == "(Intercept)") |> pull(estimate)) + 0.5 * (m1_mr |> tidy() |> filter(term == "F1") |> pull(estimate))` & \text{F2 のとき}
+\end{cases}\end{align}$$
+
+:::::
+
+::::
+
+:::: pull-right
+
 <!--
-1. Sum contrast
+
+$$\begin{align}\overbrace{y}^{\text{応答変数}} & = \overbrace{{\beta}_0}^{\text{切片}} + \overbrace{{\beta}_1}^{\text{傾き}} x\\
+& =
+\begin{cases}
+{\beta}_0 + {\beta}_1 \times 0 & \text{F1 のとき}\\
+{\beta}_0 + {\beta}_1 \times 1 & \text{F2 のとき}
+\end{cases}\\
+& =
+\begin{cases}
+{\beta}_0 & \text{F1 のとき}\\
+{\beta}_0 + {\beta}_1 & \text{F2 のとき}
+\end{cases}\end{align}$$
+
+-->
+
+```{r}
+#| fig-simdat-2,
+#| ref.label=c('fig-simdat'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+::::
+
+:::
+
+---
+
+::::: block
+
+### (Scaled) Sum contrasts
+
+(Scaled) Sum contrastsの下では，
+
+- 傾き ${\beta}_1$
+  - 「一方の条件の応答変数の平均値」と「他方の条件での応答変数の平均値」の差
+  - ( ${\mu}_{\text{F2}} - {\mu}_{\text{F1}}$ )
+- 切片 ${\beta}_0$
+  - 「一方の条件の応答変数の平均値」と「他方の条件での応答変数の平均値」の平均値
+  - ( $\frac{{\mu}_{\text{F1}} + {\mu}_{\text{F2}}}{2}$ )
+
+:::::
+
+---
+
+::::: block
+
+#### 傾き ${\beta}_1$ に関する帰無仮説 $H_0$
+
+帰無仮説：傾きが存在しない
+
+--
+
+$H_0: {\beta}_1 = 0$
+
+--
+
+$H_0: {\mu}_{\text{F2}} - {\mu}_{\text{F1}} = 0$
+
+:::::
+
+
+::::: block
+
+#### 切片 ${\beta}_0$ に関する帰無仮説 $H_0$
+
+帰無仮説：切片が存在しない
+
+--
+
+$H_0: {\beta}_0 = 0$
+
+--
+
+$H_0: \frac{{\mu}_{\text{F1}} + {\mu}_{\text{F2}}}{2} = 0$
+
+:::::
+
+
+<!--
+1. 
 2. Cell means parameterization
 -->

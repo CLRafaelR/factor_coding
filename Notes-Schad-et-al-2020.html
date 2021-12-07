@@ -18,7 +18,7 @@ class: center, middle, inverse, title-slide
 ## Schad et al (2020)日本語注解
 ### 小川雅貴
 ### 東京大学
-### 2021/12/17 (updated: 2021-12-07)
+### 2021/12/17 (updated: 2021-12-08)
 
 ---
 
@@ -2217,649 +2217,240 @@ F1が統制条件である場合
 
 ---
 
+::::: block
+
+### Sum contrast
+
+- （2水準の場合）一方の水準に-1を，他方の水準に1を充てる
+- 効果全体を全体平均に「中心化」する
+  - 全体平均 (Grand Mean)：各水準の平均を平均した値
+- scaled sum contrasts; effect coding
+  - （2水準の場合）一方の水準に-0.5を，他方の水準に0.5を充てる
+  - 傾きが，2水準の差と同じ値になる
+
+:::::
+
+---
+
+count: false
+ 
+### Scaled sum contrastsとその意味
+.panel1-sum-simdat-auto[
+
+```r
+*contrasts(simdat$F) &lt;- c(-0.5, 0.5)
+
+contrasts(simdat$F)
+```
+]
+ 
+.panel2-sum-simdat-auto[
+
+```
+   [,1]
+F1 -0.5
+F2  0.5
+```
+]
+ 
+.panel3-sum-simdat-auto[
+`$$x = \begin{cases} -0.5 &amp; \text{F1 のとき} \\ 0.5 &amp; \text{F2 のとき} \end{cases}$$`
+]
+
+&lt;style&gt;
+.panel1-sum-simdat-auto {
+  color: black;
+  width: 28.7040816326531%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-sum-simdat-auto {
+  color: black;
+  width: 38.6020408163265%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-sum-simdat-auto {
+  color: black;
+  width: 29.6938775510204%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### Sum contrast
+
+- （2水準の場合）一方の水準に-1を，他方の水準に1を充てる
+- 効果全体を全体平均に「中心化」する
+  - 全体平均 (Grand Mean)：各水準の平均を平均した値
+- scaled sum contrasts; effect coding
+  - （2水準の場合）一方の水準に-0.5を，他方の水準に0.5を充てる
+  - 傾きが，2水準の差と同じ値になる
+
+:::::
+
+::::
+
+:::: pull-right
+
+
+```r
+m1_mr &lt;- lm(DV ~ F, simdat)
+```
+
+
+|Predictor   | Estimate|95% CI           | `\(t\)`-value| `\(p\)`-value|
+|:-----------|--------:|:----------------|---------:|---------:|
+|(Intercept) |      0.6|[0.454, 0.746]   |      9.49|      0.00|
+|F1          |     -0.4|[-0.692, -0.108] |     -3.16|      0.01|
+
+::::
+
+:::
+
+---
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### (Scaled) Sum contrasts
+
+`$$x =
+\begin{cases}
+-0.5 &amp; \text{F1 のとき} \\
+0.5 &amp; \text{F2 のとき}
+\end{cases}$$`
+
+`$$\therefore \begin{align}\overbrace{y}^{\text{応答変数}} &amp; = \overbrace{{\beta}_0}^{\text{切片}} + \overbrace{{\beta}_1}^{\text{傾き}} x\\
+&amp; =
+\begin{cases}
+{\beta}_0 + {\beta}_1 \times (-0.5) &amp; \text{F1 のとき}\\
+{\beta}_0 + {\beta}_1 \times 0.5 &amp; \text{F2 のとき}
+\end{cases}\\
+&amp; =
+\begin{cases}
+{\beta}_0 - 0.5{\beta}_1 &amp; \text{F1 のとき}\\
+{\beta}_0 + 0.5{\beta}_1 &amp; \text{F2 のとき}
+\end{cases}\\
+&amp; =
+\begin{cases}
+0.6 - 0.5 \times (-0.4) &amp; \text{F1 のとき}\\
+0.6 + 0.5 \times (-0.4) &amp; \text{F2 のとき}
+\end{cases}\\
+&amp; =
+\begin{cases}
+0.8 &amp; \text{F1 のとき}\\
+0.4 &amp; \text{F2 のとき}
+\end{cases}\end{align}$$`
+
+:::::
+
+::::
+
+:::: pull-right
+
 &lt;!--
-1. Sum contrast
+
+`$$\begin{align}\overbrace{y}^{\text{応答変数}} &amp; = \overbrace{{\beta}_0}^{\text{切片}} + \overbrace{{\beta}_1}^{\text{傾き}} x\\
+&amp; =
+\begin{cases}
+{\beta}_0 + {\beta}_1 \times 0 &amp; \text{F1 のとき}\\
+{\beta}_0 + {\beta}_1 \times 1 &amp; \text{F2 のとき}
+\end{cases}\\
+&amp; =
+\begin{cases}
+{\beta}_0 &amp; \text{F1 のとき}\\
+{\beta}_0 + {\beta}_1 &amp; \text{F2 のとき}
+\end{cases}\end{align}$$`
+
+--&gt;
+
+&lt;img src="figures/Notes-Schad-etal-2020-fig-simdat-2-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
+
+---
+
+::::: block
+
+### (Scaled) Sum contrasts
+
+(Scaled) Sum contrastsの下では，
+
+- 傾き `\({\beta}_1\)`
+  - 「一方の条件の応答変数の平均値」と「他方の条件での応答変数の平均値」の差
+  - ( `\({\mu}_{\text{F2}} - {\mu}_{\text{F1}}\)` )
+- 切片 `\({\beta}_0\)`
+  - 「一方の条件の応答変数の平均値」と「他方の条件での応答変数の平均値」の平均値
+  - ( `\(\frac{{\mu}_{\text{F1}} + {\mu}_{\text{F2}}}{2}\)` )
+
+:::::
+
+---
+
+::::: block
+
+#### 傾き `\({\beta}_1\)` に関する帰無仮説 `\(H_0\)`
+
+帰無仮説：傾きが存在しない
+
+--
+
+`\(H_0: {\beta}_1 = 0\)`
+
+--
+
+`\(H_0: {\mu}_{\text{F2}} - {\mu}_{\text{F1}} = 0\)`
+
+:::::
+
+
+::::: block
+
+#### 切片 `\({\beta}_0\)` に関する帰無仮説 `\(H_0\)`
+
+帰無仮説：切片が存在しない
+
+--
+
+`\(H_0: {\beta}_0 = 0\)`
+
+--
+
+`\(H_0: \frac{{\mu}_{\text{F1}} + {\mu}_{\text{F2}}}{2} = 0\)`
+
+:::::
+
+
+&lt;!--
+1. 
 2. Cell means parameterization
 --&gt;
 
 ---
-class: inverse, middle, center
-
-
-# First up: classic flipbook, using defaults to walk through code pipeline
-
-
-
-
-
-&lt;!-- get a flipbook version of the my_cars code chunk - pauses are where parentheses are balanced --&gt;
----
-
-count: false
- 
-
-.panel1-my_cars-auto[
-
-```r
-*cars
-```
-]
- 
-.panel2-my_cars-auto[
-
-```
-   speed dist
-1      4    2
-2      4   10
-3      7    4
-4      7   22
-5      8   16
-6      9   10
-7     10   18
-8     10   26
-9     10   34
-10    11   17
-11    11   28
-12    12   14
-13    12   20
-14    12   24
-15    12   28
-16    13   26
-17    13   34
-18    13   34
-19    13   46
-20    14   26
-21    14   36
-22    14   60
-23    14   80
-24    15   20
-25    15   26
-26    15   54
-27    16   32
-28    16   40
-29    17   32
-30    17   40
-31    17   50
-32    18   42
-33    18   56
-34    18   76
-35    18   84
-36    19   36
-37    19   46
-38    19   68
-39    20   32
-40    20   48
-41    20   52
-42    20   56
-43    20   64
-44    22   66
-45    23   54
-46    24   70
-47    24   92
-48    24   93
-49    24  120
-50    25   85
-```
-]
-
----
-count: false
- 
-
-.panel1-my_cars-auto[
-
-```r
-cars |&gt;
-* filter(speed &gt; 4)
-```
-]
- 
-.panel2-my_cars-auto[
-
-```
-   speed dist
-1      7    4
-2      7   22
-3      8   16
-4      9   10
-5     10   18
-6     10   26
-7     10   34
-8     11   17
-9     11   28
-10    12   14
-11    12   20
-12    12   24
-13    12   28
-14    13   26
-15    13   34
-16    13   34
-17    13   46
-18    14   26
-19    14   36
-20    14   60
-21    14   80
-22    15   20
-23    15   26
-24    15   54
-25    16   32
-26    16   40
-27    17   32
-28    17   40
-29    17   50
-30    18   42
-31    18   56
-32    18   76
-33    18   84
-34    19   36
-35    19   46
-36    19   68
-37    20   32
-38    20   48
-39    20   52
-40    20   56
-41    20   64
-42    22   66
-43    23   54
-44    24   70
-45    24   92
-46    24   93
-47    24  120
-48    25   85
-```
-]
-
----
-count: false
- 
-
-.panel1-my_cars-auto[
-
-```r
-cars |&gt;
-  filter(speed &gt; 4) |&gt;
-* ggplot()
-```
-]
- 
-.panel2-my_cars-auto[
-&lt;img src="figures/Notes-Schad-etal-2020-my_cars_auto_03_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
-]
-
----
-count: false
- 
-
-.panel1-my_cars-auto[
-
-```r
-cars |&gt;
-  filter(speed &gt; 4) |&gt;
-  ggplot() +
-* aes(x = speed)
-```
-]
- 
-.panel2-my_cars-auto[
-&lt;img src="figures/Notes-Schad-etal-2020-my_cars_auto_04_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
-]
-
----
-count: false
- 
-
-.panel1-my_cars-auto[
-
-```r
-cars |&gt;
-  filter(speed &gt; 4) |&gt;
-  ggplot() +
-  aes(x = speed) +
-* aes(y = dist)
-```
-]
- 
-.panel2-my_cars-auto[
-&lt;img src="figures/Notes-Schad-etal-2020-my_cars_auto_05_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
-]
-
----
-count: false
- 
-
-.panel1-my_cars-auto[
-
-```r
-cars |&gt;
-  filter(speed &gt; 4) |&gt;
-  ggplot() +
-  aes(x = speed) +
-  aes(y = dist) +
-* geom_point(
-*   alpha = .8,
-*   colour = "blue"
-*   )
-```
-]
- 
-.panel2-my_cars-auto[
-&lt;img src="figures/Notes-Schad-etal-2020-my_cars_auto_06_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
-]
-
----
-count: false
- 
-
-.panel1-my_cars-auto[
-
-```r
-cars |&gt;
-  filter(speed &gt; 4) |&gt;
-  ggplot() +
-  aes(x = speed) +
-  aes(y = dist) +
-  geom_point(
-    alpha = .8,
-    colour = "blue"
-    ) +
-* aes(size = speed)
-```
-]
- 
-.panel2-my_cars-auto[
-&lt;img src="figures/Notes-Schad-etal-2020-my_cars_auto_07_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
-]
-
-&lt;style&gt;
-.panel1-my_cars-auto {
-  color: black;
-  width: 38.6060606060606%;
-  hight: 32%;
-  float: left;
-  padding-left: 1%;
-  font-size: 80%
-}
-.panel2-my_cars-auto {
-  color: black;
-  width: 59.3939393939394%;
-  hight: 32%;
-  float: left;
-  padding-left: 1%;
-  font-size: 80%
-}
-.panel3-my_cars-auto {
-  color: black;
-  width: NA%;
-  hight: 33%;
-  float: left;
-  padding-left: 1%;
-  font-size: 80%
-}
-&lt;/style&gt;
-
-
-
-
-
----
-class: inverse, center, middle
-
-
-# Next up:  refer to same chunk, but use user defined breakpoints, and display output only
-
-
-
-
-
-
-&lt;!-- get another flipbook version of the my_cars code chunk, this time at the defined breaks and only showing output --&gt;
----
-
-count: false
-### user defined break! using #BREAK message
-&lt;img src="figures/Notes-Schad-etal-2020-my_cars_user_01_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
-
----
-count: false
-### user defined break! using #BREAK message
-&lt;img src="figures/Notes-Schad-etal-2020-my_cars_user_02_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
-
----
-count: false
-### user defined break! using #BREAK message
-&lt;img src="figures/Notes-Schad-etal-2020-my_cars_user_03_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
-
-&lt;style&gt;
-.panel1-my_cars-user {
-  color: black;
-  width: 99%;
-  hight: 32%;
-  float: left;
-  padding-left: 1%;
-  font-size: 80%
-}
-.panel2-my_cars-user {
-  color: black;
-  width: NA%;
-  hight: 32%;
-  float: left;
-  padding-left: 1%;
-  font-size: 80%
-}
-.panel3-my_cars-user {
-  color: black;
-  width: NA%;
-  hight: 33%;
-  float: left;
-  padding-left: 1%;
-  font-size: 80%
-}
-&lt;/style&gt;
-
-
-
-
-
----
-class: inverse, center, middle
-
-# Next up:  cycle through different lines of code
-
-
-
-
-
-&lt;!-- get flipbook that rotates through lines, my_fill --&gt;
----
-
-count: false
- 
-### cycle through lines of code marked #ROTATE
-.panel1-my_fill-rotate[
-
-```r
-ggplot(data = cars) +
-  aes(x = speed) +
-  aes(y = dist) +
-  geom_point(
-    size = 8,
-    shape = 21,
-    alpha = .9,
-    colour = "snow"
-    ) +
-  aes(fill = speed) +
-* scale_fill_viridis_c(option = "magma")
-```
-]
- 
-.panel2-my_fill-rotate[
-&lt;img src="figures/Notes-Schad-etal-2020-my_fill_rotate_01_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
-]
-
----
-count: false
- 
-### cycle through lines of code marked #ROTATE
-.panel1-my_fill-rotate[
-
-```r
-ggplot(data = cars) +
-  aes(x = speed) +
-  aes(y = dist) +
-  geom_point(
-    size = 8,
-    shape = 21,
-    alpha = .9,
-    colour = "snow"
-    ) +
-  aes(fill = speed) +
-* scale_fill_viridis_c(option = "cividis")
-```
-]
- 
-.panel2-my_fill-rotate[
-&lt;img src="figures/Notes-Schad-etal-2020-my_fill_rotate_02_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
-]
-
----
-count: false
- 
-### cycle through lines of code marked #ROTATE
-.panel1-my_fill-rotate[
-
-```r
-ggplot(data = cars) +
-  aes(x = speed) +
-  aes(y = dist) +
-  geom_point(
-    size = 8,
-    shape = 21,
-    alpha = .9,
-    colour = "snow"
-    ) +
-  aes(fill = speed) +
-* scale_fill_viridis_c(option = "plasma")
-```
-]
- 
-.panel2-my_fill-rotate[
-&lt;img src="figures/Notes-Schad-etal-2020-my_fill_rotate_03_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
-]
-
-&lt;style&gt;
-.panel1-my_fill-rotate {
-  color: black;
-  width: 49%;
-  hight: 32%;
-  float: left;
-  padding-left: 1%;
-  font-size: 80%
-}
-.panel2-my_fill-rotate {
-  color: black;
-  width: 49%;
-  hight: 32%;
-  float: left;
-  padding-left: 1%;
-  font-size: 80%
-}
-.panel3-my_fill-rotate {
-  color: black;
-  width: NA%;
-  hight: 33%;
-  float: left;
-  padding-left: 1%;
-  font-size: 80%
-}
-&lt;/style&gt;
-
-
-
-
-
-
----
-class: inverse, center, middle
-
-# Next up:  look at multiple realizations of same code
-
-
-
-
-
-&lt;!-- get flipbook that shows multiple realizations of the same code --&gt;
----
-
-count: false
- 
-### see multiple realizations of code
-.panel1-cars_multi-5[
-
-```r
-cars |&gt;
-  sample_frac(size = 1, replace = TRUE) |&gt;
-  ggplot() +
-  aes(x = speed) +
-  aes(y = dist) +
-  geom_count(
-    alpha = .7,
-    colour = "blue",
-    size = 4
-    ) +
-  geom_smooth(method = lm, se = FALSE) +
-  coord_cartesian(xlim = range(cars$speed),
-                  ylim = range(cars$dist)) +
-  theme(legend.position = c(.9, .2))
-```
-]
- 
-.panel2-cars_multi-5[
-&lt;img src="figures/Notes-Schad-etal-2020-cars_multi_5_01_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
-]
-
----
-count: false
- 
-### see multiple realizations of code
-.panel1-cars_multi-5[
-
-```r
-cars |&gt;
-  sample_frac(size = 1, replace = TRUE) |&gt;
-  ggplot() +
-  aes(x = speed) +
-  aes(y = dist) +
-  geom_count(
-    alpha = .7,
-    colour = "blue",
-    size = 4
-    ) +
-  geom_smooth(method = lm, se = FALSE) +
-  coord_cartesian(xlim = range(cars$speed),
-                  ylim = range(cars$dist)) +
-  theme(legend.position = c(.9, .2))
-```
-]
- 
-.panel2-cars_multi-5[
-&lt;img src="figures/Notes-Schad-etal-2020-cars_multi_5_02_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
-]
-
----
-count: false
- 
-### see multiple realizations of code
-.panel1-cars_multi-5[
-
-```r
-cars |&gt;
-  sample_frac(size = 1, replace = TRUE) |&gt;
-  ggplot() +
-  aes(x = speed) +
-  aes(y = dist) +
-  geom_count(
-    alpha = .7,
-    colour = "blue",
-    size = 4
-    ) +
-  geom_smooth(method = lm, se = FALSE) +
-  coord_cartesian(xlim = range(cars$speed),
-                  ylim = range(cars$dist)) +
-  theme(legend.position = c(.9, .2))
-```
-]
- 
-.panel2-cars_multi-5[
-&lt;img src="figures/Notes-Schad-etal-2020-cars_multi_5_03_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
-]
-
----
-count: false
- 
-### see multiple realizations of code
-.panel1-cars_multi-5[
-
-```r
-cars |&gt;
-  sample_frac(size = 1, replace = TRUE) |&gt;
-  ggplot() +
-  aes(x = speed) +
-  aes(y = dist) +
-  geom_count(
-    alpha = .7,
-    colour = "blue",
-    size = 4
-    ) +
-  geom_smooth(method = lm, se = FALSE) +
-  coord_cartesian(xlim = range(cars$speed),
-                  ylim = range(cars$dist)) +
-  theme(legend.position = c(.9, .2))
-```
-]
- 
-.panel2-cars_multi-5[
-&lt;img src="figures/Notes-Schad-etal-2020-cars_multi_5_04_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
-]
-
----
-count: false
- 
-### see multiple realizations of code
-.panel1-cars_multi-5[
-
-```r
-cars |&gt;
-  sample_frac(size = 1, replace = TRUE) |&gt;
-  ggplot() +
-  aes(x = speed) +
-  aes(y = dist) +
-  geom_count(
-    alpha = .7,
-    colour = "blue",
-    size = 4
-    ) +
-  geom_smooth(method = lm, se = FALSE) +
-  coord_cartesian(xlim = range(cars$speed),
-                  ylim = range(cars$dist)) +
-  theme(legend.position = c(.9, .2))
-```
-]
- 
-.panel2-cars_multi-5[
-&lt;img src="figures/Notes-Schad-etal-2020-cars_multi_5_05_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
-]
-
-&lt;style&gt;
-.panel1-cars_multi-5 {
-  color: black;
-  width: 38.6060606060606%;
-  hight: 32%;
-  float: left;
-  padding-left: 1%;
-  font-size: 80%
-}
-.panel2-cars_multi-5 {
-  color: black;
-  width: 59.3939393939394%;
-  hight: 32%;
-  float: left;
-  padding-left: 1%;
-  font-size: 80%
-}
-.panel3-cars_multi-5 {
-  color: black;
-  width: NA%;
-  hight: 33%;
-  float: left;
-  padding-left: 1%;
-  font-size: 80%
-}
-&lt;/style&gt;
-
-
-
-
-
 
 ---
 
