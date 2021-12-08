@@ -49,6 +49,7 @@ https://stackoverflow.com/questions/67750561/vertically-scrollable-code-with-rst
 -->
 
 ```{r simdat, include = FALSE}
+set.seed(2021)
 simdat <- mixedDesign(
   #### 被験者間計画での水準数 ####
   B = 2,
@@ -647,7 +648,7 @@ y & = {\beta}_0 + {\beta}_1 x\\
 
 ::::: block
 
-**F2を統制条件にした場合**
+### F2を統制条件にした場合
 
 #### 傾き ${\beta}_1$ に関する帰無仮説 $H_0$
 
@@ -686,7 +687,7 @@ $H_0: {\mu}_{\text{F2}} = 0$
 
 ::::: block
 
-F1が統制条件である場合
+### （参考）F1が統制条件である場合
 
 #### 傾き ${\beta}_1$ に関する帰無仮説 $H_0$
 
@@ -840,7 +841,12 @@ $$\begin{align}\overbrace{y}^{\text{応答変数}} & = \overbrace{{\beta}_0}^{\t
 -->
 
 ```{r}
-#| fig-simdat-2,
+#| ref.label=c('tab-recode-lm-simdat'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+```{r}
 #| ref.label=c('fig-simdat'),
 #| echo = FALSE,
 #| eval = TRUE
@@ -868,6 +874,12 @@ $$\begin{align}\overbrace{y}^{\text{応答変数}} & = \overbrace{{\beta}_0}^{\t
 :::::
 
 ---
+
+::: columns
+
+:::: pull-left
+
+### (Scaled) Sum contrastsの帰無仮説
 
 ::::: block
 
@@ -902,8 +914,276 @@ $H_0: \frac{{\mu}_{\text{F1}} + {\mu}_{\text{F2}}}{2} = 0$
 
 :::::
 
+::::
 
-<!--
-1. 
-2. Cell means parameterization
--->
+:::: pull-right
+
+::::: block
+
+### （参考）F1を統制条件とするTreatment contrastの場合
+
+#### 傾き ${\beta}_1$ に関する帰無仮説 $H_0$
+
+帰無仮説：傾きが存在しない
+
+$H_0: {\beta}_1 = 0$
+
+$H_0: {\mu}_{\text{F2}} - {\mu}_{\text{F1}} = 0$
+
+:::::
+
+
+::::: block
+
+#### 切片 ${\beta}_0$ に関する帰無仮説 $H_0$
+
+帰無仮説：切片が存在しない
+
+$H_0: {\beta}_0 = 0$
+
+$H_0: {\mu}_{\text{F1}} = 0$
+
+:::::
+
+::::
+
+:::
+
+---
+
+`r chunk_reveal("grand-mean", title = "### (Un)balanced dataでのGrand Meanの意味", display_type = c("code", "output", "md"), md = c("データセット", "応答変数全ての平均を計算", "説明変数の水準毎にデータをまとめ上げ", "水準毎に応答変数の平均値を計算", "まとめ上げを解除", "応答変数全ての平均と水準毎の平均を抽出", "水準毎の平均の平均を計算", "**Grand Mean**：「各水準で得られた応答変数の平均値」の平均値"))`
+
+```{r}
+#| grand-mean,
+#| include = FALSE
+
+simdat |>
+  mutate(
+    gross.mean = mean(DV)
+  ) |>
+  group_by(F) |>
+  mutate(
+    lev.wise.mean = mean(DV)
+  ) |>
+  ungroup() |>
+  distinct(
+    F, gross.mean, lev.wise.mean
+  ) |>
+  summarise(
+    gross.mean = gross.mean,
+    mean.of.lev.wise.mean = mean(lev.wise.mean)
+  ) |>
+  distinct(
+    gross.mean, mean.of.lev.wise.mean
+  )
+```
+
+---
+
+`r chunk_reveal("grand-mean-unbalanced-data", title = "### Unbalanced dataでのGrand Meanの意味", display_type = c("code", "output", "md"), md = c("乱数固定", "データセット", "データを水準ごとに分割", "水準毎のデータから，指定した分だけ無作為抽出（**F1とF2でデータ数が異なるように抽出**）", "無作為抽出後のデータについて，応答変数全ての平均を計算", "説明変数の水準毎にデータをまとめ上げ", "水準毎に応答変数の平均値を計算", "まとめ上げを解除", "応答変数全ての平均と水準毎の平均を抽出", "水準毎の平均の平均を計算", "「各水準で得られた応答変数の平均値」の平均値と，全データの平均が**一致しない**", "「各水準で得られた応答変数の平均値」の平均値と，全データの平均が**一致しない**"))`
+
+```{r}
+#| grand-mean-unbalanced-data,
+#| include = FALSE
+
+set.seed(1)
+
+simdat |>
+  group_split(F) |>
+  map2_dfr(
+    #### F1から2つ，F2から1つデータを取り出す ####
+    .y = c(2, 1),
+    ~ slice_sample(.x, n = .y)
+  ) |>
+  mutate(
+    gross.mean = mean(DV)
+  ) |>
+  group_by(F) |>
+  mutate(
+    lev.wise.mean = mean(DV)
+  ) |>
+  ungroup() |>
+  distinct(
+    F, gross.mean, lev.wise.mean
+  ) |>
+  summarise(
+    gross.mean = gross.mean,
+    mean.of.lev.wise.mean = mean(lev.wise.mean)
+  ) |>
+  distinct(
+    gross.mean, mean.of.lev.wise.mean
+  ) |>
+  kable(
+    digit = 2,
+    col.names = c(
+      '応答変数全ての平均',
+      '「各水準の平均」の平均'
+    )
+  )
+```
+
+---
+
+`r chunk_reveal("grand-mean-balanced-data", title = "### Balanced dataでのGrand Meanの意味", display_type = c("code", "output", "md"), md = c("乱数固定", "データセット", "データを水準ごとに分割", "水準毎のデータから，指定した分だけ無作為抽出（**F1とF2でデータ数が一致するように抽出**）", "無作為抽出後のデータについて，応答変数全ての平均を計算", "説明変数の水準毎にデータをまとめ上げ", "水準毎に応答変数の平均値を計算", "まとめ上げを解除", "応答変数全ての平均と水準毎の平均を抽出", "水準毎の平均の平均を計算", "「各水準で得られた応答変数の平均値」の平均値と，全データの平均が一致する", "「各水準で得られた応答変数の平均値」の平均値と，全データの平均が一致する"))`
+
+```{r}
+#| grand-mean-balanced-data,
+#| include = FALSE
+
+set.seed(1)
+
+simdat |>
+  group_split(F) |>
+  map2_dfr(
+    #### F1・F2ともに，2つずつデータを取り出す ####
+    .y = c(2, 2),
+    ~ slice_sample(.x, n = .y)
+  ) |>
+  mutate(
+    gross.mean = mean(DV)
+  ) |>
+  group_by(F) |>
+  mutate(
+    lev.wise.mean = mean(DV)
+  ) |>
+  ungroup() |>
+  distinct(
+    F, gross.mean, lev.wise.mean
+  ) |>
+  summarise(
+    gross.mean = gross.mean,
+    mean.of.lev.wise.mean = mean(lev.wise.mean)
+  ) |>
+  distinct(
+    gross.mean, mean.of.lev.wise.mean
+  ) |>
+  kable(
+    digit = 2,
+    col.names = c(
+      '応答変数全ての平均',
+      '「各水準の平均」の平均'
+    )
+  )
+```
+
+---
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+#### Balanced dataでのGrand Mean
+
+各水準のデータ数が等しいデータセット
+（一切欠損値がないデータセット）
+では，
+
+Grand Meanは，応答変数全体の平均に一致
+
+```{r}
+#| ref.label=c('grand-mean-balanced-data'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+:::::
+
+::::
+
+:::: pull-right
+
+::::: block
+
+#### Unbalanced dataでのGrand Mean
+
+Grand Meanは，**応答変数全体の平均に一致しない**
+
+```{r}
+#| ref.label=c('grand-mean-unbalanced-data'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+:::::
+
+::::
+
+:::
+
+---
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### (\*)Cell means parameterization
+
+- 傾き（水準間の差）や切片を推定しない
+- 各水準の下で得られる応答変数の平均が0か否かを検定する
+  - （2水準の場合）帰無仮説は2つ
+      1. $H_0: {\mu}_1 = 0$
+      1. $H_0: {\mu}_2 = 0$
+
+:::::
+
+::::
+
+:::: pull-right
+
+```{r}
+#| sum-lm-cell-means-simdat,
+#| echo = TRUE,
+#| eval = TRUE,
+#| results = "hide"
+m2_mr <- lm(DV ~ -1 + F, simdat)
+```
+
+```{r tab-cell-means-lm-simdat, echo = FALSE, eval = TRUE}
+m2_mr |>
+  tidy(
+    conf.int = TRUE,
+    conf.level = 0.95
+  ) |>
+  mutate(
+    `95% CI` = paste0(
+      "[",
+      conf.low |> round(3),
+      ", ",
+      conf.high |> round(3),
+      "]"
+    )
+  ) |>
+  relocate(
+    `95% CI`, .after = estimate
+  ) |>
+  dplyr::select(
+    -c(
+      std.error,
+      conf.low,
+      conf.high
+    )
+  ) |>
+  kable(
+    digits = 2,
+    escape = FALSE,
+    col.names = c(
+      'Predictor',
+      'Estimate',
+      '95% CI',
+      '$t$-value',
+      '$p$-value'
+    )
+  )
+```
+
+::::
+
+:::
+
+---
+
+

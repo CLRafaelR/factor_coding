@@ -46,6 +46,8 @@ knitr::opts_chunk$set(
   message = FALSE,
   comment = "",
   cache = FALSE,
+  #cache.extra = knitr::rand_seed,
+  #set.seed(2021),
   cache.path = "cache/",
   dev.args = list(family = "Roboto Medium"),
   dev = "CairoPNG",
@@ -110,7 +112,7 @@ source(
 #source("http://read.psych.uni-potsdam.de/pmr2/attachments/article/188/SchadEtAlJML2019.R")
 
 # 乱数を固定する
-set.seed(1)
+set.seed(1212)
 ```
 
 ```{r ggplot2-theme-settings, echo = FALSE, eval = TRUE, cache = FALSE}

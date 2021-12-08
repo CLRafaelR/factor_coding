@@ -18,7 +18,7 @@ class: center, middle, inverse, title-slide
 ## Schad et al (2020)日本語注解
 ### 小川雅貴
 ### 東京大学
-### 2021/12/17 (updated: 2021-12-08)
+### 2021/12/17 (updated: 2021-12-09)
 
 ---
 
@@ -266,7 +266,7 @@ source(
 #source("http://read.psych.uni-potsdam.de/pmr2/attachments/article/188/SchadEtAlJML2019.R")  #source("http://read.psych.uni-potsdam.de/pmr2/attachments/article/188/SchadEtAlJML2019.R")
 
 # 乱数を固定する
-*set.seed(1)
+*set.seed(1212)
 ```
 ]
  
@@ -565,6 +565,27 @@ count: false
 .panel1-simdat-auto[
 
 ```r
+*set.seed(2021)
+
+NA
+```
+]
+ 
+.panel2-simdat-auto[
+
+```
+[1] NA
+```
+]
+
+---
+count: false
+ 
+
+.panel1-simdat-auto[
+
+```r
+set.seed(2021)
 *simdat &lt;- mixedDesign(
 #### 被験者間計画での水準数 ####
 * B = 2,
@@ -587,24 +608,14 @@ count: false
 * long = TRUE
 *) 
 
-simdat
+NA
 ```
 ]
  
 .panel2-simdat-auto[
 
 ```
-   B_A id        DV
-1   A1  1 0.9966353
-2   A1  2 0.8469313
-3   A1  3 0.7120188
-4   A1  4 0.4993981
-5   A1  5 0.9450165
-6   A2  6 0.1829254
-7   A2  7 0.1952930
-8   A2  8 0.6083695
-9   A2  9 0.5556112
-10  A2 10 0.4578009
+[1] NA
 ```
 ]
 
@@ -615,6 +626,7 @@ count: false
 .panel1-simdat-auto[
 
 ```r
+set.seed(2021)
 simdat &lt;- mixedDesign(
 #### 被験者間計画での水準数 ####
   B = 2,
@@ -638,24 +650,14 @@ simdat &lt;- mixedDesign(
 ) |&gt;
 * rename(F = B_A)
 
-simdat
+NA
 ```
 ]
  
 .panel2-simdat-auto[
 
 ```
-    F id        DV
-1  A1  1 1.0666837
-2  A1  2 0.7705529
-3  A1  3 0.8699326
-4  A1  4 0.7804781
-5  A1  5 0.5123527
-6  A2  6 0.2230473
-7  A2  7 0.2290151
-8  A2  8 0.3255675
-9  A2  9 0.6597312
-10 A2 10 0.5626389
+[1] NA
 ```
 ]
 
@@ -666,6 +668,7 @@ count: false
 .panel1-simdat-auto[
 
 ```r
+set.seed(2021)
 simdat &lt;- mixedDesign(
 #### 被験者間計画での水準数 ####
   B = 2,
@@ -696,24 +699,14 @@ simdat &lt;- mixedDesign(
 *   )
 * )
 
-simdat
+NA
 ```
 ]
  
 .panel2-simdat-auto[
 
 ```
-    F id        DV
-1  F1  1 0.8628495
-2  F1  2 0.6593246
-3  F1  3 0.8513677
-4  F1  4 0.5550898
-5  F1  5 1.0713683
-6  F2  6 0.7095530
-7  F2  7 0.3012087
-8  F2  8 0.1834667
-9  F2  9 0.4641799
-10 F2 10 0.3415917
+[1] NA
 ```
 ]
 
@@ -724,6 +717,7 @@ count: false
 .panel1-simdat-auto[
 
 ```r
+set.seed(2021)
 simdat &lt;- mixedDesign(
 #### 被験者間計画での水準数 ####
   B = 2,
@@ -756,7 +750,7 @@ simdat &lt;- mixedDesign(
 
 *str(simdat)
 
-simdat
+NA
 ```
 ]
  
@@ -766,21 +760,11 @@ simdat
 'data.frame':	10 obs. of  3 variables:
  $ F : Factor w/ 2 levels "F1","F2": 1 1 1 1 1 2 2 2 2 2
  $ id: Factor w/ 10 levels "1","2","3","4",..: 1 2 3 4 5 6 7 8 9 10
- $ DV: num  0.997 0.718 1.029 0.665 0.59 ...
+ $ DV: num  0.546 0.686 0.764 0.993 1.01 ...
 ```
 
 ```
-    F id        DV
-1  F1  1 0.9970951
-2  F1  2 0.7182121
-3  F1  3 1.0289054
-4  F1  4 0.6654797
-5  F1  5 0.5903077
-6  F2  6 0.6299035
-7  F2  7 0.2321012
-8  F2  8 0.4727070
-9  F2  9 0.5123584
-10 F2 10 0.1529298
+[1] NA
 ```
 ]
 
@@ -846,17 +830,17 @@ count: false
 .panel2-fig-simdat-auto[
 
 ```
-    F id        DV
-1  F1  1 0.4692311
-2  F1  2 0.8933631
-3  F1  3 0.8818619
-4  F1  4 0.7703547
-5  F1  5 0.9851893
-6  F2  6 0.7113722
-7  F2  7 0.2172433
-8  F2  8 0.4066271
-9  F2  9 0.2312398
-10 F2 10 0.4335175
+    F id         DV
+1  F1  1 0.54636738
+2  F1  2 0.68599807
+3  F1  3 0.76446176
+4  F1  4 0.99331183
+5  F1  5 1.00986097
+6  F2  6 0.07395495
+7  F2  7 0.54018372
+8  F2  8 0.33942771
+9  F2  9 0.52105064
+10 F2 10 0.52538298
 ```
 ]
 
@@ -877,18 +861,18 @@ simdat |&gt;
 ```
 # A tibble: 10 x 3
 # Groups:   F [2]
-   F     id       DV
-   &lt;fct&gt; &lt;fct&gt; &lt;dbl&gt;
- 1 F1    1     0.469
- 2 F1    2     0.893
- 3 F1    3     0.882
- 4 F1    4     0.770
- 5 F1    5     0.985
- 6 F2    6     0.711
- 7 F2    7     0.217
- 8 F2    8     0.407
- 9 F2    9     0.231
-10 F2    10    0.434
+   F     id        DV
+   &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt;
+ 1 F1    1     0.546 
+ 2 F1    2     0.686 
+ 3 F1    3     0.764 
+ 4 F1    4     0.993 
+ 5 F1    5     1.01  
+ 6 F2    6     0.0740
+ 7 F2    7     0.540 
+ 8 F2    8     0.339 
+ 9 F2    9     0.521 
+10 F2    10    0.525 
 ```
 ]
 
@@ -1114,17 +1098,17 @@ count: false
 .panel2-tab-simdat-auto[
 
 ```
-    F id        DV
-1  F1  1 0.4692311
-2  F1  2 0.8933631
-3  F1  3 0.8818619
-4  F1  4 0.7703547
-5  F1  5 0.9851893
-6  F2  6 0.7113722
-7  F2  7 0.2172433
-8  F2  8 0.4066271
-9  F2  9 0.2312398
-10 F2 10 0.4335175
+    F id         DV
+1  F1  1 0.54636738
+2  F1  2 0.68599807
+3  F1  3 0.76446176
+4  F1  4 0.99331183
+5  F1  5 1.00986097
+6  F2  6 0.07395495
+7  F2  7 0.54018372
+8  F2  8 0.33942771
+9  F2  9 0.52105064
+10 F2 10 0.52538298
 ```
 ]
 
@@ -1145,18 +1129,18 @@ simdat |&gt;
 ```
 # A tibble: 10 x 3
 # Groups:   F [2]
-   F     id       DV
-   &lt;fct&gt; &lt;fct&gt; &lt;dbl&gt;
- 1 F1    1     0.469
- 2 F1    2     0.893
- 3 F1    3     0.882
- 4 F1    4     0.770
- 5 F1    5     0.985
- 6 F2    6     0.711
- 7 F2    7     0.217
- 8 F2    8     0.407
- 9 F2    9     0.231
-10 F2    10    0.434
+   F     id        DV
+   &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt;
+ 1 F1    1     0.546 
+ 2 F1    2     0.686 
+ 3 F1    3     0.764 
+ 4 F1    4     0.993 
+ 5 F1    5     1.01  
+ 6 F2    6     0.0740
+ 7 F2    7     0.540 
+ 8 F2    8     0.339 
+ 9 F2    9     0.521 
+10 F2    10    0.525 
 ```
 ]
 
@@ -1869,17 +1853,17 @@ simdat
 .panel2-recode-simdat-auto[
 
 ```
-    F id        DV
-1  F1  1 0.4692311
-2  F1  2 0.8933631
-3  F1  3 0.8818619
-4  F1  4 0.7703547
-5  F1  5 0.9851893
-6  F2  6 0.7113722
-7  F2  7 0.2172433
-8  F2  8 0.4066271
-9  F2  9 0.2312398
-10 F2 10 0.4335175
+    F id         DV
+1  F1  1 0.54636738
+2  F1  2 0.68599807
+3  F1  3 0.76446176
+4  F1  4 0.99331183
+5  F1  5 1.00986097
+6  F2  6 0.07395495
+7  F2  7 0.54018372
+8  F2  8 0.33942771
+9  F2  9 0.52105064
+10 F2 10 0.52538298
 ```
 ]
 
@@ -1906,17 +1890,17 @@ simdat
 .panel2-recode-simdat-auto[
 
 ```
-    F id        DV Fb
-1  F1  1 0.4692311 F1
-2  F1  2 0.8933631 F1
-3  F1  3 0.8818619 F1
-4  F1  4 0.7703547 F1
-5  F1  5 0.9851893 F1
-6  F2  6 0.7113722 F2
-7  F2  7 0.2172433 F2
-8  F2  8 0.4066271 F2
-9  F2  9 0.2312398 F2
-10 F2 10 0.4335175 F2
+    F id         DV Fb
+1  F1  1 0.54636738 F1
+2  F1  2 0.68599807 F1
+3  F1  3 0.76446176 F1
+4  F1  4 0.99331183 F1
+5  F1  5 1.00986097 F1
+6  F2  6 0.07395495 F2
+7  F2  7 0.54018372 F2
+8  F2  8 0.33942771 F2
+9  F2  9 0.52105064 F2
+10 F2 10 0.52538298 F2
 ```
 ]
 
@@ -1951,17 +1935,17 @@ F1  1
 ```
 
 ```
-    F id        DV Fb
-1  F1  1 0.4692311 F1
-2  F1  2 0.8933631 F1
-3  F1  3 0.8818619 F1
-4  F1  4 0.7703547 F1
-5  F1  5 0.9851893 F1
-6  F2  6 0.7113722 F2
-7  F2  7 0.2172433 F2
-8  F2  8 0.4066271 F2
-9  F2  9 0.2312398 F2
-10 F2 10 0.4335175 F2
+    F id         DV Fb
+1  F1  1 0.54636738 F1
+2  F1  2 0.68599807 F1
+3  F1  3 0.76446176 F1
+4  F1  4 0.99331183 F1
+5  F1  5 1.00986097 F1
+6  F2  6 0.07395495 F2
+7  F2  7 0.54018372 F2
+8  F2  8 0.33942771 F2
+9  F2  9 0.52105064 F2
+10 F2 10 0.52538298 F2
 ```
 ]
 
@@ -2004,17 +1988,17 @@ F2  1
 ```
 
 ```
-    F id        DV Fb
-1  F1  1 0.4692311 F1
-2  F1  2 0.8933631 F1
-3  F1  3 0.8818619 F1
-4  F1  4 0.7703547 F1
-5  F1  5 0.9851893 F1
-6  F2  6 0.7113722 F2
-7  F2  7 0.2172433 F2
-8  F2  8 0.4066271 F2
-9  F2  9 0.2312398 F2
-10 F2 10 0.4335175 F2
+    F id         DV Fb
+1  F1  1 0.54636738 F1
+2  F1  2 0.68599807 F1
+3  F1  3 0.76446176 F1
+4  F1  4 0.99331183 F1
+5  F1  5 1.00986097 F1
+6  F2  6 0.07395495 F2
+7  F2  7 0.54018372 F2
+8  F2  8 0.33942771 F2
+9  F2  9 0.52105064 F2
+10 F2 10 0.52538298 F2
 ```
 ]
 
@@ -2147,7 +2131,7 @@ y &amp; = {\beta}_0 + {\beta}_1 x\\
 
 ::::: block
 
-**F2を統制条件にした場合**
+### F2を統制条件にした場合
 
 #### 傾き `\({\beta}_1\)` に関する帰無仮説 `\(H_0\)`
 
@@ -2186,7 +2170,7 @@ y &amp; = {\beta}_0 + {\beta}_1 x\\
 
 ::::: block
 
-F1が統制条件である場合
+### （参考）F1が統制条件である場合
 
 #### 傾き `\({\beta}_1\)` に関する帰無仮説 `\(H_0\)`
 
@@ -2386,7 +2370,13 @@ m1_mr &lt;- lm(DV ~ F, simdat)
 
 --&gt;
 
-&lt;img src="figures/Notes-Schad-etal-2020-fig-simdat-2-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+|Predictor   | Estimate|95% CI           | `\(t\)`-value| `\(p\)`-value|
+|:-----------|--------:|:----------------|---------:|---------:|
+|(Intercept) |      0.6|[0.454, 0.746]   |      9.49|      0.00|
+|F1          |     -0.4|[-0.692, -0.108] |     -3.16|      0.01|
+
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-16-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -2410,6 +2400,12 @@ m1_mr &lt;- lm(DV ~ F, simdat)
 :::::
 
 ---
+
+::: columns
+
+:::: pull-left
+
+### (Scaled) Sum contrastsの帰無仮説
 
 ::::: block
 
@@ -2444,11 +2440,1543 @@ m1_mr &lt;- lm(DV ~ F, simdat)
 
 :::::
 
+::::
 
-&lt;!--
-1. 
-2. Cell means parameterization
---&gt;
+:::: pull-right
+
+::::: block
+
+### （参考）F1を統制条件とするTreatment contrastの場合
+
+#### 傾き `\({\beta}_1\)` に関する帰無仮説 `\(H_0\)`
+
+帰無仮説：傾きが存在しない
+
+`\(H_0: {\beta}_1 = 0\)`
+
+`\(H_0: {\mu}_{\text{F2}} - {\mu}_{\text{F1}} = 0\)`
+
+:::::
+
+
+::::: block
+
+#### 切片 `\({\beta}_0\)` に関する帰無仮説 `\(H_0\)`
+
+帰無仮説：切片が存在しない
+
+`\(H_0: {\beta}_0 = 0\)`
+
+`\(H_0: {\mu}_{\text{F1}} = 0\)`
+
+:::::
+
+::::
+
+:::
+
+---
+
+count: false
+ 
+### (Un)balanced dataでのGrand Meanの意味
+.panel1-grand-mean-auto[
+
+```r
+*simdat
+```
+]
+ 
+.panel2-grand-mean-auto[
+
+```
+    F id         DV Fb
+1  F1  1 0.54636738 F1
+2  F1  2 0.68599807 F1
+3  F1  3 0.76446176 F1
+4  F1  4 0.99331183 F1
+5  F1  5 1.00986097 F1
+6  F2  6 0.07395495 F2
+7  F2  7 0.54018372 F2
+8  F2  8 0.33942771 F2
+9  F2  9 0.52105064 F2
+10 F2 10 0.52538298 F2
+```
+]
+ 
+.panel3-grand-mean-auto[
+データセット
+]
+
+---
+count: false
+ 
+### (Un)balanced dataでのGrand Meanの意味
+.panel1-grand-mean-auto[
+
+```r
+simdat |&gt;
+* mutate(
+*   gross.mean = mean(DV)
+* )
+```
+]
+ 
+.panel2-grand-mean-auto[
+
+```
+    F id         DV Fb gross.mean
+1  F1  1 0.54636738 F1        0.6
+2  F1  2 0.68599807 F1        0.6
+3  F1  3 0.76446176 F1        0.6
+4  F1  4 0.99331183 F1        0.6
+5  F1  5 1.00986097 F1        0.6
+6  F2  6 0.07395495 F2        0.6
+7  F2  7 0.54018372 F2        0.6
+8  F2  8 0.33942771 F2        0.6
+9  F2  9 0.52105064 F2        0.6
+10 F2 10 0.52538298 F2        0.6
+```
+]
+ 
+.panel3-grand-mean-auto[
+応答変数全ての平均を計算
+]
+
+---
+count: false
+ 
+### (Un)balanced dataでのGrand Meanの意味
+.panel1-grand-mean-auto[
+
+```r
+simdat |&gt;
+  mutate(
+    gross.mean = mean(DV)
+  ) |&gt;
+* group_by(F)
+```
+]
+ 
+.panel2-grand-mean-auto[
+
+```
+# A tibble: 10 x 5
+# Groups:   F [2]
+   F     id        DV Fb    gross.mean
+   &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;fct&gt;      &lt;dbl&gt;
+ 1 F1    1     0.546  F1           0.6
+ 2 F1    2     0.686  F1           0.6
+ 3 F1    3     0.764  F1           0.6
+ 4 F1    4     0.993  F1           0.6
+ 5 F1    5     1.01   F1           0.6
+ 6 F2    6     0.0740 F2           0.6
+ 7 F2    7     0.540  F2           0.6
+ 8 F2    8     0.339  F2           0.6
+ 9 F2    9     0.521  F2           0.6
+10 F2    10    0.525  F2           0.6
+```
+]
+ 
+.panel3-grand-mean-auto[
+説明変数の水準毎にデータをまとめ上げ
+]
+
+---
+count: false
+ 
+### (Un)balanced dataでのGrand Meanの意味
+.panel1-grand-mean-auto[
+
+```r
+simdat |&gt;
+  mutate(
+    gross.mean = mean(DV)
+  ) |&gt;
+  group_by(F) |&gt;
+* mutate(
+*   lev.wise.mean = mean(DV)
+* )
+```
+]
+ 
+.panel2-grand-mean-auto[
+
+```
+# A tibble: 10 x 6
+# Groups:   F [2]
+   F     id        DV Fb    gross.mean lev.wise.mean
+   &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;fct&gt;      &lt;dbl&gt;         &lt;dbl&gt;
+ 1 F1    1     0.546  F1           0.6           0.8
+ 2 F1    2     0.686  F1           0.6           0.8
+ 3 F1    3     0.764  F1           0.6           0.8
+ 4 F1    4     0.993  F1           0.6           0.8
+ 5 F1    5     1.01   F1           0.6           0.8
+ 6 F2    6     0.0740 F2           0.6           0.4
+ 7 F2    7     0.540  F2           0.6           0.4
+ 8 F2    8     0.339  F2           0.6           0.4
+ 9 F2    9     0.521  F2           0.6           0.4
+10 F2    10    0.525  F2           0.6           0.4
+```
+]
+ 
+.panel3-grand-mean-auto[
+水準毎に応答変数の平均値を計算
+]
+
+---
+count: false
+ 
+### (Un)balanced dataでのGrand Meanの意味
+.panel1-grand-mean-auto[
+
+```r
+simdat |&gt;
+  mutate(
+    gross.mean = mean(DV)
+  ) |&gt;
+  group_by(F) |&gt;
+  mutate(
+    lev.wise.mean = mean(DV)
+  ) |&gt;
+* ungroup()
+```
+]
+ 
+.panel2-grand-mean-auto[
+
+```
+# A tibble: 10 x 6
+   F     id        DV Fb    gross.mean lev.wise.mean
+   &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;fct&gt;      &lt;dbl&gt;         &lt;dbl&gt;
+ 1 F1    1     0.546  F1           0.6           0.8
+ 2 F1    2     0.686  F1           0.6           0.8
+ 3 F1    3     0.764  F1           0.6           0.8
+ 4 F1    4     0.993  F1           0.6           0.8
+ 5 F1    5     1.01   F1           0.6           0.8
+ 6 F2    6     0.0740 F2           0.6           0.4
+ 7 F2    7     0.540  F2           0.6           0.4
+ 8 F2    8     0.339  F2           0.6           0.4
+ 9 F2    9     0.521  F2           0.6           0.4
+10 F2    10    0.525  F2           0.6           0.4
+```
+]
+ 
+.panel3-grand-mean-auto[
+まとめ上げを解除
+]
+
+---
+count: false
+ 
+### (Un)balanced dataでのGrand Meanの意味
+.panel1-grand-mean-auto[
+
+```r
+simdat |&gt;
+  mutate(
+    gross.mean = mean(DV)
+  ) |&gt;
+  group_by(F) |&gt;
+  mutate(
+    lev.wise.mean = mean(DV)
+  ) |&gt;
+  ungroup() |&gt;
+* distinct(
+*   F, gross.mean, lev.wise.mean
+* )
+```
+]
+ 
+.panel2-grand-mean-auto[
+
+```
+# A tibble: 2 x 3
+  F     gross.mean lev.wise.mean
+  &lt;fct&gt;      &lt;dbl&gt;         &lt;dbl&gt;
+1 F1           0.6           0.8
+2 F2           0.6           0.4
+```
+]
+ 
+.panel3-grand-mean-auto[
+応答変数全ての平均と水準毎の平均を抽出
+]
+
+---
+count: false
+ 
+### (Un)balanced dataでのGrand Meanの意味
+.panel1-grand-mean-auto[
+
+```r
+simdat |&gt;
+  mutate(
+    gross.mean = mean(DV)
+  ) |&gt;
+  group_by(F) |&gt;
+  mutate(
+    lev.wise.mean = mean(DV)
+  ) |&gt;
+  ungroup() |&gt;
+  distinct(
+    F, gross.mean, lev.wise.mean
+  ) |&gt;
+* summarise(
+*   gross.mean = gross.mean,
+*   mean.of.lev.wise.mean = mean(lev.wise.mean)
+* )
+```
+]
+ 
+.panel2-grand-mean-auto[
+
+```
+# A tibble: 2 x 2
+  gross.mean mean.of.lev.wise.mean
+       &lt;dbl&gt;                 &lt;dbl&gt;
+1        0.6                   0.6
+2        0.6                   0.6
+```
+]
+ 
+.panel3-grand-mean-auto[
+水準毎の平均の平均を計算
+]
+
+---
+count: false
+ 
+### (Un)balanced dataでのGrand Meanの意味
+.panel1-grand-mean-auto[
+
+```r
+simdat |&gt;
+  mutate(
+    gross.mean = mean(DV)
+  ) |&gt;
+  group_by(F) |&gt;
+  mutate(
+    lev.wise.mean = mean(DV)
+  ) |&gt;
+  ungroup() |&gt;
+  distinct(
+    F, gross.mean, lev.wise.mean
+  ) |&gt;
+  summarise(
+    gross.mean = gross.mean,
+    mean.of.lev.wise.mean = mean(lev.wise.mean)
+  ) |&gt;
+* distinct(
+*   gross.mean, mean.of.lev.wise.mean
+* )
+```
+]
+ 
+.panel2-grand-mean-auto[
+
+```
+# A tibble: 1 x 2
+  gross.mean mean.of.lev.wise.mean
+       &lt;dbl&gt;                 &lt;dbl&gt;
+1        0.6                   0.6
+```
+]
+ 
+.panel3-grand-mean-auto[
+**Grand Mean**：「各水準で得られた応答変数の平均値」の平均値
+]
+
+&lt;style&gt;
+.panel1-grand-mean-auto {
+  color: black;
+  width: 28.7040816326531%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-grand-mean-auto {
+  color: black;
+  width: 38.6020408163265%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-grand-mean-auto {
+  color: black;
+  width: 29.6938775510204%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+count: false
+ 
+### Unbalanced dataでのGrand Meanの意味
+.panel1-grand-mean-unbalanced-data-auto[
+
+```r
+*set.seed(1)
+```
+]
+ 
+.panel2-grand-mean-unbalanced-data-auto[
+
+]
+ 
+.panel3-grand-mean-unbalanced-data-auto[
+乱数固定
+]
+
+---
+count: false
+ 
+### Unbalanced dataでのGrand Meanの意味
+.panel1-grand-mean-unbalanced-data-auto[
+
+```r
+set.seed(1)
+
+*simdat
+```
+]
+ 
+.panel2-grand-mean-unbalanced-data-auto[
+
+```
+    F id         DV Fb
+1  F1  1 0.54636738 F1
+2  F1  2 0.68599807 F1
+3  F1  3 0.76446176 F1
+4  F1  4 0.99331183 F1
+5  F1  5 1.00986097 F1
+6  F2  6 0.07395495 F2
+7  F2  7 0.54018372 F2
+8  F2  8 0.33942771 F2
+9  F2  9 0.52105064 F2
+10 F2 10 0.52538298 F2
+```
+]
+ 
+.panel3-grand-mean-unbalanced-data-auto[
+データセット
+]
+
+---
+count: false
+ 
+### Unbalanced dataでのGrand Meanの意味
+.panel1-grand-mean-unbalanced-data-auto[
+
+```r
+set.seed(1)
+
+simdat |&gt;
+* group_split(F)
+```
+]
+ 
+.panel2-grand-mean-unbalanced-data-auto[
+
+```
+&lt;list_of&lt;
+  tbl_df&lt;
+    F : factor&lt;1ffb8&gt;
+    id: factor&lt;49edf&gt;
+    DV: double
+    Fb: factor&lt;e285c&gt;
+  &gt;
+&gt;[2]&gt;
+[[1]]
+# A tibble: 5 x 4
+  F     id       DV Fb   
+  &lt;fct&gt; &lt;fct&gt; &lt;dbl&gt; &lt;fct&gt;
+1 F1    1     0.546 F1   
+2 F1    2     0.686 F1   
+3 F1    3     0.764 F1   
+4 F1    4     0.993 F1   
+5 F1    5     1.01  F1   
+
+[[2]]
+# A tibble: 5 x 4
+  F     id        DV Fb   
+  &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;fct&gt;
+1 F2    6     0.0740 F2   
+2 F2    7     0.540  F2   
+3 F2    8     0.339  F2   
+4 F2    9     0.521  F2   
+5 F2    10    0.525  F2   
+```
+]
+ 
+.panel3-grand-mean-unbalanced-data-auto[
+データを水準ごとに分割
+]
+
+---
+count: false
+ 
+### Unbalanced dataでのGrand Meanの意味
+.panel1-grand-mean-unbalanced-data-auto[
+
+```r
+set.seed(1)
+
+simdat |&gt;
+  group_split(F) |&gt;
+* map2_dfr(
+#### F1から2つ，F2から1つデータを取り出す ####
+*   .y = c(2, 1),
+*   ~ slice_sample(.x, n = .y)
+* )
+```
+]
+ 
+.panel2-grand-mean-unbalanced-data-auto[
+
+```
+# A tibble: 3 x 4
+  F     id        DV Fb   
+  &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;fct&gt;
+1 F1    1     0.546  F1   
+2 F1    4     0.993  F1   
+3 F2    6     0.0740 F2   
+```
+]
+ 
+.panel3-grand-mean-unbalanced-data-auto[
+水準毎のデータから，指定した分だけ無作為抽出（**F1とF2でデータ数が異なるように抽出**）
+]
+
+---
+count: false
+ 
+### Unbalanced dataでのGrand Meanの意味
+.panel1-grand-mean-unbalanced-data-auto[
+
+```r
+set.seed(1)
+
+simdat |&gt;
+  group_split(F) |&gt;
+  map2_dfr(
+#### F1から2つ，F2から1つデータを取り出す ####
+    .y = c(2, 1),
+    ~ slice_sample(.x, n = .y)
+  ) |&gt;
+* mutate(
+*   gross.mean = mean(DV)
+* )
+```
+]
+ 
+.panel2-grand-mean-unbalanced-data-auto[
+
+```
+# A tibble: 3 x 5
+  F     id        DV Fb    gross.mean
+  &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;fct&gt;      &lt;dbl&gt;
+1 F1    1     0.546  F1         0.538
+2 F1    4     0.993  F1         0.538
+3 F2    6     0.0740 F2         0.538
+```
+]
+ 
+.panel3-grand-mean-unbalanced-data-auto[
+無作為抽出後のデータについて，応答変数全ての平均を計算
+]
+
+---
+count: false
+ 
+### Unbalanced dataでのGrand Meanの意味
+.panel1-grand-mean-unbalanced-data-auto[
+
+```r
+set.seed(1)
+
+simdat |&gt;
+  group_split(F) |&gt;
+  map2_dfr(
+#### F1から2つ，F2から1つデータを取り出す ####
+    .y = c(2, 1),
+    ~ slice_sample(.x, n = .y)
+  ) |&gt;
+  mutate(
+    gross.mean = mean(DV)
+  ) |&gt;
+* group_by(F)
+```
+]
+ 
+.panel2-grand-mean-unbalanced-data-auto[
+
+```
+# A tibble: 3 x 5
+# Groups:   F [2]
+  F     id        DV Fb    gross.mean
+  &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;fct&gt;      &lt;dbl&gt;
+1 F1    1     0.546  F1         0.538
+2 F1    4     0.993  F1         0.538
+3 F2    6     0.0740 F2         0.538
+```
+]
+ 
+.panel3-grand-mean-unbalanced-data-auto[
+説明変数の水準毎にデータをまとめ上げ
+]
+
+---
+count: false
+ 
+### Unbalanced dataでのGrand Meanの意味
+.panel1-grand-mean-unbalanced-data-auto[
+
+```r
+set.seed(1)
+
+simdat |&gt;
+  group_split(F) |&gt;
+  map2_dfr(
+#### F1から2つ，F2から1つデータを取り出す ####
+    .y = c(2, 1),
+    ~ slice_sample(.x, n = .y)
+  ) |&gt;
+  mutate(
+    gross.mean = mean(DV)
+  ) |&gt;
+  group_by(F) |&gt;
+* mutate(
+*   lev.wise.mean = mean(DV)
+* )
+```
+]
+ 
+.panel2-grand-mean-unbalanced-data-auto[
+
+```
+# A tibble: 3 x 6
+# Groups:   F [2]
+  F     id        DV Fb    gross.mean lev.wise.mean
+  &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;fct&gt;      &lt;dbl&gt;         &lt;dbl&gt;
+1 F1    1     0.546  F1         0.538        0.770 
+2 F1    4     0.993  F1         0.538        0.770 
+3 F2    6     0.0740 F2         0.538        0.0740
+```
+]
+ 
+.panel3-grand-mean-unbalanced-data-auto[
+水準毎に応答変数の平均値を計算
+]
+
+---
+count: false
+ 
+### Unbalanced dataでのGrand Meanの意味
+.panel1-grand-mean-unbalanced-data-auto[
+
+```r
+set.seed(1)
+
+simdat |&gt;
+  group_split(F) |&gt;
+  map2_dfr(
+#### F1から2つ，F2から1つデータを取り出す ####
+    .y = c(2, 1),
+    ~ slice_sample(.x, n = .y)
+  ) |&gt;
+  mutate(
+    gross.mean = mean(DV)
+  ) |&gt;
+  group_by(F) |&gt;
+  mutate(
+    lev.wise.mean = mean(DV)
+  ) |&gt;
+* ungroup()
+```
+]
+ 
+.panel2-grand-mean-unbalanced-data-auto[
+
+```
+# A tibble: 3 x 6
+  F     id        DV Fb    gross.mean lev.wise.mean
+  &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;fct&gt;      &lt;dbl&gt;         &lt;dbl&gt;
+1 F1    1     0.546  F1         0.538        0.770 
+2 F1    4     0.993  F1         0.538        0.770 
+3 F2    6     0.0740 F2         0.538        0.0740
+```
+]
+ 
+.panel3-grand-mean-unbalanced-data-auto[
+まとめ上げを解除
+]
+
+---
+count: false
+ 
+### Unbalanced dataでのGrand Meanの意味
+.panel1-grand-mean-unbalanced-data-auto[
+
+```r
+set.seed(1)
+
+simdat |&gt;
+  group_split(F) |&gt;
+  map2_dfr(
+#### F1から2つ，F2から1つデータを取り出す ####
+    .y = c(2, 1),
+    ~ slice_sample(.x, n = .y)
+  ) |&gt;
+  mutate(
+    gross.mean = mean(DV)
+  ) |&gt;
+  group_by(F) |&gt;
+  mutate(
+    lev.wise.mean = mean(DV)
+  ) |&gt;
+  ungroup() |&gt;
+* distinct(
+*   F, gross.mean, lev.wise.mean
+* )
+```
+]
+ 
+.panel2-grand-mean-unbalanced-data-auto[
+
+```
+# A tibble: 2 x 3
+  F     gross.mean lev.wise.mean
+  &lt;fct&gt;      &lt;dbl&gt;         &lt;dbl&gt;
+1 F1         0.538        0.770 
+2 F2         0.538        0.0740
+```
+]
+ 
+.panel3-grand-mean-unbalanced-data-auto[
+応答変数全ての平均と水準毎の平均を抽出
+]
+
+---
+count: false
+ 
+### Unbalanced dataでのGrand Meanの意味
+.panel1-grand-mean-unbalanced-data-auto[
+
+```r
+set.seed(1)
+
+simdat |&gt;
+  group_split(F) |&gt;
+  map2_dfr(
+#### F1から2つ，F2から1つデータを取り出す ####
+    .y = c(2, 1),
+    ~ slice_sample(.x, n = .y)
+  ) |&gt;
+  mutate(
+    gross.mean = mean(DV)
+  ) |&gt;
+  group_by(F) |&gt;
+  mutate(
+    lev.wise.mean = mean(DV)
+  ) |&gt;
+  ungroup() |&gt;
+  distinct(
+    F, gross.mean, lev.wise.mean
+  ) |&gt;
+* summarise(
+*   gross.mean = gross.mean,
+*   mean.of.lev.wise.mean = mean(lev.wise.mean)
+* )
+```
+]
+ 
+.panel2-grand-mean-unbalanced-data-auto[
+
+```
+# A tibble: 2 x 2
+  gross.mean mean.of.lev.wise.mean
+       &lt;dbl&gt;                 &lt;dbl&gt;
+1      0.538                 0.422
+2      0.538                 0.422
+```
+]
+ 
+.panel3-grand-mean-unbalanced-data-auto[
+水準毎の平均の平均を計算
+]
+
+---
+count: false
+ 
+### Unbalanced dataでのGrand Meanの意味
+.panel1-grand-mean-unbalanced-data-auto[
+
+```r
+set.seed(1)
+
+simdat |&gt;
+  group_split(F) |&gt;
+  map2_dfr(
+#### F1から2つ，F2から1つデータを取り出す ####
+    .y = c(2, 1),
+    ~ slice_sample(.x, n = .y)
+  ) |&gt;
+  mutate(
+    gross.mean = mean(DV)
+  ) |&gt;
+  group_by(F) |&gt;
+  mutate(
+    lev.wise.mean = mean(DV)
+  ) |&gt;
+  ungroup() |&gt;
+  distinct(
+    F, gross.mean, lev.wise.mean
+  ) |&gt;
+  summarise(
+    gross.mean = gross.mean,
+    mean.of.lev.wise.mean = mean(lev.wise.mean)
+  ) |&gt;
+* distinct(
+*   gross.mean, mean.of.lev.wise.mean
+* )
+```
+]
+ 
+.panel2-grand-mean-unbalanced-data-auto[
+
+```
+# A tibble: 1 x 2
+  gross.mean mean.of.lev.wise.mean
+       &lt;dbl&gt;                 &lt;dbl&gt;
+1      0.538                 0.422
+```
+]
+ 
+.panel3-grand-mean-unbalanced-data-auto[
+「各水準で得られた応答変数の平均値」の平均値と，全データの平均が**一致しない**
+]
+
+---
+count: false
+ 
+### Unbalanced dataでのGrand Meanの意味
+.panel1-grand-mean-unbalanced-data-auto[
+
+```r
+set.seed(1)
+
+simdat |&gt;
+  group_split(F) |&gt;
+  map2_dfr(
+#### F1から2つ，F2から1つデータを取り出す ####
+    .y = c(2, 1),
+    ~ slice_sample(.x, n = .y)
+  ) |&gt;
+  mutate(
+    gross.mean = mean(DV)
+  ) |&gt;
+  group_by(F) |&gt;
+  mutate(
+    lev.wise.mean = mean(DV)
+  ) |&gt;
+  ungroup() |&gt;
+  distinct(
+    F, gross.mean, lev.wise.mean
+  ) |&gt;
+  summarise(
+    gross.mean = gross.mean,
+    mean.of.lev.wise.mean = mean(lev.wise.mean)
+  ) |&gt;
+  distinct(
+    gross.mean, mean.of.lev.wise.mean
+  ) |&gt;
+* kable(
+*   digit = 2,
+*   col.names = c(
+*     '応答変数全ての平均',
+*     '「各水準の平均」の平均'
+*   )
+* )
+```
+]
+ 
+.panel2-grand-mean-unbalanced-data-auto[
+
+| 応答変数全ての平均| 「各水準の平均」の平均|
+|------------------:|----------------------:|
+|               0.54|                   0.42|
+]
+ 
+.panel3-grand-mean-unbalanced-data-auto[
+「各水準で得られた応答変数の平均値」の平均値と，全データの平均が**一致しない**
+]
+
+&lt;style&gt;
+.panel1-grand-mean-unbalanced-data-auto {
+  color: black;
+  width: 28.7040816326531%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-grand-mean-unbalanced-data-auto {
+  color: black;
+  width: 38.6020408163265%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-grand-mean-unbalanced-data-auto {
+  color: black;
+  width: 29.6938775510204%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+count: false
+ 
+### Balanced dataでのGrand Meanの意味
+.panel1-grand-mean-balanced-data-auto[
+
+```r
+*set.seed(1)
+```
+]
+ 
+.panel2-grand-mean-balanced-data-auto[
+
+]
+ 
+.panel3-grand-mean-balanced-data-auto[
+乱数固定
+]
+
+---
+count: false
+ 
+### Balanced dataでのGrand Meanの意味
+.panel1-grand-mean-balanced-data-auto[
+
+```r
+set.seed(1)
+
+*simdat
+```
+]
+ 
+.panel2-grand-mean-balanced-data-auto[
+
+```
+    F id         DV Fb
+1  F1  1 0.54636738 F1
+2  F1  2 0.68599807 F1
+3  F1  3 0.76446176 F1
+4  F1  4 0.99331183 F1
+5  F1  5 1.00986097 F1
+6  F2  6 0.07395495 F2
+7  F2  7 0.54018372 F2
+8  F2  8 0.33942771 F2
+9  F2  9 0.52105064 F2
+10 F2 10 0.52538298 F2
+```
+]
+ 
+.panel3-grand-mean-balanced-data-auto[
+データセット
+]
+
+---
+count: false
+ 
+### Balanced dataでのGrand Meanの意味
+.panel1-grand-mean-balanced-data-auto[
+
+```r
+set.seed(1)
+
+simdat |&gt;
+* group_split(F)
+```
+]
+ 
+.panel2-grand-mean-balanced-data-auto[
+
+```
+&lt;list_of&lt;
+  tbl_df&lt;
+    F : factor&lt;1ffb8&gt;
+    id: factor&lt;49edf&gt;
+    DV: double
+    Fb: factor&lt;e285c&gt;
+  &gt;
+&gt;[2]&gt;
+[[1]]
+# A tibble: 5 x 4
+  F     id       DV Fb   
+  &lt;fct&gt; &lt;fct&gt; &lt;dbl&gt; &lt;fct&gt;
+1 F1    1     0.546 F1   
+2 F1    2     0.686 F1   
+3 F1    3     0.764 F1   
+4 F1    4     0.993 F1   
+5 F1    5     1.01  F1   
+
+[[2]]
+# A tibble: 5 x 4
+  F     id        DV Fb   
+  &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;fct&gt;
+1 F2    6     0.0740 F2   
+2 F2    7     0.540  F2   
+3 F2    8     0.339  F2   
+4 F2    9     0.521  F2   
+5 F2    10    0.525  F2   
+```
+]
+ 
+.panel3-grand-mean-balanced-data-auto[
+データを水準ごとに分割
+]
+
+---
+count: false
+ 
+### Balanced dataでのGrand Meanの意味
+.panel1-grand-mean-balanced-data-auto[
+
+```r
+set.seed(1)
+
+simdat |&gt;
+  group_split(F) |&gt;
+* map2_dfr(
+#### F1・F2ともに，2つずつデータを取り出す ####
+*   .y = c(2, 2),
+*   ~ slice_sample(.x, n = .y)
+* )
+```
+]
+ 
+.panel2-grand-mean-balanced-data-auto[
+
+```
+# A tibble: 4 x 4
+  F     id        DV Fb   
+  &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;fct&gt;
+1 F1    1     0.546  F1   
+2 F1    4     0.993  F1   
+3 F2    6     0.0740 F2   
+4 F2    7     0.540  F2   
+```
+]
+ 
+.panel3-grand-mean-balanced-data-auto[
+水準毎のデータから，指定した分だけ無作為抽出（**F1とF2でデータ数が一致するように抽出**）
+]
+
+---
+count: false
+ 
+### Balanced dataでのGrand Meanの意味
+.panel1-grand-mean-balanced-data-auto[
+
+```r
+set.seed(1)
+
+simdat |&gt;
+  group_split(F) |&gt;
+  map2_dfr(
+#### F1・F2ともに，2つずつデータを取り出す ####
+    .y = c(2, 2),
+    ~ slice_sample(.x, n = .y)
+  ) |&gt;
+* mutate(
+*   gross.mean = mean(DV)
+* )
+```
+]
+ 
+.panel2-grand-mean-balanced-data-auto[
+
+```
+# A tibble: 4 x 5
+  F     id        DV Fb    gross.mean
+  &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;fct&gt;      &lt;dbl&gt;
+1 F1    1     0.546  F1         0.538
+2 F1    4     0.993  F1         0.538
+3 F2    6     0.0740 F2         0.538
+4 F2    7     0.540  F2         0.538
+```
+]
+ 
+.panel3-grand-mean-balanced-data-auto[
+無作為抽出後のデータについて，応答変数全ての平均を計算
+]
+
+---
+count: false
+ 
+### Balanced dataでのGrand Meanの意味
+.panel1-grand-mean-balanced-data-auto[
+
+```r
+set.seed(1)
+
+simdat |&gt;
+  group_split(F) |&gt;
+  map2_dfr(
+#### F1・F2ともに，2つずつデータを取り出す ####
+    .y = c(2, 2),
+    ~ slice_sample(.x, n = .y)
+  ) |&gt;
+  mutate(
+    gross.mean = mean(DV)
+  ) |&gt;
+* group_by(F)
+```
+]
+ 
+.panel2-grand-mean-balanced-data-auto[
+
+```
+# A tibble: 4 x 5
+# Groups:   F [2]
+  F     id        DV Fb    gross.mean
+  &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;fct&gt;      &lt;dbl&gt;
+1 F1    1     0.546  F1         0.538
+2 F1    4     0.993  F1         0.538
+3 F2    6     0.0740 F2         0.538
+4 F2    7     0.540  F2         0.538
+```
+]
+ 
+.panel3-grand-mean-balanced-data-auto[
+説明変数の水準毎にデータをまとめ上げ
+]
+
+---
+count: false
+ 
+### Balanced dataでのGrand Meanの意味
+.panel1-grand-mean-balanced-data-auto[
+
+```r
+set.seed(1)
+
+simdat |&gt;
+  group_split(F) |&gt;
+  map2_dfr(
+#### F1・F2ともに，2つずつデータを取り出す ####
+    .y = c(2, 2),
+    ~ slice_sample(.x, n = .y)
+  ) |&gt;
+  mutate(
+    gross.mean = mean(DV)
+  ) |&gt;
+  group_by(F) |&gt;
+* mutate(
+*   lev.wise.mean = mean(DV)
+* )
+```
+]
+ 
+.panel2-grand-mean-balanced-data-auto[
+
+```
+# A tibble: 4 x 6
+# Groups:   F [2]
+  F     id        DV Fb    gross.mean lev.wise.mean
+  &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;fct&gt;      &lt;dbl&gt;         &lt;dbl&gt;
+1 F1    1     0.546  F1         0.538         0.770
+2 F1    4     0.993  F1         0.538         0.770
+3 F2    6     0.0740 F2         0.538         0.307
+4 F2    7     0.540  F2         0.538         0.307
+```
+]
+ 
+.panel3-grand-mean-balanced-data-auto[
+水準毎に応答変数の平均値を計算
+]
+
+---
+count: false
+ 
+### Balanced dataでのGrand Meanの意味
+.panel1-grand-mean-balanced-data-auto[
+
+```r
+set.seed(1)
+
+simdat |&gt;
+  group_split(F) |&gt;
+  map2_dfr(
+#### F1・F2ともに，2つずつデータを取り出す ####
+    .y = c(2, 2),
+    ~ slice_sample(.x, n = .y)
+  ) |&gt;
+  mutate(
+    gross.mean = mean(DV)
+  ) |&gt;
+  group_by(F) |&gt;
+  mutate(
+    lev.wise.mean = mean(DV)
+  ) |&gt;
+* ungroup()
+```
+]
+ 
+.panel2-grand-mean-balanced-data-auto[
+
+```
+# A tibble: 4 x 6
+  F     id        DV Fb    gross.mean lev.wise.mean
+  &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;fct&gt;      &lt;dbl&gt;         &lt;dbl&gt;
+1 F1    1     0.546  F1         0.538         0.770
+2 F1    4     0.993  F1         0.538         0.770
+3 F2    6     0.0740 F2         0.538         0.307
+4 F2    7     0.540  F2         0.538         0.307
+```
+]
+ 
+.panel3-grand-mean-balanced-data-auto[
+まとめ上げを解除
+]
+
+---
+count: false
+ 
+### Balanced dataでのGrand Meanの意味
+.panel1-grand-mean-balanced-data-auto[
+
+```r
+set.seed(1)
+
+simdat |&gt;
+  group_split(F) |&gt;
+  map2_dfr(
+#### F1・F2ともに，2つずつデータを取り出す ####
+    .y = c(2, 2),
+    ~ slice_sample(.x, n = .y)
+  ) |&gt;
+  mutate(
+    gross.mean = mean(DV)
+  ) |&gt;
+  group_by(F) |&gt;
+  mutate(
+    lev.wise.mean = mean(DV)
+  ) |&gt;
+  ungroup() |&gt;
+* distinct(
+*   F, gross.mean, lev.wise.mean
+* )
+```
+]
+ 
+.panel2-grand-mean-balanced-data-auto[
+
+```
+# A tibble: 2 x 3
+  F     gross.mean lev.wise.mean
+  &lt;fct&gt;      &lt;dbl&gt;         &lt;dbl&gt;
+1 F1         0.538         0.770
+2 F2         0.538         0.307
+```
+]
+ 
+.panel3-grand-mean-balanced-data-auto[
+応答変数全ての平均と水準毎の平均を抽出
+]
+
+---
+count: false
+ 
+### Balanced dataでのGrand Meanの意味
+.panel1-grand-mean-balanced-data-auto[
+
+```r
+set.seed(1)
+
+simdat |&gt;
+  group_split(F) |&gt;
+  map2_dfr(
+#### F1・F2ともに，2つずつデータを取り出す ####
+    .y = c(2, 2),
+    ~ slice_sample(.x, n = .y)
+  ) |&gt;
+  mutate(
+    gross.mean = mean(DV)
+  ) |&gt;
+  group_by(F) |&gt;
+  mutate(
+    lev.wise.mean = mean(DV)
+  ) |&gt;
+  ungroup() |&gt;
+  distinct(
+    F, gross.mean, lev.wise.mean
+  ) |&gt;
+* summarise(
+*   gross.mean = gross.mean,
+*   mean.of.lev.wise.mean = mean(lev.wise.mean)
+* )
+```
+]
+ 
+.panel2-grand-mean-balanced-data-auto[
+
+```
+# A tibble: 2 x 2
+  gross.mean mean.of.lev.wise.mean
+       &lt;dbl&gt;                 &lt;dbl&gt;
+1      0.538                 0.538
+2      0.538                 0.538
+```
+]
+ 
+.panel3-grand-mean-balanced-data-auto[
+水準毎の平均の平均を計算
+]
+
+---
+count: false
+ 
+### Balanced dataでのGrand Meanの意味
+.panel1-grand-mean-balanced-data-auto[
+
+```r
+set.seed(1)
+
+simdat |&gt;
+  group_split(F) |&gt;
+  map2_dfr(
+#### F1・F2ともに，2つずつデータを取り出す ####
+    .y = c(2, 2),
+    ~ slice_sample(.x, n = .y)
+  ) |&gt;
+  mutate(
+    gross.mean = mean(DV)
+  ) |&gt;
+  group_by(F) |&gt;
+  mutate(
+    lev.wise.mean = mean(DV)
+  ) |&gt;
+  ungroup() |&gt;
+  distinct(
+    F, gross.mean, lev.wise.mean
+  ) |&gt;
+  summarise(
+    gross.mean = gross.mean,
+    mean.of.lev.wise.mean = mean(lev.wise.mean)
+  ) |&gt;
+* distinct(
+*   gross.mean, mean.of.lev.wise.mean
+* )
+```
+]
+ 
+.panel2-grand-mean-balanced-data-auto[
+
+```
+# A tibble: 1 x 2
+  gross.mean mean.of.lev.wise.mean
+       &lt;dbl&gt;                 &lt;dbl&gt;
+1      0.538                 0.538
+```
+]
+ 
+.panel3-grand-mean-balanced-data-auto[
+「各水準で得られた応答変数の平均値」の平均値と，全データの平均が一致する
+]
+
+---
+count: false
+ 
+### Balanced dataでのGrand Meanの意味
+.panel1-grand-mean-balanced-data-auto[
+
+```r
+set.seed(1)
+
+simdat |&gt;
+  group_split(F) |&gt;
+  map2_dfr(
+#### F1・F2ともに，2つずつデータを取り出す ####
+    .y = c(2, 2),
+    ~ slice_sample(.x, n = .y)
+  ) |&gt;
+  mutate(
+    gross.mean = mean(DV)
+  ) |&gt;
+  group_by(F) |&gt;
+  mutate(
+    lev.wise.mean = mean(DV)
+  ) |&gt;
+  ungroup() |&gt;
+  distinct(
+    F, gross.mean, lev.wise.mean
+  ) |&gt;
+  summarise(
+    gross.mean = gross.mean,
+    mean.of.lev.wise.mean = mean(lev.wise.mean)
+  ) |&gt;
+  distinct(
+    gross.mean, mean.of.lev.wise.mean
+  ) |&gt;
+* kable(
+*   digit = 2,
+*   col.names = c(
+*     '応答変数全ての平均',
+*     '「各水準の平均」の平均'
+*   )
+* )
+```
+]
+ 
+.panel2-grand-mean-balanced-data-auto[
+
+| 応答変数全ての平均| 「各水準の平均」の平均|
+|------------------:|----------------------:|
+|               0.54|                   0.54|
+]
+ 
+.panel3-grand-mean-balanced-data-auto[
+「各水準で得られた応答変数の平均値」の平均値と，全データの平均が一致する
+]
+
+&lt;style&gt;
+.panel1-grand-mean-balanced-data-auto {
+  color: black;
+  width: 28.7040816326531%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-grand-mean-balanced-data-auto {
+  color: black;
+  width: 38.6020408163265%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-grand-mean-balanced-data-auto {
+  color: black;
+  width: 29.6938775510204%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+#### Balanced dataでのGrand Mean
+
+各水準のデータ数が等しいデータセット
+（一切欠損値がないデータセット）
+では，
+
+Grand Meanは，応答変数全体の平均に一致
+
+
+| 応答変数全ての平均| 「各水準の平均」の平均|
+|------------------:|----------------------:|
+|               0.54|                   0.54|
+
+:::::
+
+::::
+
+:::: pull-right
+
+::::: block
+
+#### Unbalanced dataでのGrand Mean
+
+Grand Meanは，**応答変数全体の平均に一致しない**
+
+
+| 応答変数全ての平均| 「各水準の平均」の平均|
+|------------------:|----------------------:|
+|               0.54|                   0.42|
+
+:::::
+
+::::
+
+:::
+
+---
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### (\*)Cell means parameterization
+
+- 傾き（水準間の差）や切片を推定しない
+- 各水準の下で得られる応答変数の平均が0か否かを検定する
+  - （2水準の場合）帰無仮説は2つ
+      1. `\(H_0: {\mu}_1 = 0\)`
+      1. `\(H_0: {\mu}_2 = 0\)`
+
+:::::
+
+::::
+
+:::: pull-right
+
+
+```r
+m2_mr &lt;- lm(DV ~ -1 + F, simdat)
+```
+
+
+|Predictor | Estimate|95% CI         | `\(t\)`-value| `\(p\)`-value|
+|:---------|--------:|:--------------|---------:|---------:|
+|FF1       |      0.8|[0.594, 1.006] |      8.94|         0|
+|FF2       |      0.4|[0.194, 0.606] |      4.47|         0|
+
+::::
+
+:::
+
+---
+
+
 
 ---
 
