@@ -1,0 +1,67 @@
+class: split-50
+
+name: treatment-contrast
+
+## Treatment contrast 処理対比の対比行列
+
+::: columns
+
+:::: pull-left
+
+<!--
+- 実験的介入treatmentの効果を，非介入群との比較で検討
+  - 実験群 vs 統制群
+- 各実験群を同一の統制群と比べる
+-->
+
+- 例：様々なプライミング効果を，同一の統制群と比べる
+    3. プライミングなし（統制群）
+    1. 音韻的プライミング（実験群1）
+    2. 綴字プライミング（実験群2）
+
+```{r}
+#| ref.label = c('schema-treatment-contrasts'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+::::
+
+:::: pull-right
+
+```{r}
+#| treatment-3-levels,
+#| echo = TRUE,
+#| eval = FALSE
+
+#contr.treatment(3)
+contr.treatment(demoDataTreatment$priming)
+```
+
+```{r}
+#| ref.label = c('treatment-3-levels'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+--
+
+- 各行：**水準** 上から
+    3. **統制群**：プライミングなし
+    1. **実験群1**：音韻的プライミング
+    2. **実験群2**：綴字プライミング
+
+--
+
+- 各列：**対比する水準の組合せ** 左から
+    1. **実験群1 vs 統制群**  
+      （音韻的プライミング vs プライミングなし）
+    2. **実験群2 vs 統制群**  
+      （綴字プライミング vs プライミングなし）
+
+
+::::
+
+:::
+
+---
