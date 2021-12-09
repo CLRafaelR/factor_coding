@@ -2,7 +2,7 @@ class: split-50
 
 name: treatment-contrast
 
-## Treatment contrast 処理対比の対比行列
+## Sum contrast 零和対比の対比行列
 
 ::: columns
 
@@ -15,12 +15,12 @@ name: treatment-contrast
 -->
 
 - 例：様々なプライミング効果を，同一の統制群と比べる
-    3. プライミングなし（統制群）
     1. 音韻的プライミング（実験群1）
     2. 綴字プライミング（実験群2）
+    3. 意味プライミング
 
 ```{r}
-#| ref.label = c('schema-treatment-contrasts'),
+#| ref.label = c('schema-sum-contrasts'),
 #| echo = FALSE,
 #| eval = TRUE
 ```
@@ -30,16 +30,16 @@ name: treatment-contrast
 :::: pull-right
 
 ```{r}
-#| treatment-3-levels,
+#| sum-3-levels,
 #| echo = TRUE,
 #| eval = FALSE
 
-#contr.treatment(3)
-contr.treatment(demoDataTreatment$priming)
+#contr.sum(3)
+contr.sum(demoDataSum$priming)
 ```
 
 ```{r}
-#| ref.label = c('treatment-3-levels'),
+#| ref.label = c('sum-3-levels'),
 #| echo = FALSE,
 #| eval = TRUE
 ```
@@ -47,17 +47,17 @@ contr.treatment(demoDataTreatment$priming)
 --
 
 - 各行：**水準** 上から
-    3. **統制群**：プライミングなし
-    1. **実験群1**：音韻的プライミング
-    2. **実験群2**：綴字プライミング
+    1. 音韻的プライミング
+    2. 綴字プライミング
+    3. 意味プライミング
 
 --
 
 - 各列：**対比する水準の組合せ** 左から
-    1. **実験群1 vs 統制群**  
-      （音韻的プライミング vs プライミングなし）
-    2. **実験群2 vs 統制群**  
-      （綴字プライミング vs プライミングなし）
+    1. **実験群1 vs 全体平均**  
+      （音韻的プライミング vs 全体平均）
+    2. **実験群2 vs 全体平均**  
+      （綴字プライミング vs 全体平均）
 
 
 ::::
