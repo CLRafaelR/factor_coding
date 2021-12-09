@@ -28,12 +28,15 @@ class: split-50
 :::: pull-right
 
 ```{r schema-helmert-contrasts, echo = FALSE}
-demoData <- tribble(
+demoDataHelmert <- tribble(
   ~priming, ~group, ~rt,
   "invalid1", "invalid", 304,
   "invalid2", "invalid", 267,
   "valid", "valid", 451
 ) |>
+  mutate(
+    dplyr::across(priming, as.factor),
+  ) |>
   group_by(group) |>
   mutate(
     group.mean.rt = mean(rt)
@@ -44,17 +47,17 @@ demoData <- tribble(
     label.y = rt - diff.group.mean.rt/2
   )
 
-label.y <- demoData |>
+label.y <- demoDataHelmert |>
   filter(
     priming != "invalid1"
   ) |>
   mutate(
     rt = c(
-      demoData |>
+      demoDataHelmert |>
         filter(priming == "invalid1") |>
         dplyr::select(group.mean.rt) |>
         pull(),
-      demoData |>
+      demoDataHelmert |>
         filter(priming == "valid") |>
         dplyr::select(label.y) |>
         pull()
@@ -65,7 +68,7 @@ label.y <- demoData |>
     )
   )
 
-demoData |>
+demoDataHelmert |>
   ggplot(
     aes(
       x = priming,
@@ -77,7 +80,7 @@ demoData |>
   ) +
   #### grand mean as intercept
   geom_hline(
-    yintercept = mean(demoData$rt),
+    yintercept = mean(demoDataHelmert$rt),
     linetype = "dotted",
     colour = "red",
     size = 1
@@ -94,12 +97,12 @@ demoData |>
   geom_segment(
     aes(
       x = "invalid2",
-      y = demoData |>
+      y = demoDataHelmert |>
         filter(priming == "invalid1") |>
         dplyr::select(rt) |>
         pull(),
       xend = "invalid2",
-      yend = demoData |>
+      yend = demoDataHelmert |>
         filter(priming == "invalid2") |>
         dplyr::select(rt) |>
         pull()
@@ -116,12 +119,12 @@ demoData |>
   geom_segment(
     aes(
       x = "invalid1",
-      y = demoData |>
+      y = demoDataHelmert |>
         filter(priming == "invalid1") |>
         dplyr::select(group.mean.rt) |>
         pull(),
       xend = "invalid2",
-      yend = demoData |>
+      yend = demoDataHelmert |>
         filter(priming == "invalid1") |>
         dplyr::select(group.mean.rt) |>
         pull()
@@ -138,12 +141,12 @@ demoData |>
   geom_segment(
     aes(
       x = "valid",
-      y = demoData |>
+      y = demoDataHelmert |>
         filter(priming == "valid") |>
         dplyr::select(rt) |>
         pull(),
       xend = "valid",
-      yend = demoData |>
+      yend = demoDataHelmert |>
         filter(priming == "invalid1") |>
         dplyr::select(group.mean.rt) |>
         pull()

@@ -27,19 +27,31 @@ class: split-50
 :::: pull-right
 
 ```{r schema-sum-contrasts, echo = FALSE}
-label.y <- demoData |>
+demoDataSum <- tribble(
+  ~priming, ~rt,
+  "orthographic", 304,
+  "phonological", 267,
+  "semantic", 451,
+) |>
+  mutate(
+    dplyr::across(priming, as.factor),
+    diff.from.baseline = rt - first(rt),
+    diff.from.GM = rt - mean(rt)
+  )
+
+label.y <- demoDataSum |>
   filter(
-    priming != "control"
+    priming != "semantic"
   ) |>
   mutate(
     rt = rt + abs(diff.from.GM)/2,
     label = c(
-      "paste(italic(β)[1], '= Grand Mean - control')",
-      "paste(italic(β)[2], '= Grand Mean - control')"
+      "paste(italic(β)[1], '= Grand Mean - orthographic')",
+      "paste(italic(β)[2], '= Grand Mean - phonological')"
     )
   )
 
-demoData |>
+demoDataSum |>
   ggplot(
     aes(
       x = priming,
@@ -51,14 +63,14 @@ demoData |>
   ) +
   #### grand mean as intercept
   geom_hline(
-    yintercept = mean(demoData$rt),
+    yintercept = mean(demoDataSum$rt),
     linetype = "dotted",
     colour = "red",
     size = 1
   ) +
   geom_label(
     aes(
-      x = "control",
+      x = "semantic",
       y = mean(rt),
     ),
     parse = TRUE,
@@ -70,7 +82,7 @@ demoData |>
       x = "orthographic",
       y = mean(rt),
       xend = "orthographic",
-      yend = demoData |>
+      yend = demoDataSum |>
         filter(priming == "orthographic") |>
         dplyr::select(rt) |>
         pull()
@@ -88,7 +100,7 @@ demoData |>
       x = "phonological",
       y = mean(rt),
       xend = "phonological",
-      yend = demoData |>
+      yend = demoDataSum |>
         filter(priming == "phonological") |>
         dplyr::select(rt) |>
         pull()

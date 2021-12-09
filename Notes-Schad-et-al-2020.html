@@ -120,6 +120,25 @@ count: false
 library(tidyverse)
 library(broom)
 library(lme4)
+*library(MASS)
+```
+]
+ 
+.panel2-load-packages-sources-auto[
+対比行列の構築
+]
+
+---
+count: false
+ 
+
+.panel1-load-packages-sources-auto[
+
+```r
+library(tidyverse)
+library(broom)
+library(lme4)
+library(MASS)
 *library(hypr)
 ```
 ]
@@ -138,6 +157,7 @@ count: false
 library(tidyverse)
 library(broom)
 library(lme4)
+library(MASS)
 library(hypr)
 *library(knitr)
 ```
@@ -157,13 +177,14 @@ count: false
 library(tidyverse)
 library(broom)
 library(lme4)
+library(MASS)
 library(hypr)
 library(knitr)
 
 *source(
 * "http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.6.3.R",
 * local = knitr::knit_global()
-* )
+*) 
 ```
 ]
  
@@ -184,20 +205,21 @@ count: false
 library(tidyverse)
 library(broom)
 library(lme4)
+library(MASS)
 library(hypr)
 library(knitr)
 
 source(
   "http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.6.3.R",
   local = knitr::knit_global()
-  )
+)
 
 *#source("http://read.psych.uni-potsdam.de/pmr2/attachments/article/188/SchadEtAlJML2019.R")  #source("http://read.psych.uni-potsdam.de/pmr2/attachments/article/188/SchadEtAlJML2019.R")
 ```
 ]
  
 .panel2-load-packages-sources-auto[
-Schad et al (2020)の元コードはこちら
+Schad et al (2020)の元コードは[こちら](http://read.psych.uni-potsdam.de/pmr2/attachments/article/188/SchadEtAlJML2019.R)
 ]
 
 ---
@@ -210,13 +232,14 @@ count: false
 library(tidyverse)
 library(broom)
 library(lme4)
+library(MASS)
 library(hypr)
 library(knitr)
 
 source(
   "http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.6.3.R",
   local = knitr::knit_global()
-  )
+)
 
 #source("http://read.psych.uni-potsdam.de/pmr2/attachments/article/188/SchadEtAlJML2019.R")  #source("http://read.psych.uni-potsdam.de/pmr2/attachments/article/188/SchadEtAlJML2019.R")
 
@@ -419,7 +442,7 @@ class: split-50
 
   - 対比は次の2つ
       1. 1次関数ペース（Linear; どの水準間でも一定ペースで増加・減少？）
-      2. 2次関数ペース（Quadtaric; 次の水準間ほどに増加・減少が激しい・穏やか？）
+      2. 2次関数ペース（Quadratic; 次の水準間ほどに増加・減少が激しい・穏やか？）
 
 ::::
 
@@ -3955,6 +3978,443 @@ m2_mr &lt;- lm(DV ~ -1 + F, simdat)
 ---
 
 ---
+
+
+class: inverse, middle, center
+
+# Examples of different default contrast types (pp.8--9)
+
+---
+
+class: inverse, middle
+&lt;!-- class: inverse, middle, split-50 --&gt;
+
+## さまざまな対比行列
+
+1. Contrast matrices
+2. Treatment contrast
+3. Sum contrast
+4. Repeated contrast
+5. Polynomial contrast
+6. Helmert contrast
+7. 対比行列を充てる方法
+
+---
+
+::::: block
+
+### Contrast matrices
+
+- 対比を表す係数値（傾き・切片）は，係数値の行列で表現される
+- 係数値の行列は，対比行列で実装される
+
+:::::
+
+---
+
+
+class: split-50
+
+name: treatment-contrast
+
+## Treatment contrast 処理対比の対比行列
+
+::: columns
+
+:::: pull-left
+
+&lt;!--
+- 実験的介入treatmentの効果を，非介入群との比較で検討
+  - 実験群 vs 統制群
+- 各実験群を同一の統制群と比べる
+--&gt;
+
+- 例：様々なプライミング効果を，同一の統制群と比べる
+    3. プライミングなし（統制群）
+    1. 音韻的プライミング（実験群1）
+    2. 綴字プライミング（実験群2）
+
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-34-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::: pull-right
+
+
+```r
+#contr.treatment(3)
+contr.treatment(demoDataTreatment$priming)
+```
+
+
+```
+             orthographic phonological
+control                 0            0
+orthographic            1            0
+phonological            0            1
+```
+
+--
+
+- 各行：**水準** 上から
+    3. **統制群**：プライミングなし
+    1. **実験群1**：音韻的プライミング
+    2. **実験群2**：綴字プライミング
+
+--
+
+- 各列：**対比する水準の組合せ** 左から
+    1. **実験群1 vs 統制群**  
+      （音韻的プライミング vs プライミングなし）
+    2. **実験群2 vs 統制群**  
+      （綴字プライミング vs プライミングなし）
+
+
+::::
+
+:::
+
+---
+
+---
+
+
+class: split-50
+
+## Sum contrast 零和対比の対比行列
+
+::: columns
+
+:::: pull-left
+
+&lt;!--
+- 実験的介入treatmentの効果を，全ての群の平均との比較で検討
+  - 実験群 vs 全体平均
+--&gt;
+
+- 例：様々なプライミング効果を，全体平均と比べる
+    1. 音韻的プライミング
+    2. 綴字プライミング
+    3. プライミングなし（統制群）
+
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-37-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::: pull-right
+
+
+```r
+# contr.sum(3)
+contr.sum(demoDataSum$priming)
+```
+
+
+```
+             [,1] [,2]
+orthographic    1    0
+phonological    0    1
+semantic       -1   -1
+```
+
+--
+
+- 各行：**水準** 上から
+    3. **統制群**：プライミングなし
+    1. **実験群1**：音韻的プライミング
+    2. **実験群2**：綴字プライミング
+
+--
+
+- 各列：**対比する水準の組合せ** 左から
+    1. **実験群1 vs 全体平均**  
+      （音韻的プライミング vs 全体平均）
+    2. **実験群2 vs 全体平均**  
+      （綴字プライミング vs 全体平均）
+
+::::
+
+:::
+
+---
+
+---
+
+
+class: split-50
+
+## Repeated contrastの対比行列
+
+::: columns
+
+:::: pull-left
+
+&lt;!--
+- （順序が決まっている）隣り合う水準同士を比較
+  - 実験群1 vs 実験群2
+  - 実験群2 vs 実験群3...
+--&gt;
+
+- 例：語の頻度の効果を，隣り合う水準と比べる
+    1. 低頻度
+    2. 中頻度
+    3. 高頻度
+
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-40-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::: pull-right
+
+
+```r
+#contr.sdif(3)
+contr.sdif(demoDataFreq$frequency)
+```
+
+
+```
+       medium-low high-medium
+low    -0.6666667  -0.3333333
+medium  0.3333333  -0.3333333
+high    0.3333333   0.6666667
+```
+
+--
+
+- 各行：**水準** 上から
+    1. 低頻度
+    2. 中頻度
+    3. 高頻度
+
+--
+
+- 各列：**対比する水準の組合せ** 左から
+    1. 中頻度 vs 低頻度
+    2. 高頻度 vs 中頻度
+
+::::
+
+:::
+
+
+---
+
+
+class: split-50
+
+## Polynomial contrast 多項式対比の対比行列
+
+::: columns
+
+:::: pull-left
+
+&lt;!--
+- （順序と間隔が決まっている）隣り合う水準間の増減傾向を比較
+  - 水準間で同じペースで増加・減少？
+  - 水準間毎に，増加・減少のペースが変わる？
+--&gt;
+
+- 例：語の頻度の効果を，隣り合う水準と比べる
+    1. 低頻度
+    2. 中頻度
+    3. 高頻度
+
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-43-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::: pull-right
+
+
+```r
+#contr.poly(3)
+contr.poly(demoDataFreq$frequency)
+```
+
+
+```
+                .L         .Q
+[1,] -7.071068e-01  0.4082483
+[2,] -7.850462e-17 -0.8164966
+[3,]  7.071068e-01  0.4082483
+```
+
+--
+
+- 各行：**水準** 上から
+    1. 低頻度
+    2. 中頻度
+    3. 高頻度
+
+--
+
+- 各列：**対比する水準の組合せ** 左から
+    1. 1次関数ペース（Linear; どの水準間でも一定ペースで増加・減少？）
+    2. 2次関数ペース（Quadratic; 次の水準間ほどに増加・減少が激しい・穏やか？）
+
+::::
+
+:::
+
+---
+
+
+class: split-50
+
+## Helmert contrast ヘルマート対比の対比行列
+
+::: columns
+
+:::: pull-left
+
+&lt;!--
+- 「1つの水準を残りの水準の平均と比較する」ことを繰り返す
+  - 水準1 vs 残りの水準（水準2と水準3の平均）
+  - 水準2 vs 残りの水準（水準3）
+--&gt;
+
+- 例：様々なプライミング効果を，同一の統制群と比べる
+    1. 無効なプライミング1
+    2. 無効なプライミング2
+    3. 有効なプライミング
+
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-46-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::: pull-right
+
+
+```r
+#contr.helmert(3)
+contr.helmert(demoDataHelmert$priming)
+```
+
+
+```
+         [,1] [,2]
+invalid1   -1   -1
+invalid2    1   -1
+valid       0    2
+```
+
+--
+
+- 各行：**水準** 上から
+    1. 無効なプライミング1
+    2. 無効なプライミング2
+    3. 有効なプライミング
+
+--
+
+- 各列：**対比する水準の組合せ** 左から
+    1. 無効なプライミング1 vs 無効なプライミング2
+    2. 無効なプライミング vs 有効なプライミング
+
+::::
+
+:::
+
+---
+
+count: false
+ 
+## 
+.panel1-multiple-contrasts-auto[
+
+```r
+*set.seed(1212); simdatContrasts &lt;- mixedDesign(
+#### 被験者間計画での水準数 ####
+* B = 3,
+#### 被験者内計画での水準数 ####
+* W = NULL,
+#### 被験者間計画での1水準あたりの実験参加者数 ####
+* #### 実験参加者総数は，`B * n` ####  #### 実験参加者総数は，`B * n` ####  #### 実験参加者総数は，`B * n` ####  #### 実験参加者総数は，`B * n` ####
+* n = 20,
+#### 水準ごとの応答変数の平均を示した行列 ####
+#### 各行に水準ごとの応答変数の平均を入れる ####
+* M = matrix(
+*   c(600, 400, 300),
+*   nrow = 3,
+*   ncol = 1,
+*   byrow = FALSE
+* ),
+#### 要因の標準偏差 ####
+* SD = 100,
+#### 「1試行1データ」の整然データでデータフレームを作成 ####
+* long = TRUE
+*) 
+```
+]
+ 
+.panel2-multiple-contrasts-auto[
+
+]
+
+---
+count: false
+ 
+## 
+.panel1-multiple-contrasts-auto[
+
+```r
+set.seed(1212); simdatContrasts &lt;- mixedDesign(
+#### 被験者間計画での水準数 ####
+  B = 3,
+#### 被験者内計画での水準数 ####
+  W = NULL,
+#### 被験者間計画での1水準あたりの実験参加者数 ####
+  #### 実験参加者総数は，`B * n` ####  #### 実験参加者総数は，`B * n` ####  #### 実験参加者総数は，`B * n` ####  #### 実験参加者総数は，`B * n` ####
+  n = 20,
+#### 水準ごとの応答変数の平均を示した行列 ####
+#### 各行に水準ごとの応答変数の平均を入れる ####
+  M = matrix(
+    c(600, 400, 300),
+    nrow = 3,
+    ncol = 1,
+    byrow = FALSE
+  ),
+#### 要因の標準偏差 ####
+  SD = 100,
+#### 「1試行1データ」の整然データでデータフレームを作成 ####
+  long = TRUE
+)
+```
+]
+ 
+.panel2-multiple-contrasts-auto[
+
+]
+
+&lt;style&gt;
+.panel1-multiple-contrasts-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-multiple-contrasts-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-multiple-contrasts-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
 
 
 

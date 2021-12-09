@@ -30,23 +30,24 @@ name: treatment-contrast
 :::: pull-right
 
 ```{r schema-treatment-contrasts, echo = FALSE}
-demoData <- tribble(
+demoDataTreatment <- tribble(
   ~priming, ~rt,
   "control", 451,
   "orthographic", 304,
   "phonological", 267
 ) |>
-mutate(
-  diff.from.baseline = rt - first(rt),
-  diff.from.GM = rt - mean(rt)
-)
+  mutate(
+    dplyr::across(priming, as.factor),
+    diff.from.baseline = rt - first(rt),
+    diff.from.GM = rt - mean(rt)
+  )
 
-baseline <- demoData |>
+baseline <- demoDataTreatment |>
   filter(priming == "control") |>
   dplyr::select(rt) |>
   pull()
 
-label.y <- demoData |>
+label.y <- demoDataTreatment |>
   filter(
     priming != "control"
   ) |>
@@ -58,7 +59,7 @@ label.y <- demoData |>
     )
   )
 
-demoData |>
+demoDataTreatment |>
   ggplot(
     aes(
       x = priming,
@@ -73,7 +74,7 @@ demoData |>
   ) +
   scale_colour_manual(
     aesthetics = c("colour", "fill"),
-    values = if_else(demoData$priming == "control", "red", "grey")
+    values = if_else(demoDataTreatment$priming == "control", "red", "grey")
   ) +
   #### control as intercept
   geom_segment(
@@ -103,7 +104,7 @@ demoData |>
       x = "orthographic",
       y = baseline,
       xend = "orthographic",
-      yend = demoData |>
+      yend = demoDataTreatment |>
         filter(priming == "orthographic") |>
         dplyr::select(rt) |>
         pull()
@@ -121,7 +122,7 @@ demoData |>
       x = "phonological",
       y = baseline,
       xend = "phonological",
-      yend = demoData |>
+      yend = demoDataTreatment |>
         filter(priming == "phonological") |>
         dplyr::select(rt) |>
         pull()

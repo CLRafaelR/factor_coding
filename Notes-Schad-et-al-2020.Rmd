@@ -91,7 +91,7 @@ class: inverse, middle, center
 <!-- get a flipbook version of the my_cars code chunk - pauses are where parentheses are balanced -->
 ---
 
-`r chunk_reveal("load-packages-sources", display_type = c("code", "md"), md = c("次のパッケージ群を呼び出す  \n- **ggplot2**: データ可視化・図生成  \n- **dplyr**: データ操作  \n- **tidyr**: データ整然化  \n- **readr**: データ読み込み  \n- **purrr**: 関数型プログラミング  \n- **tibble**: 現代的データフレームtibbles  \n- **stringr**: 文字列処理  \n- **forcats**: カテゴリ変数の操作", "統計モデルの解析結果をtibbleで表示", "一般化線形混合モデルの構築", "「仮説」行列の構築", "Rでの動的文書生成", "mixedDesign()の読み込み  \n  \nRmarkdownをknitする際には，**source()**の項で**local = knitr::knit_global()**を指定する  \nhttps://bookdown.org/yihui/rmarkdown-cookbook/source-script.html", "Schad et al (2020)の元コードはこちら", "乱数の固定"))`
+`r chunk_reveal("load-packages-sources", display_type = c("code", "md"), md = c("次のパッケージ群を呼び出す  \n- **ggplot2**: データ可視化・図生成  \n- **dplyr**: データ操作  \n- **tidyr**: データ整然化  \n- **readr**: データ読み込み  \n- **purrr**: 関数型プログラミング  \n- **tibble**: 現代的データフレームtibbles  \n- **stringr**: 文字列処理  \n- **forcats**: カテゴリ変数の操作", "統計モデルの解析結果をtibbleで表示", "一般化線形混合モデルの構築", "対比行列の構築", "「仮説」行列の構築", "Rでの動的文書生成", "mixedDesign()の読み込み  \n  \nRmarkdownをknitする際には，**source()**の項で**local = knitr::knit_global()**を指定する  \nhttps://bookdown.org/yihui/rmarkdown-cookbook/source-script.html", "Schad et al (2020)の元コードは[こちら](http://read.psych.uni-potsdam.de/pmr2/attachments/article/188/SchadEtAlJML2019.R)", "乱数の固定"))`
 
 <!--
 Rmarkdownをknitする際には，\`source()\`の項\`local = knitr::knit_global()\`を指定する"
@@ -101,13 +101,14 @@ Rmarkdownをknitする際には，\`source()\`の項\`local = knitr::knit_global
 library(tidyverse)
 library(broom)
 library(lme4)
+library(MASS)
 library(hypr)
 library(knitr)
 
 source(
   "http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.6.3.R",
   local = knitr::knit_global()
-  )
+)
 
 #source("http://read.psych.uni-potsdam.de/pmr2/attachments/article/188/SchadEtAlJML2019.R")
 
@@ -164,7 +165,7 @@ library(gghighlight)
 
 ---
 
-```{r child = "manuscripts/04-default-contrast/00-default-contrast.Rmd", eval = FALSE}
+```{r child = "manuscripts/04-default-contrast/00-default-contrast.Rmd"}
 ```
 
 
