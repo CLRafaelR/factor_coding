@@ -91,7 +91,11 @@ class: inverse, middle, center
 <!-- get a flipbook version of the my_cars code chunk - pauses are where parentheses are balanced -->
 ---
 
-`r chunk_reveal("load-packages-sources")`
+`r chunk_reveal("load-packages-sources", display_type = c("code", "md"), md = c("次のパッケージ群を呼び出す  \n- **ggplot2**: データ可視化・図生成  \n- **dplyr**: データ操作  \n- **tidyr**: データ整然化  \n- **readr**: データ読み込み  \n- **purrr**: 関数型プログラミング  \n- **tibble**: 現代的データフレームtibbles  \n- **stringr**: 文字列処理  \n- **forcats**: カテゴリ変数の操作", "統計モデルの解析結果をtibbleで表示", "一般化線形混合モデルの構築", "「仮説」行列の構築", "Rでの動的文書生成", "mixedDesign()の読み込み  \n  \nRmarkdownをknitする際には，**source()**の項で**local = knitr::knit_global()**を指定する  \nhttps://bookdown.org/yihui/rmarkdown-cookbook/source-script.html", "Schad et al (2020)の元コードはこちら", "乱数の固定"))`
+
+<!--
+Rmarkdownをknitする際には，\`source()\`の項\`local = knitr::knit_global()\`を指定する"
+-->
 
 ```{r load-packages-sources, include = FALSE, eval = TRUE, cache = FALSE}
 library(tidyverse)
@@ -100,18 +104,13 @@ library(lme4)
 library(hypr)
 library(knitr)
 
-# Rmarkdownをknitする際には，`source()`の項
-# `local = knitr::knit_global()`
-# を指定する
-#
-# https://bookdown.org/yihui/rmarkdown-cookbook/source-script.html
 source(
   "http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.6.3.R",
   local = knitr::knit_global()
   )
+
 #source("http://read.psych.uni-potsdam.de/pmr2/attachments/article/188/SchadEtAlJML2019.R")
 
-# 乱数を固定する
 set.seed(1212)
 ```
 
@@ -154,35 +153,8 @@ library(gghighlight)
 ```
 
 ---
-class: inverse, middle, center
 
-# Conceptual explanation of default contrasts (p.3)
-
-.footnote[以下，各対比の和訳は[R commanderにおける和訳](https://r-forge.r-project.org/scm/viewvc.php/pkg/po/R-ja.po?view=markup&revision=98&root=rcmdr&pathrev=235)に基づく]
-
----
-
-```{r child = "manuscripts/02-conceptual-explanation/01-treatment.Rmd"}
-```
-
----
-
-```{r child = "manuscripts/02-conceptual-explanation/02-sum.Rmd"}
-```
-
----
-
-```{r child = "manuscripts/02-conceptual-explanation/03-repeated.Rmd"}
-```
-
----
-
-```{r child = "manuscripts/02-conceptual-explanation/04-polynomial.Rmd"}
-```
-
----
-
-```{r child = "manuscripts/02-conceptual-explanation/05-helmert.Rmd"}
+```{r child = "manuscripts/02-conceptual-explanation/00-conceptual-explanation.Rmd"}
 ```
 
 ---
@@ -191,6 +163,10 @@ class: inverse, middle, center
 ```
 
 ---
+
+```{r child = "manuscripts/04-default-contrast/00-default-contrast.Rmd", eval = FALSE}
+```
+
 
 ---
 

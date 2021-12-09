@@ -1,0 +1,32 @@
+class: inverse, middle, center
+
+# Conceptual explanation of default contrasts (p.3)
+
+.footnote[以下，各対比の和訳は[R commanderにおける和訳](https://r-forge.r-project.org/scm/viewvc.php/pkg/po/R-ja.po?view=markup&revision=98&root=rcmdr&pathrev=235)に基づく]
+
+---
+
+```{r child = "01-treatment.Rmd"}
+```
+
+---
+
+```{r child = "02-sum.Rmd"}
+```
+
+---
+
+```{r child = "03-repeated.Rmd"}
+```
+
+---
+
+```{r child = "04-polynomial.Rmd"}
+```
+
+---
+
+```{r child = "05-helmert.Rmd"}
+```
+
+---

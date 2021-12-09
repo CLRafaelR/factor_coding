@@ -1,0 +1,57 @@
+class: inverse, middle, center
+
+# Examples of different default contrast types (pp.8--9)
+
+---
+
+class: inverse, middle
+<!-- class: inverse, middle, split-50 -->
+
+## 1要因2水準の実験で，応答変数の平均値を比較
+
+1. contrast matrices
+2. シミュレーションの結果を図や表で確認
+3. シミュレーション用データに対し線形モデルを構築
+    - とりあえず線形モデルを作るとどうなるか試す
+4. Default contrast coding: treatment contrasts
+5. Defining hypotheses
+6. Sum contrast
+7. Cell means parameterization
+
+---
+
+::::: block
+
+### Contrast matrices
+
+- 対比を表す係数値（傾き・切片）は，係数値の行列で表現される
+
+:::::
+
+---
+
+```{r child = "01-treatment.Rmd"}
+```
+
+---
+
+```{r child = "02-sum.Rmd"}
+```
+
+---
+
+```{r child = "03-repeated.Rmd"}
+```
+
+---
+
+```{r child = "04-polynomial.Rmd"}
+```
+
+---
+
+```{r child = "05-helmert.Rmd"}
+```
+
+---
+

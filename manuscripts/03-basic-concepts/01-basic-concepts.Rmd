@@ -49,8 +49,7 @@ https://stackoverflow.com/questions/67750561/vertically-scrollable-code-with-rst
 -->
 
 ```{r simdat, include = FALSE}
-set.seed(2021)
-simdat <- mixedDesign(
+set.seed(1212); simdat <- mixedDesign(
   #### 被験者間計画での水準数 ####
   B = 2,
   #### 被験者内計画での水準数 ####
@@ -1185,5 +1184,3 @@ m2_mr |>
 :::
 
 ---
-
-
