@@ -1,26 +1,26 @@
 class: split-50
 
-name: treatment-contrast
+name: helmert-contrast
 
-## Treatment contrast 処理対比の対比行列
+## Helmert contrast ヘルマート対比の対比行列
 
 ::: columns
 
 :::: pull-left
 
 <!--
-- 実験的介入treatmentの効果を，非介入群との比較で検討
+- 実験的介入helmertの効果を，非介入群との比較で検討
   - 実験群 vs 統制群
 - 各実験群を同一の統制群と比べる
 -->
 
-- 例：様々なプライミング効果を，同一の統制群と比べる
-    3. プライミングなし（統制群）
-    1. 音韻的プライミング（実験群1）
-    2. 綴字プライミング（実験群2）
+- 例：様々なプライミング効果を，種類ごとに比べる
+    1. 無効なプライミング1
+    2. 無効なプライミング2
+    3. 有効なプライミング
 
 ```{r}
-#| ref.label = c('schema-treatment-contrasts'),
+#| ref.label = c('schema-helmert-contrasts'),
 #| echo = FALSE,
 #| eval = TRUE
 ```
@@ -30,16 +30,16 @@ name: treatment-contrast
 :::: pull-right
 
 ```{r}
-#| treatment-3-levels,
+#| helmert-3-levels,
 #| echo = TRUE,
 #| eval = FALSE
 
-#contr.treatment(3)
-contr.treatment(demoDataTreatment$priming)
+#contr.helmert(3)
+contr.helmert(demoDataHelmert$priming)
 ```
 
 ```{r}
-#| ref.label = c('treatment-3-levels'),
+#| ref.label = c('helmert-3-levels'),
 #| echo = FALSE,
 #| eval = TRUE
 ```
@@ -47,17 +47,17 @@ contr.treatment(demoDataTreatment$priming)
 --
 
 - 各行：**水準** 上から
-    3. **統制群**：プライミングなし
-    1. **実験群1**：音韻的プライミング
-    2. **実験群2**：綴字プライミング
+    1. 無効なプライミング1
+    2. 無効なプライミング2
+    3. 有効なプライミング
 
 --
 
 - 各列：**対比する水準の組合せ** 左から
-    1. **実験群1 vs 統制群**  
-      （音韻的プライミング vs プライミングなし）
-    2. **実験群2 vs 統制群**  
-      （綴字プライミング vs プライミングなし）
+    1. **小グループ1 vs 小グループ2**  
+      （無効なプライミング1 vs 無効なプライミング2）
+    2. **小グループ連合 vs 別グループ**  
+      （無効なプライミング vs 有効なプライミング）
 
 
 ::::
