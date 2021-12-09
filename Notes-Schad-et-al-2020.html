@@ -317,15 +317,15 @@ name: treatment-contrast
 --
 
 - 例：様々なプライミング効果を，同一の統制群と比べる
-    1. 音韻的プライミング
     2. 綴字プライミング
+    1. 音韻的プライミング
     3. プライミングなし（統制群）
 
 --
 
   - 対比は次の2つ
-      1. 音韻的プライミング vs プライミングなし（統制群）
-      2. 綴字プライミング vs プライミングなし（統制群）
+      1. 綴字プライミング vs プライミングなし（統制群）
+      2. 音韻的プライミング vs プライミングなし（統制群）
 
 ::::
 
@@ -3997,7 +3997,7 @@ class: inverse, middle
 4. Repeated contrast
 5. Polynomial contrast
 6. Helmert contrast
-7. 対比行列を充てる方法
+7. 任意の対比行列を充てる方法
 
 ---
 
@@ -4058,23 +4058,21 @@ phonological            0            1
 
 - 各行：**水準** 上から
     3. **統制群**：プライミングなし
-    1. **実験群1**：音韻的プライミング
-    2. **実験群2**：綴字プライミング
+    2. **実験群1**：綴字プライミング
+    1. **実験群2**：音韻的プライミング
 
 --
 
 - 各列：**対比する水準の組合せ** 左から
     1. **実験群1 vs 統制群**  
-      （音韻的プライミング vs プライミングなし）
-    2. **実験群2 vs 統制群**  
       （綴字プライミング vs プライミングなし）
+    2. **実験群2 vs 統制群**  
+      （音韻的プライミング vs プライミングなし）
 
 
 ::::
 
 :::
-
----
 
 ---
 
@@ -4088,12 +4086,6 @@ name: treatment-contrast
 ::: columns
 
 :::: pull-left
-
-&lt;!--
-- 実験的介入treatmentの効果を，非介入群との比較で検討
-  - 実験群 vs 統制群
-- 各実験群を同一の統制群と比べる
---&gt;
 
 - 例：様々なプライミング効果を，全体平均と比べる
     1. 音韻的プライミング（実験群1）
@@ -4142,8 +4134,6 @@ semantic       -1   -1
 
 ---
 
----
-
 
 class: split-50
 
@@ -4154,12 +4144,6 @@ name: repeated-contrast
 ::: columns
 
 :::: pull-left
-
-&lt;!--
-- 実験的介入repeatedの効果を，非介入群との比較で検討
-  - 実験群 vs 統制群
-- 各実験群を同一の統制群と比べる
---&gt;
 
 - 例：語の頻度の効果を，隣り合う水準と比べる
     1. 低頻度
@@ -4208,8 +4192,6 @@ high    0.3333333   0.6666667
 
 ---
 
----
-
 
 class: split-50
 
@@ -4220,12 +4202,6 @@ name: polynomial-contrast
 ::: columns
 
 :::: pull-left
-
-&lt;!--
-- 実験的介入polynomialの効果を，非介入群との比較で検討
-  - 実験群 vs 統制群
-- 各実験群を同一の統制群と比べる
---&gt;
 
 - 例：語の頻度の効果を，隣り合う水準と比べる
     1. 低頻度
@@ -4271,8 +4247,6 @@ contr.poly(demoDataFreq$frequency)
 
 ---
 
----
-
 
 class: split-50
 
@@ -4283,12 +4257,6 @@ name: helmert-contrast
 ::: columns
 
 :::: pull-left
-
-&lt;!--
-- 実験的介入helmertの効果を，非介入群との比較で検討
-  - 実験群 vs 統制群
-- 各実験群を同一の統制群と比べる
---&gt;
 
 - 例：様々なプライミング効果を，種類ごとに比べる
     1. 無効なプライミング1
@@ -4337,47 +4305,10 @@ valid       0    2
 
 ---
 
----
-
 count: false
  
-## 
-.panel1-multiple-contrasts-auto[
-
-```r
-*set.seed(1212); simdatContrasts &lt;- mixedDesign(
-#### 被験者間計画での水準数 ####
-* B = 3,
-#### 被験者内計画での水準数 ####
-* W = NULL,
-#### 被験者間計画での1水準あたりの実験参加者数 ####
-* #### 実験参加者総数は，`B * n` ####  #### 実験参加者総数は，`B * n` ####  #### 実験参加者総数は，`B * n` ####  #### 実験参加者総数は，`B * n` ####
-* n = 20,
-#### 水準ごとの応答変数の平均を示した行列 ####
-#### 各行に水準ごとの応答変数の平均を入れる ####
-* M = matrix(
-*   c(600, 400, 300),
-*   nrow = 3,
-*   ncol = 1,
-*   byrow = FALSE
-* ),
-#### 要因の標準偏差 ####
-* SD = 100,
-#### 「1試行1データ」の整然データでデータフレームを作成 ####
-* long = TRUE
-*) 
-```
-]
- 
-.panel2-multiple-contrasts-auto[
-
-]
-
----
-count: false
- 
-## 
-.panel1-multiple-contrasts-auto[
+## 任意の対比行列を充てる方法
+.panel1-multiple-contrasts-rotate[
 
 ```r
 set.seed(1212); simdatContrasts &lt;- mixedDesign(
@@ -4386,7 +4317,6 @@ set.seed(1212); simdatContrasts &lt;- mixedDesign(
 #### 被験者内計画での水準数 ####
   W = NULL,
 #### 被験者間計画での1水準あたりの実験参加者数 ####
-  #### 実験参加者総数は，`B * n` ####  #### 実験参加者総数は，`B * n` ####  #### 実験参加者総数は，`B * n` ####  #### 実験参加者総数は，`B * n` ####
   n = 20,
 #### 水準ごとの応答変数の平均を示した行列 ####
 #### 各行に水準ごとの応答変数の平均を入れる ####
@@ -4401,33 +4331,364 @@ set.seed(1212); simdatContrasts &lt;- mixedDesign(
 #### 「1試行1データ」の整然データでデータフレームを作成 ####
   long = TRUE
 )
+
+*contrasts(simdatContrasts$B_A) &lt;- contr.treatment(3)
+
+contrasts(simdatContrasts$B_A)
+
+lm(DV ~ B_A, data = simdatContrasts) |&gt;
+  summary()
 ```
 ]
  
-.panel2-multiple-contrasts-auto[
+.panel2-multiple-contrasts-rotate[
 
+```
+   2 3
+A1 0 0
+A2 1 0
+A3 0 1
+```
+
+```
+
+Call:
+lm(formula = DV ~ B_A, data = simdatContrasts)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-197.19  -69.13   -9.05   43.17  265.68 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   600.00      22.36  26.833  &lt; 2e-16 ***
+B_A2         -200.00      31.62  -6.325 4.21e-08 ***
+B_A3         -300.00      31.62  -9.487 2.50e-13 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 100 on 57 degrees of freedom
+Multiple R-squared:  0.6208,	Adjusted R-squared:  0.6075 
+F-statistic: 46.67 on 2 and 57 DF,  p-value: 9.916e-13
+```
+]
+ 
+.panel3-multiple-contrasts-rotate[
+Treatment contrastsを適用
+]
+
+---
+count: false
+ 
+## 任意の対比行列を充てる方法
+.panel1-multiple-contrasts-rotate[
+
+```r
+set.seed(1212); simdatContrasts &lt;- mixedDesign(
+#### 被験者間計画での水準数 ####
+  B = 3,
+#### 被験者内計画での水準数 ####
+  W = NULL,
+#### 被験者間計画での1水準あたりの実験参加者数 ####
+  n = 20,
+#### 水準ごとの応答変数の平均を示した行列 ####
+#### 各行に水準ごとの応答変数の平均を入れる ####
+  M = matrix(
+    c(600, 400, 300),
+    nrow = 3,
+    ncol = 1,
+    byrow = FALSE
+  ),
+#### 要因の標準偏差 ####
+  SD = 100,
+#### 「1試行1データ」の整然データでデータフレームを作成 ####
+  long = TRUE
+)
+
+*contrasts(simdatContrasts$B_A) &lt;- contr.sum(3)
+
+contrasts(simdatContrasts$B_A)
+
+lm(DV ~ B_A, data = simdatContrasts) |&gt;
+  summary()
+```
+]
+ 
+.panel2-multiple-contrasts-rotate[
+
+```
+   [,1] [,2]
+A1    1    0
+A2    0    1
+A3   -1   -1
+```
+
+```
+
+Call:
+lm(formula = DV ~ B_A, data = simdatContrasts)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-197.19  -69.13   -9.05   43.17  265.68 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   433.33      12.91  33.566  &lt; 2e-16 ***
+B_A1          166.67      18.26   9.129 9.52e-13 ***
+B_A2          -33.33      18.26  -1.826   0.0731 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 100 on 57 degrees of freedom
+Multiple R-squared:  0.6208,	Adjusted R-squared:  0.6075 
+F-statistic: 46.67 on 2 and 57 DF,  p-value: 9.916e-13
+```
+]
+ 
+.panel3-multiple-contrasts-rotate[
+Sum contrastsを適用
+]
+
+---
+count: false
+ 
+## 任意の対比行列を充てる方法
+.panel1-multiple-contrasts-rotate[
+
+```r
+set.seed(1212); simdatContrasts &lt;- mixedDesign(
+#### 被験者間計画での水準数 ####
+  B = 3,
+#### 被験者内計画での水準数 ####
+  W = NULL,
+#### 被験者間計画での1水準あたりの実験参加者数 ####
+  n = 20,
+#### 水準ごとの応答変数の平均を示した行列 ####
+#### 各行に水準ごとの応答変数の平均を入れる ####
+  M = matrix(
+    c(600, 400, 300),
+    nrow = 3,
+    ncol = 1,
+    byrow = FALSE
+  ),
+#### 要因の標準偏差 ####
+  SD = 100,
+#### 「1試行1データ」の整然データでデータフレームを作成 ####
+  long = TRUE
+)
+
+*contrasts(simdatContrasts$B_A) &lt;- contr.sdif(3)
+
+contrasts(simdatContrasts$B_A)
+
+lm(DV ~ B_A, data = simdatContrasts) |&gt;
+  summary()
+```
+]
+ 
+.panel2-multiple-contrasts-rotate[
+
+```
+          2-1        3-2
+A1 -0.6666667 -0.3333333
+A2  0.3333333 -0.3333333
+A3  0.3333333  0.6666667
+```
+
+```
+
+Call:
+lm(formula = DV ~ B_A, data = simdatContrasts)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-197.19  -69.13   -9.05   43.17  265.68 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   433.33      12.91  33.566  &lt; 2e-16 ***
+B_A2-1       -200.00      31.62  -6.325 4.21e-08 ***
+B_A3-2       -100.00      31.62  -3.162  0.00251 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 100 on 57 degrees of freedom
+Multiple R-squared:  0.6208,	Adjusted R-squared:  0.6075 
+F-statistic: 46.67 on 2 and 57 DF,  p-value: 9.916e-13
+```
+]
+ 
+.panel3-multiple-contrasts-rotate[
+Repeated contrastsを適用
+]
+
+---
+count: false
+ 
+## 任意の対比行列を充てる方法
+.panel1-multiple-contrasts-rotate[
+
+```r
+set.seed(1212); simdatContrasts &lt;- mixedDesign(
+#### 被験者間計画での水準数 ####
+  B = 3,
+#### 被験者内計画での水準数 ####
+  W = NULL,
+#### 被験者間計画での1水準あたりの実験参加者数 ####
+  n = 20,
+#### 水準ごとの応答変数の平均を示した行列 ####
+#### 各行に水準ごとの応答変数の平均を入れる ####
+  M = matrix(
+    c(600, 400, 300),
+    nrow = 3,
+    ncol = 1,
+    byrow = FALSE
+  ),
+#### 要因の標準偏差 ####
+  SD = 100,
+#### 「1試行1データ」の整然データでデータフレームを作成 ####
+  long = TRUE
+)
+
+*contrasts(simdatContrasts$B_A) &lt;- contr.poly(3)
+
+contrasts(simdatContrasts$B_A)
+
+lm(DV ~ B_A, data = simdatContrasts) |&gt;
+  summary()
+```
+]
+ 
+.panel2-multiple-contrasts-rotate[
+
+```
+              .L         .Q
+A1 -7.071068e-01  0.4082483
+A2 -7.850462e-17 -0.8164966
+A3  7.071068e-01  0.4082483
+```
+
+```
+
+Call:
+lm(formula = DV ~ B_A, data = simdatContrasts)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-197.19  -69.13   -9.05   43.17  265.68 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   433.33      12.91  33.566  &lt; 2e-16 ***
+B_A.L        -212.13      22.36  -9.487  2.5e-13 ***
+B_A.Q          40.82      22.36   1.826   0.0731 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 100 on 57 degrees of freedom
+Multiple R-squared:  0.6208,	Adjusted R-squared:  0.6075 
+F-statistic: 46.67 on 2 and 57 DF,  p-value: 9.916e-13
+```
+]
+ 
+.panel3-multiple-contrasts-rotate[
+Polynomial contrastsを適用
+]
+
+---
+count: false
+ 
+## 任意の対比行列を充てる方法
+.panel1-multiple-contrasts-rotate[
+
+```r
+set.seed(1212); simdatContrasts &lt;- mixedDesign(
+#### 被験者間計画での水準数 ####
+  B = 3,
+#### 被験者内計画での水準数 ####
+  W = NULL,
+#### 被験者間計画での1水準あたりの実験参加者数 ####
+  n = 20,
+#### 水準ごとの応答変数の平均を示した行列 ####
+#### 各行に水準ごとの応答変数の平均を入れる ####
+  M = matrix(
+    c(600, 400, 300),
+    nrow = 3,
+    ncol = 1,
+    byrow = FALSE
+  ),
+#### 要因の標準偏差 ####
+  SD = 100,
+#### 「1試行1データ」の整然データでデータフレームを作成 ####
+  long = TRUE
+)
+
+*contrasts(simdatContrasts$B_A) &lt;- contr.helmert(3)
+
+contrasts(simdatContrasts$B_A)
+
+lm(DV ~ B_A, data = simdatContrasts) |&gt;
+  summary()
+```
+]
+ 
+.panel2-multiple-contrasts-rotate[
+
+```
+   [,1] [,2]
+A1   -1   -1
+A2    1   -1
+A3    0    2
+```
+
+```
+
+Call:
+lm(formula = DV ~ B_A, data = simdatContrasts)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-197.19  -69.13   -9.05   43.17  265.68 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  433.333     12.910  33.566  &lt; 2e-16 ***
+B_A1        -100.000     15.811  -6.325 4.21e-08 ***
+B_A2         -66.667      9.129  -7.303 9.95e-10 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 100 on 57 degrees of freedom
+Multiple R-squared:  0.6208,	Adjusted R-squared:  0.6075 
+F-statistic: 46.67 on 2 and 57 DF,  p-value: 9.916e-13
+```
+]
+ 
+.panel3-multiple-contrasts-rotate[
+Helmert contrastsを適用
 ]
 
 &lt;style&gt;
-.panel1-multiple-contrasts-auto {
+.panel1-multiple-contrasts-rotate {
   color: black;
-  width: 38.6060606060606%;
+  width: 36.375%;
   hight: 32%;
   float: left;
   padding-left: 1%;
   font-size: 80%
 }
-.panel2-multiple-contrasts-auto {
+.panel2-multiple-contrasts-rotate {
   color: black;
-  width: 59.3939393939394%;
+  width: 36.375%;
   hight: 32%;
   float: left;
   padding-left: 1%;
   font-size: 80%
 }
-.panel3-multiple-contrasts-auto {
+.panel3-multiple-contrasts-rotate {
   color: black;
-  width: NA%;
+  width: 24.25%;
   hight: 33%;
   float: left;
   padding-left: 1%;

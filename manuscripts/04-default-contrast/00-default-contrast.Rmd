@@ -15,7 +15,7 @@ class: inverse, middle
 4. Repeated contrast
 5. Polynomial contrast
 6. Helmert contrast
-7. 対比行列を充てる方法
+7. 任意の対比行列を充てる方法
 
 ---
 
@@ -33,29 +33,19 @@ class: inverse, middle
 ```{r child = "01-treatment.Rmd"}
 ```
 
----
-
 ```{r child = "02-sum.Rmd"}
 ```
-
----
 
 ```{r child = "03-repeated.Rmd"}
 ```
 
----
-
 ```{r child = "04-polynomial.Rmd"}
 ```
-
----
 
 ```{r child = "05-helmert.Rmd"}
 ```
 
----
-
-`r chunk_reveal("multiple-contrasts", title = "## ")`
+`r chunk_reveal("multiple-contrasts", left_assign = "detect", break_type = "rotate", title = "## 任意の対比行列を充てる方法",  display_type = c("code", "output", "md"), md = c("Treatment contrastsを適用", "Sum contrastsを適用", "Repeated contrastsを適用", "Polynomial contrastsを適用", "Helmert contrastsを適用", "希望するcontrastsになったか確認", "統計モデル構築", "結果表示"), widths = c(3, 3, 2))`
 
 ```{r}
 #| multiple-contrasts,
@@ -67,7 +57,6 @@ set.seed(1212); simdatContrasts <- mixedDesign(
 #### 被験者内計画での水準数 ####
   W = NULL,
 #### 被験者間計画での1水準あたりの実験参加者数 ####
-  #### 実験参加者総数は，`B * n` ####  #### 実験参加者総数は，`B * n` ####
   n = 20,
 #### 水準ごとの応答変数の平均を示した行列 ####
 #### 各行に水準ごとの応答変数の平均を入れる ####
@@ -83,5 +72,14 @@ set.seed(1212); simdatContrasts <- mixedDesign(
   long = TRUE
 )
 
+contrasts(simdatContrasts$B_A) <- contr.treatment(3) #ROTATE
+contrasts(simdatContrasts$B_A) <- contr.sum(3) #ROTATE
+contrasts(simdatContrasts$B_A) <- contr.sdif(3) #ROTATE
+contrasts(simdatContrasts$B_A) <- contr.poly(3) #ROTATE
+contrasts(simdatContrasts$B_A) <- contr.helmert(3) #ROTATE
 
+contrasts(simdatContrasts$B_A)
+
+lm(DV ~ B_A, data = simdatContrasts) |>
+  summary()
 ```
