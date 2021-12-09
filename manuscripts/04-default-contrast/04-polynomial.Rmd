@@ -1,26 +1,26 @@
 class: split-50
 
-name: treatment-contrast
+name: polynomial-contrast
 
-## Treatment contrast 処理対比の対比行列
+##  Polynomial contrast 多項式対比の対比行列
 
 ::: columns
 
 :::: pull-left
 
 <!--
-- 実験的介入treatmentの効果を，非介入群との比較で検討
+- 実験的介入polynomialの効果を，非介入群との比較で検討
   - 実験群 vs 統制群
 - 各実験群を同一の統制群と比べる
 -->
 
-- 例：様々なプライミング効果を，同一の統制群と比べる
-    3. プライミングなし（統制群）
-    1. 音韻的プライミング（実験群1）
-    2. 綴字プライミング（実験群2）
+- 例：語の頻度の効果を，隣り合う水準と比べる
+    1. 低頻度
+    2. 中頻度
+    3. 高頻度
 
 ```{r}
-#| ref.label = c('schema-treatment-contrasts'),
+#| ref.label = c('schema-polynomial-contrasts'),
 #| echo = FALSE,
 #| eval = TRUE
 ```
@@ -30,16 +30,16 @@ name: treatment-contrast
 :::: pull-right
 
 ```{r}
-#| treatment-3-levels,
+#| polynomial-3-levels,
 #| echo = TRUE,
 #| eval = FALSE
 
-#contr.treatment(3)
-contr.treatment(demoDataTreatment$priming)
+#contr.poly(3)
+contr.poly(demoDataFreq$frequency)
 ```
 
 ```{r}
-#| ref.label = c('treatment-3-levels'),
+#| ref.label = c('polynomial-3-levels'),
 #| echo = FALSE,
 #| eval = TRUE
 ```
@@ -47,18 +47,15 @@ contr.treatment(demoDataTreatment$priming)
 --
 
 - 各行：**水準** 上から
-    3. **統制群**：プライミングなし
-    1. **実験群1**：音韻的プライミング
-    2. **実験群2**：綴字プライミング
+    1. 低頻度
+    2. 中頻度
+    3. 高頻度
 
 --
 
-- 各列：**対比する水準の組合せ** 左から
-    1. **実験群1 vs 統制群**  
-      （音韻的プライミング vs プライミングなし）
-    2. **実験群2 vs 統制群**  
-      （綴字プライミング vs プライミングなし）
-
+- 各列：**対比の組合せ** 左から
+    1. **1次関数ペース**（Linear; どの水準間でも一定ペースで増加・減少？）
+    2. **2次関数ペース**（Quadratic; 次の水準間ほどに増加・減少が激しい・穏やか？）
 
 ::::
 
