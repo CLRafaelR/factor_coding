@@ -1,6 +1,6 @@
 class: inverse, middle, center
 
-# Examples of different default contrast types (pp.8--9)
+# The hypothesis matrix illustrated with a three-level factor (pp.9--12)
 
 ---
 
@@ -9,19 +9,14 @@ class: inverse, middle
 
 ## さまざまな対比行列
 
-1. Contrast matrices
-2. Treatment contrast
-3. Sum contrast
-4. Repeated contrast
-5. Polynomial contrast
-6. Helmert contrast
-7. 任意の対比行列を充てる方法
-
+1. シミュレーション用データについて
+2. Sum contrasts
+3. The hypothesis matrix
 ---
 
 ::::: block
 
-### Contrast matrices
+## シミュレーション用データについて
 
 - 対比を表す係数値（傾き・切片）は，係数値の行列で表現される
 - 係数値の行列は，対比行列で実装される

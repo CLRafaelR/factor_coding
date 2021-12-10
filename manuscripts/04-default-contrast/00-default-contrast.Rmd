@@ -21,7 +21,7 @@ class: inverse, middle
 
 ::::: block
 
-### Contrast matrices
+## Contrast matrices
 
 - 対比を表す係数値（傾き・切片）は，係数値の行列で表現される
 - 係数値の行列は，対比行列で実装される
