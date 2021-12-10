@@ -51,48 +51,58 @@ class: inverse, middle
 
 :::: pull-left
 
-まずは，シミュレーション用データを作成
+まずは，シミュレーション用データ`simdat2`を作成
 
+- **応答変数**：語彙判断課題の反応時間
+- **説明変数**：判断する単語の頻度
+  - 頻度が低いほど，反応時間が長い
 - 被験者間計画での水準数
   - 3水準
 - 被験者内計画での水準数
   - なし
 - 被験者間計画での1水準あたりの実験参加者数
-  - 20人
-  - 計$20 \times 3 = 60$人
+  - 4人
+  - 計 $4 \times 3 = 12$ 人
 - 各水準での応答変数の平均値
-  - 600
-  - 400
-  - 300
+  - 500, 450, 400
 - 要因の標準偏差
-  - 100
+  - 20
 
 ::::
 
 :::: pull-right
 
 ```{r}
-#| data-multiple-contrasts,
+#| data-simdat2,
 #| echo = TRUE,
 #| eval = FALSE
 
-set.seed(1212); simdatContrasts <- mixedDesign(
+set.seed(1212); simdat2 <- mixedDesign(
   B = 3,
   W = NULL,
-  n = 20,
+  n = 4,
   M = matrix(
-    c(600, 400, 300),
+    c(500, 450, 400),
     nrow = 3,
     ncol = 1,
     byrow = FALSE
   ),
-  SD = 100,
+  SD = 20,
   long = TRUE
-)
+) |>
+  rename(F = B_A) |>
+  mutate(
+    F = fct_recode(
+      F,
+      low    = "A1",
+      medium = "A2",
+      high   = "A3"
+    )
+  )
 ```
 
 ```{r}
-#| ref.label = c('data-multiple-contrasts'),
+#| ref.label = c('data-simdat2'),
 #| echo = FALSE,
 #| eval = TRUE
 ```
@@ -109,14 +119,14 @@ set.seed(1212); simdatContrasts <- mixedDesign(
 #| multiple-contrasts,
 #| include = FALSE
 
-contrasts(simdatContrasts$B_A) <- contr.treatment(3) #ROTATE
-contrasts(simdatContrasts$B_A) <- contr.sum(3) #ROTATE
-contrasts(simdatContrasts$B_A) <- contr.sdif(3) #ROTATE
-contrasts(simdatContrasts$B_A) <- contr.poly(3) #ROTATE
-contrasts(simdatContrasts$B_A) <- contr.helmert(3) #ROTATE
+contrasts(simdat2$F) <- contr.treatment(3) #ROTATE
+contrasts(simdat2$F) <- contr.sum(3) #ROTATE
+contrasts(simdat2$F) <- contr.sdif(3) #ROTATE
+contrasts(simdat2$F) <- contr.poly(3) #ROTATE
+contrasts(simdat2$F) <- contr.helmert(3) #ROTATE
 
-contrasts(simdatContrasts$B_A)
+contrasts(simdat2$F)
 
-lm(DV ~ B_A, data = simdatContrasts) |>
+lm(DV ~ F, data = simdat2) |>
   summary()
 ```

@@ -4311,21 +4311,22 @@ valid       0    2
 
 :::: pull-left
 
-まずは，シミュレーション用データを作成
+まずは，シミュレーション用データ`simdat2`を作成
 
+- **応答変数**：語彙判断課題の反応時間
+- **説明変数**：判断する単語の頻度
+  - 頻度が低いほど，反応時間が長い
 - 被験者間計画での水準数
   - 3水準
 - 被験者内計画での水準数
   - なし
 - 被験者間計画での1水準あたりの実験参加者数
-  - 20人
-  - 計$20 \times 3 = 60$人
+  - 4人
+  - 計 `\(4 \times 3 = 12\)` 人
 - 各水準での応答変数の平均値
-  - 600
-  - 400
-  - 300
+  - 500, 450, 400
 - 要因の標準偏差
-  - 100
+  - 20
 
 ::::
 
@@ -4333,19 +4334,28 @@ valid       0    2
 
 
 ```r
-set.seed(1212); simdatContrasts &lt;- mixedDesign(
+set.seed(1212); simdat2 &lt;- mixedDesign(
   B = 3,
   W = NULL,
-  n = 20,
+  n = 4,
   M = matrix(
-    c(600, 400, 300),
+    c(500, 450, 400),
     nrow = 3,
     ncol = 1,
     byrow = FALSE
   ),
-  SD = 100,
+  SD = 20,
   long = TRUE
-)
+) |&gt;
+  rename(F = B_A) |&gt;
+  mutate(
+    F = fct_recode(
+      F,
+      low    = "A1",
+      medium = "A2",
+      high   = "A3"
+    )
+  )
 ```
 
 
@@ -4362,11 +4372,11 @@ count: false
 .panel1-multiple-contrasts-rotate[
 
 ```r
-*contrasts(simdatContrasts$B_A) &lt;- contr.treatment(3)
+*contrasts(simdat2$F) &lt;- contr.treatment(3)
 
-contrasts(simdatContrasts$B_A)
+contrasts(simdat2$F)
 
-lm(DV ~ B_A, data = simdatContrasts) |&gt;
+lm(DV ~ F, data = simdat2) |&gt;
   summary()
 ```
 ]
@@ -4374,32 +4384,32 @@ lm(DV ~ B_A, data = simdatContrasts) |&gt;
 .panel2-multiple-contrasts-rotate[
 
 ```
-   2 3
-A1 0 0
-A2 1 0
-A3 0 1
+       2 3
+low    0 0
+medium 1 0
+high   0 1
 ```
 
 ```
 
 Call:
-lm(formula = DV ~ B_A, data = simdatContrasts)
+lm(formula = DV ~ F, data = simdat2)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--197.19  -69.13   -9.05   43.17  265.68 
+-25.875 -13.011   0.419  14.211  24.685 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)   600.00      22.36  26.833  &lt; 2e-16 ***
-B_A2         -200.00      31.62  -6.325 4.21e-08 ***
-B_A3         -300.00      31.62  -9.487 2.50e-13 ***
+(Intercept)   500.00      10.00  50.000 2.57e-12 ***
+F2            -50.00      14.14  -3.536  0.00636 ** 
+F3           -100.00      14.14  -7.071 5.85e-05 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 100 on 57 degrees of freedom
-Multiple R-squared:  0.6208,	Adjusted R-squared:  0.6075 
-F-statistic: 46.67 on 2 and 57 DF,  p-value: 9.916e-13
+Residual standard error: 20 on 9 degrees of freedom
+Multiple R-squared:  0.8475,	Adjusted R-squared:  0.8136 
+F-statistic:    25 on 2 and 9 DF,  p-value: 0.0002115
 ```
 ]
  
@@ -4414,11 +4424,11 @@ count: false
 .panel1-multiple-contrasts-rotate[
 
 ```r
-*contrasts(simdatContrasts$B_A) &lt;- contr.sum(3)
+*contrasts(simdat2$F) &lt;- contr.sum(3)
 
-contrasts(simdatContrasts$B_A)
+contrasts(simdat2$F)
 
-lm(DV ~ B_A, data = simdatContrasts) |&gt;
+lm(DV ~ F, data = simdat2) |&gt;
   summary()
 ```
 ]
@@ -4426,32 +4436,32 @@ lm(DV ~ B_A, data = simdatContrasts) |&gt;
 .panel2-multiple-contrasts-rotate[
 
 ```
-   [,1] [,2]
-A1    1    0
-A2    0    1
-A3   -1   -1
+       [,1] [,2]
+low       1    0
+medium    0    1
+high     -1   -1
 ```
 
 ```
 
 Call:
-lm(formula = DV ~ B_A, data = simdatContrasts)
+lm(formula = DV ~ F, data = simdat2)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--197.19  -69.13   -9.05   43.17  265.68 
+-25.875 -13.011   0.419  14.211  24.685 
 
 Coefficients:
-            Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)   433.33      12.91  33.566  &lt; 2e-16 ***
-B_A1          166.67      18.26   9.129 9.52e-13 ***
-B_A2          -33.33      18.26  -1.826   0.0731 .  
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  4.500e+02  5.774e+00  77.942 4.77e-14 ***
+F1           5.000e+01  8.165e+00   6.124 0.000174 ***
+F2          -5.076e-14  8.165e+00   0.000 1.000000    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 100 on 57 degrees of freedom
-Multiple R-squared:  0.6208,	Adjusted R-squared:  0.6075 
-F-statistic: 46.67 on 2 and 57 DF,  p-value: 9.916e-13
+Residual standard error: 20 on 9 degrees of freedom
+Multiple R-squared:  0.8475,	Adjusted R-squared:  0.8136 
+F-statistic:    25 on 2 and 9 DF,  p-value: 0.0002115
 ```
 ]
  
@@ -4466,11 +4476,11 @@ count: false
 .panel1-multiple-contrasts-rotate[
 
 ```r
-*contrasts(simdatContrasts$B_A) &lt;- contr.sdif(3)
+*contrasts(simdat2$F) &lt;- contr.sdif(3)
 
-contrasts(simdatContrasts$B_A)
+contrasts(simdat2$F)
 
-lm(DV ~ B_A, data = simdatContrasts) |&gt;
+lm(DV ~ F, data = simdat2) |&gt;
   summary()
 ```
 ]
@@ -4478,32 +4488,32 @@ lm(DV ~ B_A, data = simdatContrasts) |&gt;
 .panel2-multiple-contrasts-rotate[
 
 ```
-          2-1        3-2
-A1 -0.6666667 -0.3333333
-A2  0.3333333 -0.3333333
-A3  0.3333333  0.6666667
+              2-1        3-2
+low    -0.6666667 -0.3333333
+medium  0.3333333 -0.3333333
+high    0.3333333  0.6666667
 ```
 
 ```
 
 Call:
-lm(formula = DV ~ B_A, data = simdatContrasts)
+lm(formula = DV ~ F, data = simdat2)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--197.19  -69.13   -9.05   43.17  265.68 
+-25.875 -13.011   0.419  14.211  24.685 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)   433.33      12.91  33.566  &lt; 2e-16 ***
-B_A2-1       -200.00      31.62  -6.325 4.21e-08 ***
-B_A3-2       -100.00      31.62  -3.162  0.00251 ** 
+(Intercept)  450.000      5.774  77.942 4.77e-14 ***
+F2-1         -50.000     14.142  -3.536  0.00636 ** 
+F3-2         -50.000     14.142  -3.536  0.00636 ** 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 100 on 57 degrees of freedom
-Multiple R-squared:  0.6208,	Adjusted R-squared:  0.6075 
-F-statistic: 46.67 on 2 and 57 DF,  p-value: 9.916e-13
+Residual standard error: 20 on 9 degrees of freedom
+Multiple R-squared:  0.8475,	Adjusted R-squared:  0.8136 
+F-statistic:    25 on 2 and 9 DF,  p-value: 0.0002115
 ```
 ]
  
@@ -4518,11 +4528,11 @@ count: false
 .panel1-multiple-contrasts-rotate[
 
 ```r
-*contrasts(simdatContrasts$B_A) &lt;- contr.poly(3)
+*contrasts(simdat2$F) &lt;- contr.poly(3)
 
-contrasts(simdatContrasts$B_A)
+contrasts(simdat2$F)
 
-lm(DV ~ B_A, data = simdatContrasts) |&gt;
+lm(DV ~ F, data = simdat2) |&gt;
   summary()
 ```
 ]
@@ -4530,32 +4540,32 @@ lm(DV ~ B_A, data = simdatContrasts) |&gt;
 .panel2-multiple-contrasts-rotate[
 
 ```
-              .L         .Q
-A1 -7.071068e-01  0.4082483
-A2 -7.850462e-17 -0.8164966
-A3  7.071068e-01  0.4082483
+                  .L         .Q
+low    -7.071068e-01  0.4082483
+medium -7.850462e-17 -0.8164966
+high    7.071068e-01  0.4082483
 ```
 
 ```
 
 Call:
-lm(formula = DV ~ B_A, data = simdatContrasts)
+lm(formula = DV ~ F, data = simdat2)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--197.19  -69.13   -9.05   43.17  265.68 
+-25.875 -13.011   0.419  14.211  24.685 
 
 Coefficients:
-            Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)   433.33      12.91  33.566  &lt; 2e-16 ***
-B_A.L        -212.13      22.36  -9.487  2.5e-13 ***
-B_A.Q          40.82      22.36   1.826   0.0731 .  
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  4.500e+02  5.774e+00  77.942 4.77e-14 ***
+F.L         -7.071e+01  1.000e+01  -7.071 5.85e-05 ***
+F.Q          6.306e-14  1.000e+01   0.000        1    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 100 on 57 degrees of freedom
-Multiple R-squared:  0.6208,	Adjusted R-squared:  0.6075 
-F-statistic: 46.67 on 2 and 57 DF,  p-value: 9.916e-13
+Residual standard error: 20 on 9 degrees of freedom
+Multiple R-squared:  0.8475,	Adjusted R-squared:  0.8136 
+F-statistic:    25 on 2 and 9 DF,  p-value: 0.0002115
 ```
 ]
  
@@ -4570,11 +4580,11 @@ count: false
 .panel1-multiple-contrasts-rotate[
 
 ```r
-*contrasts(simdatContrasts$B_A) &lt;- contr.helmert(3)
+*contrasts(simdat2$F) &lt;- contr.helmert(3)
 
-contrasts(simdatContrasts$B_A)
+contrasts(simdat2$F)
 
-lm(DV ~ B_A, data = simdatContrasts) |&gt;
+lm(DV ~ F, data = simdat2) |&gt;
   summary()
 ```
 ]
@@ -4582,32 +4592,32 @@ lm(DV ~ B_A, data = simdatContrasts) |&gt;
 .panel2-multiple-contrasts-rotate[
 
 ```
-   [,1] [,2]
-A1   -1   -1
-A2    1   -1
-A3    0    2
+       [,1] [,2]
+low      -1   -1
+medium    1   -1
+high      0    2
 ```
 
 ```
 
 Call:
-lm(formula = DV ~ B_A, data = simdatContrasts)
+lm(formula = DV ~ F, data = simdat2)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--197.19  -69.13   -9.05   43.17  265.68 
+-25.875 -13.011   0.419  14.211  24.685 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  433.333     12.910  33.566  &lt; 2e-16 ***
-B_A1        -100.000     15.811  -6.325 4.21e-08 ***
-B_A2         -66.667      9.129  -7.303 9.95e-10 ***
+(Intercept)  450.000      5.774  77.942 4.77e-14 ***
+F1           -25.000      7.071  -3.536 0.006358 ** 
+F2           -25.000      4.082  -6.124 0.000174 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 100 on 57 degrees of freedom
-Multiple R-squared:  0.6208,	Adjusted R-squared:  0.6075 
-F-statistic: 46.67 on 2 and 57 DF,  p-value: 9.916e-13
+Residual standard error: 20 on 9 degrees of freedom
+Multiple R-squared:  0.8475,	Adjusted R-squared:  0.8136 
+F-statistic:    25 on 2 and 9 DF,  p-value: 0.0002115
 ```
 ]
  
