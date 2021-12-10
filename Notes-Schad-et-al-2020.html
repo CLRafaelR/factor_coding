@@ -18,7 +18,7 @@ class: center, middle, inverse, title-slide
 ## Schad et al (2020)日本語注解
 ### 小川雅貴
 ### 東京大学
-### 2021/12/17 (updated: 2021-12-09)
+### 2021/12/17 (updated: 2021-12-10)
 
 ---
 
@@ -4034,7 +4034,7 @@ name: treatment-contrast
     1. 音韻的プライミング（実験群1）
     2. 綴字プライミング（実験群2）
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-34-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-36-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -4092,7 +4092,7 @@ name: treatment-contrast
     2. 綴字プライミング（実験群2）
     3. 意味プライミング
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-37-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-39-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -4150,7 +4150,7 @@ name: repeated-contrast
     2. 中頻度
     3. 高頻度
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-40-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-42-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -4208,7 +4208,7 @@ name: polynomial-contrast
     2. 中頻度
     3. 高頻度
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-43-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-45-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -4263,7 +4263,7 @@ name: helmert-contrast
     2. 無効なプライミング2
     3. 有効なプライミング
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-46-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-48-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -4305,33 +4305,63 @@ valid       0    2
 
 ---
 
-count: false
- 
 ## 任意の対比行列を充てる方法
-.panel1-multiple-contrasts-rotate[
+
+::: columns
+
+:::: pull-left
+
+まずは，シミュレーション用データを作成
+
+- 被験者間計画での水準数
+  - 3水準
+- 被験者内計画での水準数
+  - なし
+- 被験者間計画での1水準あたりの実験参加者数
+  - 20人
+  - 計$20 \times 3 = 60$人
+- 各水準での応答変数の平均値
+  - 600
+  - 400
+  - 300
+- 要因の標準偏差
+  - 100
+
+::::
+
+:::: pull-right
+
 
 ```r
 set.seed(1212); simdatContrasts &lt;- mixedDesign(
-#### 被験者間計画での水準数 ####
   B = 3,
-#### 被験者内計画での水準数 ####
   W = NULL,
-#### 被験者間計画での1水準あたりの実験参加者数 ####
   n = 20,
-#### 水準ごとの応答変数の平均を示した行列 ####
-#### 各行に水準ごとの応答変数の平均を入れる ####
   M = matrix(
     c(600, 400, 300),
     nrow = 3,
     ncol = 1,
     byrow = FALSE
   ),
-#### 要因の標準偏差 ####
   SD = 100,
-#### 「1試行1データ」の整然データでデータフレームを作成 ####
   long = TRUE
 )
+```
 
+
+
+::::
+
+:::
+
+---
+
+count: false
+ 
+## 任意の対比行列を充てる方法
+.panel1-multiple-contrasts-rotate[
+
+```r
 *contrasts(simdatContrasts$B_A) &lt;- contr.treatment(3)
 
 contrasts(simdatContrasts$B_A)
@@ -4384,27 +4414,6 @@ count: false
 .panel1-multiple-contrasts-rotate[
 
 ```r
-set.seed(1212); simdatContrasts &lt;- mixedDesign(
-#### 被験者間計画での水準数 ####
-  B = 3,
-#### 被験者内計画での水準数 ####
-  W = NULL,
-#### 被験者間計画での1水準あたりの実験参加者数 ####
-  n = 20,
-#### 水準ごとの応答変数の平均を示した行列 ####
-#### 各行に水準ごとの応答変数の平均を入れる ####
-  M = matrix(
-    c(600, 400, 300),
-    nrow = 3,
-    ncol = 1,
-    byrow = FALSE
-  ),
-#### 要因の標準偏差 ####
-  SD = 100,
-#### 「1試行1データ」の整然データでデータフレームを作成 ####
-  long = TRUE
-)
-
 *contrasts(simdatContrasts$B_A) &lt;- contr.sum(3)
 
 contrasts(simdatContrasts$B_A)
@@ -4457,27 +4466,6 @@ count: false
 .panel1-multiple-contrasts-rotate[
 
 ```r
-set.seed(1212); simdatContrasts &lt;- mixedDesign(
-#### 被験者間計画での水準数 ####
-  B = 3,
-#### 被験者内計画での水準数 ####
-  W = NULL,
-#### 被験者間計画での1水準あたりの実験参加者数 ####
-  n = 20,
-#### 水準ごとの応答変数の平均を示した行列 ####
-#### 各行に水準ごとの応答変数の平均を入れる ####
-  M = matrix(
-    c(600, 400, 300),
-    nrow = 3,
-    ncol = 1,
-    byrow = FALSE
-  ),
-#### 要因の標準偏差 ####
-  SD = 100,
-#### 「1試行1データ」の整然データでデータフレームを作成 ####
-  long = TRUE
-)
-
 *contrasts(simdatContrasts$B_A) &lt;- contr.sdif(3)
 
 contrasts(simdatContrasts$B_A)
@@ -4530,27 +4518,6 @@ count: false
 .panel1-multiple-contrasts-rotate[
 
 ```r
-set.seed(1212); simdatContrasts &lt;- mixedDesign(
-#### 被験者間計画での水準数 ####
-  B = 3,
-#### 被験者内計画での水準数 ####
-  W = NULL,
-#### 被験者間計画での1水準あたりの実験参加者数 ####
-  n = 20,
-#### 水準ごとの応答変数の平均を示した行列 ####
-#### 各行に水準ごとの応答変数の平均を入れる ####
-  M = matrix(
-    c(600, 400, 300),
-    nrow = 3,
-    ncol = 1,
-    byrow = FALSE
-  ),
-#### 要因の標準偏差 ####
-  SD = 100,
-#### 「1試行1データ」の整然データでデータフレームを作成 ####
-  long = TRUE
-)
-
 *contrasts(simdatContrasts$B_A) &lt;- contr.poly(3)
 
 contrasts(simdatContrasts$B_A)
@@ -4603,27 +4570,6 @@ count: false
 .panel1-multiple-contrasts-rotate[
 
 ```r
-set.seed(1212); simdatContrasts &lt;- mixedDesign(
-#### 被験者間計画での水準数 ####
-  B = 3,
-#### 被験者内計画での水準数 ####
-  W = NULL,
-#### 被験者間計画での1水準あたりの実験参加者数 ####
-  n = 20,
-#### 水準ごとの応答変数の平均を示した行列 ####
-#### 各行に水準ごとの応答変数の平均を入れる ####
-  M = matrix(
-    c(600, 400, 300),
-    nrow = 3,
-    ncol = 1,
-    byrow = FALSE
-  ),
-#### 要因の標準偏差 ####
-  SD = 100,
-#### 「1試行1データ」の整然データでデータフレームを作成 ####
-  long = TRUE
-)
-
 *contrasts(simdatContrasts$B_A) &lt;- contr.helmert(3)
 
 contrasts(simdatContrasts$B_A)
