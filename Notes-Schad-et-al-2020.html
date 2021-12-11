@@ -18,7 +18,7 @@ class: center, middle, inverse, title-slide
 ## Schad et al (2020)日本語注解
 ### 小川雅貴
 ### 東京大学
-### 2021/12/17 (updated: 2021-12-10)
+### 2021/12/17 (updated: 2021-12-11)
 
 ---
 
@@ -4719,16 +4719,20 @@ class: inverse, middle
 3. The hypothesis matrix
 ---
 
-::::: block
-
 ## シミュレーション用データについて
+
+::: columns
+
+:::: pull-left
+
+::::: block
 
 - 本資料では，[前のセクション](#simdat2)で作成
 - **応答変数**：語彙判断課題の反応時間
 - **説明変数**：判断する単語の頻度
   - 頻度が低いほど，反応時間が長い
 - 被験者間計画での水準数
-  - 3水準
+  - 3水準（低頻度・中頻度・高頻度）
 - 被験者内計画での水準数
   - なし
 - 被験者間計画での1水準あたりの実験参加者数
@@ -4741,12 +4745,82 @@ class: inverse, middle
 
 :::::
 
+::::
+
+:::: pull-right
+
+::::: block
+
+### 検証する仮説
+
+1. 低頻度語への反応時間 `\(\mu_1\)` は，全体平均 `\(\frac{\mu_1 + \mu_2 + \mu_3}{3}\)` と異なるか？
+    - 全体平均より長い？短い？
+2. 中頻度語への反応時間 `\(\mu_2\)` は，全体平均 `\(\frac{\mu_1 + \mu_2 + \mu_3}{3}\)` と異なるか？
+    - 全体平均より長い？短い？
+
+`$$\begin{aligned}
+{H_0}_1: \overbrace{\mu_1}^{\text{低頻度語への反応時間}} = \overbrace{\frac{\mu_1 + \mu_2 + \mu_3}{3}}^{全体平均}
+\end{aligned}$$`
+
+`$$\begin{aligned}
+{H_0}_2: \overbrace{\mu_2}^{\text{中頻度語への反応時間}} = \overbrace{\frac{\mu_1 + \mu_2 + \mu_3}{3}}^{全体平均}
+\end{aligned}$$`
+
+:::::
+
+::::
+
+:::
+
 ---
 
 
 ## Sum contrast
 
-です！
+::: columns
+
+:::: pull-left
+
+`$$\begin{aligned}
+{H_0}_1: \overbrace{\mu_1}^{\text{低頻度語への反応時間}} &amp; = \overbrace{\frac{\mu_1 + \mu_2 + \mu_3}{3}}^{全体平均}\\
+\Leftrightarrow \mu_1 &amp; = \frac{1}{3}\mu_1 + \frac{1}{3}\mu_2 + \frac{1}{3}\mu_3 \\
+\Leftrightarrow \frac{2}{3}\mu_1 - \frac{1}{3}\mu_2 - \frac{1}{3}\mu_3 &amp; = 0\\
+(\underbrace{\frac{2}{3}}_{\mu_1\text{への重み}}\mu_1) + (\underbrace{-\frac{1}{3}}_{\mu_2\text{への重み}}\mu_2) + (\underbrace{-\frac{1}{3}}_{\mu_3\text{への重み}}\mu_3) &amp; = 0
+\end{aligned}$$`
+
+::::
+
+:::: pull-right
+
+`$$\begin{aligned}
+{H_0}_1: \overbrace{\mu_2}^{\text{中頻度語への反応時間}} &amp; = \overbrace{\frac{\mu_1 + \mu_2 + \mu_3}{3}}^{全体平均}\\
+\Leftrightarrow \mu_2 &amp; = \frac{1}{3}\mu_1 + \frac{1}{3}\mu_2 + \frac{1}{3}\mu_3 \\
+\Leftrightarrow -\frac{1}{3}\mu_1 + \frac{2}{3}\mu_2 - \frac{1}{3}\mu_3 &amp; = 0\\
+(\underbrace{-\frac{1}{3}}_{\mu_1\text{への重み}}\mu_1) + (\underbrace{\frac{2}{3}}_{\mu_2\text{への重み}}\mu_2) + (\underbrace{-\frac{1}{3}}_{\mu_3\text{への重み}}\mu_3) &amp; = 0
+\end{aligned}$$`
+
+::::
+
+:::
+
+---
+
+
+## Hypotheis matrix
+
+- ある対比を使って本当に仮説を正しく検証できるか確認する
+  - 例：
+  - 「低頻度語への反応時間 `\(\mu_1\)` が，全体平均 `\(\frac{\mu_1 + \mu_2 + \mu_3}{3}\)` と異なるか？」を調べるのに， `\({H_0}_1: \mu_1 = \frac{\mu_1 + \mu_2 + \mu_3}{3}\)` という対比を使って問題ないか
+- 検証したい仮説や使いたい実験デザインによっては，Rの`contr.*()`関数で作れる対比行列を当てはめられないことがある
+  - **どのように対比行列が作られるのか理解する意味がある**
+
+
+---
+
+## 対比行列を自分で作る
+
+1. 検証したい仮説を用意する
+1. 
 
 
 ---

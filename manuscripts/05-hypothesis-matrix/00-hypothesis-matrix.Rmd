@@ -14,16 +14,20 @@ class: inverse, middle
 3. The hypothesis matrix
 ---
 
-::::: block
-
 ## シミュレーション用データについて
+
+::: columns
+
+:::: pull-left
+
+::::: block
 
 - 本資料では，[前のセクション](#simdat2)で作成
 - **応答変数**：語彙判断課題の反応時間
 - **説明変数**：判断する単語の頻度
   - 頻度が低いほど，反応時間が長い
 - 被験者間計画での水準数
-  - 3水準
+  - 3水準（低頻度・中頻度・高頻度）
 - 被験者内計画での水準数
   - なし
 - 被験者間計画での1水準あたりの実験参加者数
@@ -36,7 +40,37 @@ class: inverse, middle
 
 :::::
 
+::::
+
+:::: pull-right
+
+::::: block
+
+### 検証する仮説
+
+1. 低頻度語への反応時間 $\mu_1$ は，全体平均 $\frac{\mu_1 + \mu_2 + \mu_3}{3}$ と異なるか？
+    - 全体平均より長い？短い？
+2. 中頻度語への反応時間 $\mu_2$ は，全体平均 $\frac{\mu_1 + \mu_2 + \mu_3}{3}$ と異なるか？
+    - 全体平均より長い？短い？
+
+$$\begin{aligned}
+{H_0}_1: \overbrace{\mu_1}^{\text{低頻度語への反応時間}} = \overbrace{\frac{\mu_1 + \mu_2 + \mu_3}{3}}^{全体平均}
+\end{aligned}$$
+
+$$\begin{aligned}
+{H_0}_2: \overbrace{\mu_2}^{\text{中頻度語への反応時間}} = \overbrace{\frac{\mu_1 + \mu_2 + \mu_3}{3}}^{全体平均}
+\end{aligned}$$
+
+:::::
+
+::::
+
+:::
+
 ---
 
 ```{r child = "01-sum-contrast.Rmd"}
+```
+
+```{r child = "02-hypothesis-matrix.Rmd"}
 ```
