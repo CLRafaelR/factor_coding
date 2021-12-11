@@ -45,6 +45,8 @@ class: inverse, middle
 ```{r child = "05-helmert.Rmd"}
 ```
 
+name: simdat2
+
 ## 任意の対比行列を充てる方法
 
 ::: columns

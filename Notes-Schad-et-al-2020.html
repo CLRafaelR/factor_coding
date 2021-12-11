@@ -251,6 +251,40 @@ source(
 乱数の固定
 ]
 
+---
+count: false
+ 
+
+.panel1-load-packages-sources-auto[
+
+```r
+library(tidyverse)
+library(broom)
+library(lme4)
+library(MASS)
+library(hypr)
+library(knitr)
+
+source(
+  "http://read.psych.uni-potsdam.de/attachments/article/188/mixedDesign.v0.6.3.R",
+  local = knitr::knit_global()
+)
+
+#source("http://read.psych.uni-potsdam.de/pmr2/attachments/article/188/SchadEtAlJML2019.R")  #source("http://read.psych.uni-potsdam.de/pmr2/attachments/article/188/SchadEtAlJML2019.R")
+
+set.seed(1212)
+
+*options(
+* scipen = 999,
+* digits = 2
+* )
+```
+]
+ 
+.panel2-load-packages-sources-auto[
+指数表記の回避・有効数字2桁に設定
+]
+
 &lt;style&gt;
 .panel1-load-packages-sources-auto {
   color: black;
@@ -579,17 +613,17 @@ set.seed(1212); simdat
 .panel2-simdat-auto[
 
 ```
-   B_A id        DV
-1   A1  1 0.7370717
-2   A1  2 0.5544852
-3   A1  3 0.9634010
-4   A1  4 1.0436117
-5   A1  5 0.7014305
-6   A2  6 0.2616614
-7   A2  7 0.3948117
-8   A2  8 0.1731352
-9   A2  9 0.4832820
-10  A2 10 0.6871097
+   B_A id   DV
+1   A1  1 0.74
+2   A1  2 0.55
+3   A1  3 0.96
+4   A1  4 1.04
+5   A1  5 0.70
+6   A2  6 0.26
+7   A2  7 0.39
+8   A2  8 0.17
+9   A2  9 0.48
+10  A2 10 0.69
 ```
 ]
 
@@ -630,17 +664,17 @@ set.seed(1212); simdat
 .panel2-simdat-auto[
 
 ```
-    F id        DV
-1  A1  1 0.7370717
-2  A1  2 0.5544852
-3  A1  3 0.9634010
-4  A1  4 1.0436117
-5  A1  5 0.7014305
-6  A2  6 0.2616614
-7  A2  7 0.3948117
-8  A2  8 0.1731352
-9  A2  9 0.4832820
-10 A2 10 0.6871097
+    F id   DV
+1  A1  1 0.74
+2  A1  2 0.55
+3  A1  3 0.96
+4  A1  4 1.04
+5  A1  5 0.70
+6  A2  6 0.26
+7  A2  7 0.39
+8  A2  8 0.17
+9  A2  9 0.48
+10 A2 10 0.69
 ```
 ]
 
@@ -688,17 +722,17 @@ set.seed(1212); simdat
 .panel2-simdat-auto[
 
 ```
-    F id        DV
-1  F1  1 0.7370717
-2  F1  2 0.5544852
-3  F1  3 0.9634010
-4  F1  4 1.0436117
-5  F1  5 0.7014305
-6  F2  6 0.2616614
-7  F2  7 0.3948117
-8  F2  8 0.1731352
-9  F2  9 0.4832820
-10 F2 10 0.6871097
+    F id   DV
+1  F1  1 0.74
+2  F1  2 0.55
+3  F1  3 0.96
+4  F1  4 1.04
+5  F1  5 0.70
+6  F2  6 0.26
+7  F2  7 0.39
+8  F2  8 0.17
+9  F2  9 0.48
+10 F2 10 0.69
 ```
 ]
 
@@ -755,17 +789,17 @@ set.seed(1212); simdat
 ```
 
 ```
-    F id        DV
-1  F1  1 0.7370717
-2  F1  2 0.5544852
-3  F1  3 0.9634010
-4  F1  4 1.0436117
-5  F1  5 0.7014305
-6  F2  6 0.2616614
-7  F2  7 0.3948117
-8  F2  8 0.1731352
-9  F2  9 0.4832820
-10 F2 10 0.6871097
+    F id   DV
+1  F1  1 0.74
+2  F1  2 0.55
+3  F1  3 0.96
+4  F1  4 1.04
+5  F1  5 0.70
+6  F2  6 0.26
+7  F2  7 0.39
+8  F2  8 0.17
+9  F2  9 0.48
+10 F2 10 0.69
 ```
 ]
 
@@ -831,17 +865,17 @@ count: false
 .panel2-fig-simdat-auto[
 
 ```
-    F id        DV
-1  F1  1 0.7370717
-2  F1  2 0.5544852
-3  F1  3 0.9634010
-4  F1  4 1.0436117
-5  F1  5 0.7014305
-6  F2  6 0.2616614
-7  F2  7 0.3948117
-8  F2  8 0.1731352
-9  F2  9 0.4832820
-10 F2 10 0.6871097
+    F id   DV
+1  F1  1 0.74
+2  F1  2 0.55
+3  F1  3 0.96
+4  F1  4 1.04
+5  F1  5 0.70
+6  F2  6 0.26
+7  F2  7 0.39
+8  F2  8 0.17
+9  F2  9 0.48
+10 F2 10 0.69
 ```
 ]
 
@@ -1099,17 +1133,17 @@ count: false
 .panel2-tab-simdat-auto[
 
 ```
-    F id        DV
-1  F1  1 0.7370717
-2  F1  2 0.5544852
-3  F1  3 0.9634010
-4  F1  4 1.0436117
-5  F1  5 0.7014305
-6  F2  6 0.2616614
-7  F2  7 0.3948117
-8  F2  8 0.1731352
-9  F2  9 0.4832820
-10 F2 10 0.6871097
+    F id   DV
+1  F1  1 0.74
+2  F1  2 0.55
+3  F1  3 0.96
+4  F1  4 1.04
+5  F1  5 0.70
+6  F2  6 0.26
+7  F2  7 0.39
+8  F2  8 0.17
+9  F2  9 0.48
+10 F2 10 0.69
 ```
 ]
 
@@ -1304,8 +1338,8 @@ m_F &lt;- lm(DV ~ F, simdat)
 
 |Predictor   | Estimate|95% CI           | `\(t\)`-value| `\(p\)`-value|
 |:-----------|--------:|:----------------|---------:|---------:|
-|(Intercept) |      0.8|[0.594, 1.006]   |      8.94|      0.00|
-|FF2         |     -0.4|[-0.692, -0.108] |     -3.16|      0.01|
+|(Intercept) |      0.8|[0.594, 1.006]   |       8.9|      0.00|
+|FF2         |     -0.4|[-0.692, -0.108] |      -3.2|      0.01|
 
 &lt;img src="figures/Notes-Schad-etal-2020-tab-lm-simdat2-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
@@ -1342,8 +1376,8 @@ m_F &lt;- lm(DV ~ F, simdat)
 
 |Predictor   | Estimate|95% CI           | `\(t\)`-value| `\(p\)`-value|
 |:-----------|--------:|:----------------|---------:|---------:|
-|(Intercept) |      0.8|[0.594, 1.006]   |      8.94|      0.00|
-|FF2         |     -0.4|[-0.692, -0.108] |     -3.16|      0.01|
+|(Intercept) |      0.8|[0.594, 1.006]   |       8.9|      0.00|
+|FF2         |     -0.4|[-0.692, -0.108] |      -3.2|      0.01|
 
 &lt;img src="figures/Notes-Schad-etal-2020-tab-lm-simdat-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
@@ -1569,8 +1603,8 @@ m_F |&gt;
 
 |Predictor   | Estimate|95% CI           | `\(t\)`-value| `\(p\)`-value|
 |:-----------|--------:|:----------------|---------:|---------:|
-|(Intercept) |      0.8|[0.594, 1.006]   |      8.94|      0.00|
-|FF2         |     -0.4|[-0.692, -0.108] |     -3.16|      0.01|
+|(Intercept) |      0.8|[0.594, 1.006]   |       8.9|      0.00|
+|FF2         |     -0.4|[-0.692, -0.108] |      -3.2|      0.01|
 ]
 
 &lt;style&gt;
@@ -1854,17 +1888,17 @@ simdat
 .panel2-recode-simdat-auto[
 
 ```
-    F id        DV
-1  F1  1 0.7370717
-2  F1  2 0.5544852
-3  F1  3 0.9634010
-4  F1  4 1.0436117
-5  F1  5 0.7014305
-6  F2  6 0.2616614
-7  F2  7 0.3948117
-8  F2  8 0.1731352
-9  F2  9 0.4832820
-10 F2 10 0.6871097
+    F id   DV
+1  F1  1 0.74
+2  F1  2 0.55
+3  F1  3 0.96
+4  F1  4 1.04
+5  F1  5 0.70
+6  F2  6 0.26
+7  F2  7 0.39
+8  F2  8 0.17
+9  F2  9 0.48
+10 F2 10 0.69
 ```
 ]
 
@@ -1891,17 +1925,17 @@ simdat
 .panel2-recode-simdat-auto[
 
 ```
-    F id        DV Fb
-1  F1  1 0.7370717 F1
-2  F1  2 0.5544852 F1
-3  F1  3 0.9634010 F1
-4  F1  4 1.0436117 F1
-5  F1  5 0.7014305 F1
-6  F2  6 0.2616614 F2
-7  F2  7 0.3948117 F2
-8  F2  8 0.1731352 F2
-9  F2  9 0.4832820 F2
-10 F2 10 0.6871097 F2
+    F id   DV Fb
+1  F1  1 0.74 F1
+2  F1  2 0.55 F1
+3  F1  3 0.96 F1
+4  F1  4 1.04 F1
+5  F1  5 0.70 F1
+6  F2  6 0.26 F2
+7  F2  7 0.39 F2
+8  F2  8 0.17 F2
+9  F2  9 0.48 F2
+10 F2 10 0.69 F2
 ```
 ]
 
@@ -1936,17 +1970,17 @@ F1  1
 ```
 
 ```
-    F id        DV Fb
-1  F1  1 0.7370717 F1
-2  F1  2 0.5544852 F1
-3  F1  3 0.9634010 F1
-4  F1  4 1.0436117 F1
-5  F1  5 0.7014305 F1
-6  F2  6 0.2616614 F2
-7  F2  7 0.3948117 F2
-8  F2  8 0.1731352 F2
-9  F2  9 0.4832820 F2
-10 F2 10 0.6871097 F2
+    F id   DV Fb
+1  F1  1 0.74 F1
+2  F1  2 0.55 F1
+3  F1  3 0.96 F1
+4  F1  4 1.04 F1
+5  F1  5 0.70 F1
+6  F2  6 0.26 F2
+7  F2  7 0.39 F2
+8  F2  8 0.17 F2
+9  F2  9 0.48 F2
+10 F2 10 0.69 F2
 ```
 ]
 
@@ -1989,17 +2023,17 @@ F2  1
 ```
 
 ```
-    F id        DV Fb
-1  F1  1 0.7370717 F1
-2  F1  2 0.5544852 F1
-3  F1  3 0.9634010 F1
-4  F1  4 1.0436117 F1
-5  F1  5 0.7014305 F1
-6  F2  6 0.2616614 F2
-7  F2  7 0.3948117 F2
-8  F2  8 0.1731352 F2
-9  F2  9 0.4832820 F2
-10 F2 10 0.6871097 F2
+    F id   DV Fb
+1  F1  1 0.74 F1
+2  F1  2 0.55 F1
+3  F1  3 0.96 F1
+4  F1  4 1.04 F1
+5  F1  5 0.70 F1
+6  F2  6 0.26 F2
+7  F2  7 0.39 F2
+8  F2  8 0.17 F2
+9  F2  9 0.48 F2
+10 F2 10 0.69 F2
 ```
 ]
 
@@ -2050,8 +2084,8 @@ m1_mr &lt;- lm(DV ~ Fb, simdat)
 
 |Predictor   | Estimate|95% CI         | `\(t\)`-value| `\(p\)`-value|
 |:-----------|--------:|:--------------|---------:|---------:|
-|(Intercept) |      0.4|[0.194, 0.606] |      4.47|      0.00|
-|FbF1        |      0.4|[0.108, 0.692] |      3.16|      0.01|
+|(Intercept) |      0.4|[0.194, 0.606] |       4.5|      0.00|
+|FbF1        |      0.4|[0.108, 0.692] |       3.2|      0.01|
 
 `$$x =
 \begin{cases}
@@ -2092,8 +2126,8 @@ m_F &lt;- lm(DV ~ F, simdat)
 
 |Predictor   | Estimate|95% CI           | `\(t\)`-value| `\(p\)`-value|
 |:-----------|--------:|:----------------|---------:|---------:|
-|(Intercept) |      0.8|[0.594, 1.006]   |      8.94|      0.00|
-|FF2         |     -0.4|[-0.692, -0.108] |     -3.16|      0.01|
+|(Intercept) |      0.8|[0.594, 1.006]   |       8.9|      0.00|
+|FF2         |     -0.4|[-0.692, -0.108] |      -3.2|      0.01|
 
 `$$x =
 \begin{cases}
@@ -2304,8 +2338,8 @@ m1_mr &lt;- lm(DV ~ F, simdat)
 
 |Predictor   | Estimate|95% CI           | `\(t\)`-value| `\(p\)`-value|
 |:-----------|--------:|:----------------|---------:|---------:|
-|(Intercept) |      0.6|[0.454, 0.746]   |      9.49|      0.00|
-|F1          |     -0.4|[-0.692, -0.108] |     -3.16|      0.01|
+|(Intercept) |      0.6|[0.454, 0.746]   |       9.5|      0.00|
+|F1          |     -0.4|[-0.692, -0.108] |      -3.2|      0.01|
 
 ::::
 
@@ -2374,8 +2408,8 @@ m1_mr &lt;- lm(DV ~ F, simdat)
 
 |Predictor   | Estimate|95% CI           | `\(t\)`-value| `\(p\)`-value|
 |:-----------|--------:|:----------------|---------:|---------:|
-|(Intercept) |      0.6|[0.454, 0.746]   |      9.49|      0.00|
-|F1          |     -0.4|[-0.692, -0.108] |     -3.16|      0.01|
+|(Intercept) |      0.6|[0.454, 0.746]   |       9.5|      0.00|
+|F1          |     -0.4|[-0.692, -0.108] |      -3.2|      0.01|
 
 &lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-21-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
@@ -2491,17 +2525,17 @@ count: false
 .panel2-grand-mean-auto[
 
 ```
-    F id        DV Fb
-1  F1  1 0.7370717 F1
-2  F1  2 0.5544852 F1
-3  F1  3 0.9634010 F1
-4  F1  4 1.0436117 F1
-5  F1  5 0.7014305 F1
-6  F2  6 0.2616614 F2
-7  F2  7 0.3948117 F2
-8  F2  8 0.1731352 F2
-9  F2  9 0.4832820 F2
-10 F2 10 0.6871097 F2
+    F id   DV Fb
+1  F1  1 0.74 F1
+2  F1  2 0.55 F1
+3  F1  3 0.96 F1
+4  F1  4 1.04 F1
+5  F1  5 0.70 F1
+6  F2  6 0.26 F2
+7  F2  7 0.39 F2
+8  F2  8 0.17 F2
+9  F2  9 0.48 F2
+10 F2 10 0.69 F2
 ```
 ]
  
@@ -2526,17 +2560,17 @@ simdat |&gt;
 .panel2-grand-mean-auto[
 
 ```
-    F id        DV Fb gross.mean
-1  F1  1 0.7370717 F1        0.6
-2  F1  2 0.5544852 F1        0.6
-3  F1  3 0.9634010 F1        0.6
-4  F1  4 1.0436117 F1        0.6
-5  F1  5 0.7014305 F1        0.6
-6  F2  6 0.2616614 F2        0.6
-7  F2  7 0.3948117 F2        0.6
-8  F2  8 0.1731352 F2        0.6
-9  F2  9 0.4832820 F2        0.6
-10 F2 10 0.6871097 F2        0.6
+    F id   DV Fb gross.mean
+1  F1  1 0.74 F1        0.6
+2  F1  2 0.55 F1        0.6
+3  F1  3 0.96 F1        0.6
+4  F1  4 1.04 F1        0.6
+5  F1  5 0.70 F1        0.6
+6  F2  6 0.26 F2        0.6
+7  F2  7 0.39 F2        0.6
+8  F2  8 0.17 F2        0.6
+9  F2  9 0.48 F2        0.6
+10 F2 10 0.69 F2        0.6
 ```
 ]
  
@@ -2855,17 +2889,17 @@ set.seed(1)
 .panel2-grand-mean-unbalanced-data-auto[
 
 ```
-    F id        DV Fb
-1  F1  1 0.7370717 F1
-2  F1  2 0.5544852 F1
-3  F1  3 0.9634010 F1
-4  F1  4 1.0436117 F1
-5  F1  5 0.7014305 F1
-6  F2  6 0.2616614 F2
-7  F2  7 0.3948117 F2
-8  F2  8 0.1731352 F2
-9  F2  9 0.4832820 F2
-10 F2 10 0.6871097 F2
+    F id   DV Fb
+1  F1  1 0.74 F1
+2  F1  2 0.55 F1
+3  F1  3 0.96 F1
+4  F1  4 1.04 F1
+5  F1  5 0.70 F1
+6  F2  6 0.26 F2
+7  F2  7 0.39 F2
+8  F2  8 0.17 F2
+9  F2  9 0.48 F2
+10 F2 10 0.69 F2
 ```
 ]
  
@@ -3390,17 +3424,17 @@ set.seed(1)
 .panel2-grand-mean-balanced-data-auto[
 
 ```
-    F id        DV Fb
-1  F1  1 0.7370717 F1
-2  F1  2 0.5544852 F1
-3  F1  3 0.9634010 F1
-4  F1  4 1.0436117 F1
-5  F1  5 0.7014305 F1
-6  F2  6 0.2616614 F2
-7  F2  7 0.3948117 F2
-8  F2  8 0.1731352 F2
-9  F2  9 0.4832820 F2
-10 F2 10 0.6871097 F2
+    F id   DV Fb
+1  F1  1 0.74 F1
+2  F1  2 0.55 F1
+3  F1  3 0.96 F1
+4  F1  4 1.04 F1
+5  F1  5 0.70 F1
+6  F2  6 0.26 F2
+7  F2  7 0.39 F2
+8  F2  8 0.17 F2
+9  F2  9 0.48 F2
+10 F2 10 0.69 F2
 ```
 ]
  
@@ -3968,8 +4002,8 @@ m2_mr &lt;- lm(DV ~ -1 + F, simdat)
 
 |Predictor | Estimate|95% CI         | `\(t\)`-value| `\(p\)`-value|
 |:---------|--------:|:--------------|---------:|---------:|
-|FF1       |      0.8|[0.594, 1.006] |      8.94|         0|
-|FF2       |      0.4|[0.194, 0.606] |      4.47|         0|
+|FF1       |      0.8|[0.594, 1.006] |       8.9|         0|
+|FF2       |      0.4|[0.194, 0.606] |       4.5|         0|
 
 ::::
 
@@ -4003,7 +4037,7 @@ class: inverse, middle
 
 ::::: block
 
-### Contrast matrices
+## Contrast matrices
 
 - 対比を表す係数値（傾き・切片）は，係数値の行列で表現される
 - 係数値の行列は，対比行列で実装される
@@ -4165,9 +4199,9 @@ contr.sdif(demoDataFreq$frequency)
 
 ```
        medium-low high-medium
-low    -0.6666667  -0.3333333
-medium  0.3333333  -0.3333333
-high    0.3333333   0.6666667
+low         -0.67       -0.33
+medium       0.33       -0.33
+high         0.33        0.67
 ```
 
 --
@@ -4222,10 +4256,10 @@ contr.poly(demoDataFreq$frequency)
 
 
 ```
-                .L         .Q
-[1,] -7.071068e-01  0.4082483
-[2,] -7.850462e-17 -0.8164966
-[3,]  7.071068e-01  0.4082483
+                        .L    .Q
+[1,] -0.707106781186547573  0.41
+[2,] -0.000000000000000079 -0.82
+[3,]  0.707106781186547462  0.41
 ```
 
 --
@@ -4304,6 +4338,8 @@ valid       0    2
 :::
 
 ---
+
+name: simdat2
 
 ## 任意の対比行列を充てる方法
 
@@ -4400,16 +4436,16 @@ Residuals:
 -25.875 -13.011   0.419  14.211  24.685 
 
 Coefficients:
-            Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)   500.00      10.00  50.000 2.57e-12 ***
-F2            -50.00      14.14  -3.536  0.00636 ** 
-F3           -100.00      14.14  -7.071 5.85e-05 ***
+            Estimate Std. Error t value        Pr(&gt;|t|)    
+(Intercept)    500.0       10.0   50.00 0.0000000000026 ***
+F2             -50.0       14.1   -3.54          0.0064 ** 
+F3            -100.0       14.1   -7.07 0.0000584918826 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 20 on 9 degrees of freedom
-Multiple R-squared:  0.8475,	Adjusted R-squared:  0.8136 
-F-statistic:    25 on 2 and 9 DF,  p-value: 0.0002115
+Multiple R-squared:  0.847,	Adjusted R-squared:  0.814 
+F-statistic:   25 on 2 and 9 DF,  p-value: 0.000211
 ```
 ]
  
@@ -4452,16 +4488,20 @@ Residuals:
 -25.875 -13.011   0.419  14.211  24.685 
 
 Coefficients:
-              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  4.500e+02  5.774e+00  77.942 4.77e-14 ***
-F1           5.000e+01  8.165e+00   6.124 0.000174 ***
-F2          -5.076e-14  8.165e+00   0.000 1.000000    
+                        Estimate           Std. Error t value          Pr(&gt;|t|)
+(Intercept) 450.0000000000001705   5.7735026918962697   77.94 0.000000000000048
+F1           50.0000000000001066   8.1649658092772768    6.12           0.00017
+F2           -0.0000000000000508   8.1649658092772750    0.00           1.00000
+               
+(Intercept) ***
+F1          ***
+F2             
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 20 on 9 degrees of freedom
-Multiple R-squared:  0.8475,	Adjusted R-squared:  0.8136 
-F-statistic:    25 on 2 and 9 DF,  p-value: 0.0002115
+Multiple R-squared:  0.847,	Adjusted R-squared:  0.814 
+F-statistic:   25 on 2 and 9 DF,  p-value: 0.000211
 ```
 ]
  
@@ -4488,10 +4528,10 @@ lm(DV ~ F, data = simdat2) |&gt;
 .panel2-multiple-contrasts-rotate[
 
 ```
-              2-1        3-2
-low    -0.6666667 -0.3333333
-medium  0.3333333 -0.3333333
-high    0.3333333  0.6666667
+         2-1   3-2
+low    -0.67 -0.33
+medium  0.33 -0.33
+high    0.33  0.67
 ```
 
 ```
@@ -4504,16 +4544,16 @@ Residuals:
 -25.875 -13.011   0.419  14.211  24.685 
 
 Coefficients:
-            Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  450.000      5.774  77.942 4.77e-14 ***
-F2-1         -50.000     14.142  -3.536  0.00636 ** 
-F3-2         -50.000     14.142  -3.536  0.00636 ** 
+            Estimate Std. Error t value          Pr(&gt;|t|)    
+(Intercept)   450.00       5.77   77.94 0.000000000000048 ***
+F2-1          -50.00      14.14   -3.54            0.0064 ** 
+F3-2          -50.00      14.14   -3.54            0.0064 ** 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 20 on 9 degrees of freedom
-Multiple R-squared:  0.8475,	Adjusted R-squared:  0.8136 
-F-statistic:    25 on 2 and 9 DF,  p-value: 0.0002115
+Multiple R-squared:  0.847,	Adjusted R-squared:  0.814 
+F-statistic:   25 on 2 and 9 DF,  p-value: 0.000211
 ```
 ]
  
@@ -4540,10 +4580,10 @@ lm(DV ~ F, data = simdat2) |&gt;
 .panel2-multiple-contrasts-rotate[
 
 ```
-                  .L         .Q
-low    -7.071068e-01  0.4082483
-medium -7.850462e-17 -0.8164966
-high    7.071068e-01  0.4082483
+                          .L    .Q
+low    -0.707106781186547573  0.41
+medium -0.000000000000000079 -0.82
+high    0.707106781186547462  0.41
 ```
 
 ```
@@ -4556,16 +4596,20 @@ Residuals:
 -25.875 -13.011   0.419  14.211  24.685 
 
 Coefficients:
-              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  4.500e+02  5.774e+00  77.942 4.77e-14 ***
-F.L         -7.071e+01  1.000e+01  -7.071 5.85e-05 ***
-F.Q          6.306e-14  1.000e+01   0.000        1    
+                        Estimate           Std. Error t value          Pr(&gt;|t|)
+(Intercept) 450.0000000000001705   5.7735026918962697   77.94 0.000000000000048
+F.L         -70.7106781186548830  10.0000000000000231   -7.07 0.000058491882571
+F.Q           0.0000000000000631  10.0000000000000178    0.00                 1
+               
+(Intercept) ***
+F.L         ***
+F.Q            
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 20 on 9 degrees of freedom
-Multiple R-squared:  0.8475,	Adjusted R-squared:  0.8136 
-F-statistic:    25 on 2 and 9 DF,  p-value: 0.0002115
+Multiple R-squared:  0.847,	Adjusted R-squared:  0.814 
+F-statistic:   25 on 2 and 9 DF,  p-value: 0.000211
 ```
 ]
  
@@ -4608,16 +4652,16 @@ Residuals:
 -25.875 -13.011   0.419  14.211  24.685 
 
 Coefficients:
-            Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  450.000      5.774  77.942 4.77e-14 ***
-F1           -25.000      7.071  -3.536 0.006358 ** 
-F2           -25.000      4.082  -6.124 0.000174 ***
+            Estimate Std. Error t value          Pr(&gt;|t|)    
+(Intercept)   450.00       5.77   77.94 0.000000000000048 ***
+F1            -25.00       7.07   -3.54           0.00636 ** 
+F2            -25.00       4.08   -6.12           0.00017 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 20 on 9 degrees of freedom
-Multiple R-squared:  0.8475,	Adjusted R-squared:  0.8136 
-F-statistic:    25 on 2 and 9 DF,  p-value: 0.0002115
+Multiple R-squared:  0.847,	Adjusted R-squared:  0.814 
+F-statistic:   25 on 2 and 9 DF,  p-value: 0.000211
 ```
 ]
  
@@ -4655,6 +4699,54 @@ Helmert contrastsを適用
 
 
 
+
+---
+
+
+class: inverse, middle, center
+
+# The hypothesis matrix illustrated with a three-level factor (pp.9--12)
+
+---
+
+class: inverse, middle
+&lt;!-- class: inverse, middle, split-50 --&gt;
+
+## さまざまな対比行列
+
+1. シミュレーション用データについて
+2. Sum contrasts
+3. The hypothesis matrix
+---
+
+::::: block
+
+## シミュレーション用データについて
+
+- 本資料では，[前のセクション](#simdat2)で作成
+- **応答変数**：語彙判断課題の反応時間
+- **説明変数**：判断する単語の頻度
+  - 頻度が低いほど，反応時間が長い
+- 被験者間計画での水準数
+  - 3水準
+- 被験者内計画での水準数
+  - なし
+- 被験者間計画での1水準あたりの実験参加者数
+  - 4人
+  - 計 `\(4 \times 3 = 12\)` 人
+- 各水準での応答変数の平均値
+  - 500, 450, 400
+- 要因の標準偏差
+  - 20
+
+:::::
+
+---
+
+
+## Sum contrast
+
+です！
 
 
 ---

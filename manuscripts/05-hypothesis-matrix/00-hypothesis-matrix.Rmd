@@ -18,100 +18,25 @@ class: inverse, middle
 
 ## シミュレーション用データについて
 
-- 対比を表す係数値（傾き・切片）は，係数値の行列で表現される
-- 係数値の行列は，対比行列で実装される
-
-:::::
-
----
-
-```{r child = "01-treatment.Rmd"}
-```
-
-```{r child = "02-sum.Rmd"}
-```
-
-```{r child = "03-repeated.Rmd"}
-```
-
-```{r child = "04-polynomial.Rmd"}
-```
-
-```{r child = "05-helmert.Rmd"}
-```
-
-## 任意の対比行列を充てる方法
-
-::: columns
-
-:::: pull-left
-
-まずは，シミュレーション用データを作成
-
+- 本資料では，[前のセクション](#simdat2)で作成
+- **応答変数**：語彙判断課題の反応時間
+- **説明変数**：判断する単語の頻度
+  - 頻度が低いほど，反応時間が長い
 - 被験者間計画での水準数
   - 3水準
 - 被験者内計画での水準数
   - なし
 - 被験者間計画での1水準あたりの実験参加者数
-  - 20人
-  - 計$20 \times 3 = 60$人
+  - 4人
+  - 計 $4 \times 3 = 12$ 人
 - 各水準での応答変数の平均値
-  - 600
-  - 400
-  - 300
+  - 500, 450, 400
 - 要因の標準偏差
-  - 100
+  - 20
 
-::::
-
-:::: pull-right
-
-```{r}
-#| data-multiple-contrasts,
-#| echo = TRUE,
-#| eval = FALSE
-
-set.seed(1212); simdatContrasts <- mixedDesign(
-  B = 3,
-  W = NULL,
-  n = 20,
-  M = matrix(
-    c(600, 400, 300),
-    nrow = 3,
-    ncol = 1,
-    byrow = FALSE
-  ),
-  SD = 100,
-  long = TRUE
-)
-```
-
-```{r}
-#| ref.label = c('data-multiple-contrasts'),
-#| echo = FALSE,
-#| eval = TRUE
-```
-
-::::
-
-:::
+:::::
 
 ---
 
-`r chunk_reveal("multiple-contrasts", left_assign = "detect", break_type = "rotate", title = "## 任意の対比行列を充てる方法",  display_type = c("code", "output", "md"), md = c("Treatment contrastsを適用", "Sum contrastsを適用", "Repeated contrastsを適用", "Polynomial contrastsを適用", "Helmert contrastsを適用", "希望するcontrastsになったか確認", "統計モデル構築", "結果表示"), widths = c(3, 2, 1))`
-
-```{r}
-#| multiple-contrasts,
-#| include = FALSE
-
-contrasts(simdatContrasts$B_A) <- contr.treatment(3) #ROTATE
-contrasts(simdatContrasts$B_A) <- contr.sum(3) #ROTATE
-contrasts(simdatContrasts$B_A) <- contr.sdif(3) #ROTATE
-contrasts(simdatContrasts$B_A) <- contr.poly(3) #ROTATE
-contrasts(simdatContrasts$B_A) <- contr.helmert(3) #ROTATE
-
-contrasts(simdatContrasts$B_A)
-
-lm(DV ~ B_A, data = simdatContrasts) |>
-  summary()
+```{r child = "01-sum-contrast.Rmd"}
 ```
