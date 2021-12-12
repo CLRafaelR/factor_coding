@@ -3,13 +3,278 @@
 - ある対比を使って本当に仮説を正しく検証できるか確認する
   - 例：
   - 「低頻度語への反応時間 $\mu_1$ が，全体平均 $\frac{\mu_1 + \mu_2 + \mu_3}{3}$ と異なるか？」を調べるのに， ${H_0}_1: \mu_1 = \frac{\mu_1 + \mu_2 + \mu_3}{3}$ という対比を使って問題ないか
-- 検証したい仮説や使いたい実験デザインによっては，Rの`contr.*()`関数で作れる対比行列を当てはめられないことがある
+- 検証したい帰無仮説や使いたい実験デザインによっては，Rの`contr.*()`関数で作れる対比行列を当てはめられないことがある
   - **どのように対比行列が作られるのか理解する意義がある**
-
 
 ---
 
 ## 対比行列を自分で作る
 
-1. 検証したい仮説を用意する
-1. 
+1. 検証したい帰無仮説を用意する
+1. 重みづけ（例：sum contrastであれば[この重みづけ](#sum-contrast-weights)）を抽出し，「仮説行列」 *hypothesis matrix* に書く
+1. 一般化逆行列 *generalised matrix inverse* を使い，仮説行列を対比行列に変換
+1. 対比行列を要因に当てはめ，線形モデルを走らせる
+
+仮説行列?? $\to$ `r contr.sum(3) |> kable()`
+
+
+---
+
+## 検証したい帰無仮説を用意する
+
+::: columns
+
+:::: pull-left
+
+- **応答変数**：語彙判断課題の反応時間
+- **説明変数**：判断する単語の頻度
+  - 頻度が低いほど，反応時間が長い
+- 被験者間計画での水準数
+  - 3水準（低頻度・中頻度・高頻度）
+
+::::: block
+
+### 検証する仮説
+
+1. 低頻度語への反応時間 $\mu_1$ は，全体平均 $\frac{\mu_1 + \mu_2 + \mu_3}{3}$ と異なるか？
+    - 全体平均より長い？短い？
+2. 中頻度語への反応時間 $\mu_2$ は，全体平均 $\frac{\mu_1 + \mu_2 + \mu_3}{3}$ と異なるか？
+    - 全体平均より長い？短い？
+3. 全体平均 $\frac{\mu_1 + \mu_2 + \mu_3}{3}$ は0秒と同じ？
+
+:::::
+
+::::
+
+:::: pull-right
+
+$$\begin{aligned}
+{H_0}_1: \overbrace{\mu_1}^{\text{低頻度語への反応時間}} = \overbrace{\frac{\mu_1 + \mu_2 + \mu_3}{3}}^{全体平均}
+\end{aligned}$$
+
+$$\begin{aligned}
+{H_0}_2: \overbrace{\mu_2}^{\text{中頻度語への反応時間}} = \overbrace{\frac{\mu_1 + \mu_2 + \mu_3}{3}}^{全体平均}
+\end{aligned}$$
+
+$$\begin{aligned}
+{H_0}_0: \overbrace{\frac{\mu_1 + \mu_2 + \mu_3}{3}}^{全体平均} = 0
+\end{aligned}$$
+
+::::
+
+:::
+
+---
+
+## 検証したい帰無仮説を用意する
+
+::::: block
+
+### 研究上の問い
+
+- **応答変数**：語彙判断課題の反応時間
+- **説明変数**：判断する単語の頻度
+  - 頻度が低いほど，反応時間が長い
+- 被験者間計画での水準数
+  - 3水準（低頻度・中頻度・高頻度）
+
+:::::
+
+---
+
+## 検証したい帰無仮説を用意する
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### 検証する仮説
+
+1. 低頻度語への反応時間 $\mu_1$ は，全体平均 $\frac{\mu_1 + \mu_2 + \mu_3}{3}$ と異なるか？
+    - 全体平均より長い？短い？
+2. 中頻度語への反応時間 $\mu_2$ は，全体平均 $\frac{\mu_1 + \mu_2 + \mu_3}{3}$ と異なるか？
+    - 全体平均より長い？短い？
+3. 全体平均 $\frac{\mu_1 + \mu_2 + \mu_3}{3}$ は0秒と同じ？
+
+:::::
+
+::::
+
+:::: pull-right
+
+$$\begin{aligned}
+{H_0}_1: \overbrace{\mu_1}^{\text{低頻度語への反応時間}} = \overbrace{\frac{\mu_1 + \mu_2 + \mu_3}{3}}^{全体平均}
+\end{aligned}$$
+
+$$\begin{aligned}
+{H_0}_2: \overbrace{\mu_2}^{\text{中頻度語への反応時間}} = \overbrace{\frac{\mu_1 + \mu_2 + \mu_3}{3}}^{全体平均}
+\end{aligned}$$
+
+$$\begin{aligned}
+{H_0}_0: \overbrace{\frac{\mu_1 + \mu_2 + \mu_3}{3}}^{全体平均} = 0
+\end{aligned}$$
+
+::::
+
+:::
+
+---
+
+## 検証したい帰無仮説を用意する
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### 検証する仮説
+
+1. 低頻度語への反応時間 $\mu_1$ は，全体平均 $\frac{\mu_1 + \mu_2 + \mu_3}{3}$ と異なるか？
+    - 全体平均より長い？短い？
+2. 中頻度語への反応時間 $\mu_2$ は，全体平均 $\frac{\mu_1 + \mu_2 + \mu_3}{3}$ と異なるか？
+    - 全体平均より長い？短い？
+3. 全体平均 $\frac{\mu_1 + \mu_2 + \mu_3}{3}$ は0秒と同じ？
+
+:::::
+
+::::
+
+:::: pull-right
+
+$${H_0}_1: (\underbrace{\frac{2}{3}}_{\mu_1\text{への重み}}\mu_1) + (\underbrace{-\frac{1}{3}}_{\mu_2\text{への重み}}\mu_2) + (\underbrace{-\frac{1}{3}}_{\mu_3\text{への重み}}\mu_3) = 0$$
+
+$${H_0}_2: (\underbrace{-\frac{1}{3}}_{\mu_1\text{への重み}}\mu_1) + (\underbrace{\frac{2}{3}}_{\mu_2\text{への重み}}\mu_2) + (\underbrace{-\frac{1}{3}}_{\mu_3\text{への重み}}\mu_3) = 0$$
+
+$${H_0}_0: (\underbrace{\frac{1}{3}}_{\mu_1\text{への重み}}\mu_1) + (\underbrace{\frac{1}{3}}_{\mu_2\text{への重み}}\mu_2) + (\underbrace{\frac{1}{3}}_{\mu_3\text{への重み}}\mu_3) = 0$$
+
+::::
+
+:::
+
+---
+
+## 重みづけを抽出し，「仮説行列」に書く
+
+$\mu_1$, $\mu_2$, $\mu_3$ には重みづけがある
+
+::: columns
+
+:::: pull-left
+
+$${H_0}_1: (\underbrace{\frac{2}{3}}_{\mu_1\text{への重み}}\mu_1) + (\underbrace{-\frac{1}{3}}_{\mu_2\text{への重み}}\mu_2) + (\underbrace{-\frac{1}{3}}_{\mu_3\text{への重み}}\mu_3) = 0$$
+
+$${H_0}_2: (\underbrace{-\frac{1}{3}}_{\mu_1\text{への重み}}\mu_1) + (\underbrace{\frac{2}{3}}_{\mu_2\text{への重み}}\mu_2) + (\underbrace{-\frac{1}{3}}_{\mu_3\text{への重み}}\mu_3) = 0$$
+
+$${H_0}_0: (\underbrace{\frac{1}{3}}_{\mu_1\text{への重み}}\mu_1) + (\underbrace{\frac{1}{3}}_{\mu_2\text{への重み}}\mu_2) + (\underbrace{\frac{1}{3}}_{\mu_3\text{への重み}}\mu_3) = 0$$
+
+::::
+
+:::: pull-right
+
+- 各行：**帰無仮説**
+  - ${H_0}_0$: `cH00`
+  - ${H_0}_1$: `cH01`
+  - ${H_0}_2$: `cH02`
+- 各列：各水準への**重み**
+
+```{r}
+#| sum-hypothesis-matrix,
+#| echo = TRUE,
+#| eval = FALSE
+
+HcSum <- rbind(
+  cH00 = c(low =  1/3, med =  1/3, hi =  1/3),
+  cH01 = c(low =  2/3, med = -1/3, hi = -1/3),
+  cH02 = c(low = -1/3, med =  2/3, hi = -1/3)
+)
+```
+
+```{r}
+#| ref.label = c('sum-hypothesis-matrix'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+<!--
+
+tidyverseの関数で実行することもできるが，
+t()でcH**の情報が失われる
+
+bind_rows(
+  cH00 = c(low =  1/3, med =  1/3, hi =  1/3),
+  cH01 = c(low =  2/3, med = -1/3, hi = -1/3),
+  cH02 = c(low = -1/3, med =  2/3, hi = -1/3)
+) #|>
+  t() |>
+  fractions()
+
+-->
+
+::::
+
+:::
+
+---
+
+`r chunk_reveal("sum-hypothesis-matrix-transpose", left_assign = "detect", title = "## 重みづけを抽出し，「仮説行列」に書く",  display_type = c("code", "output", "md"), md = c("仮説行列", "小数表記を分数表記に改める", "仮説行列", "仮説行列を転置 *transpose*  \n今度は各行が水準，各列が仮説に変わる", "小数表記を分数表記に改める"))`
+
+
+```{r}
+#| sum-hypothesis-matrix-transpose,
+#| include = FALSE
+HcSum |> 
+  fractions()
+
+HcSum |>
+  t() |>
+  fractions()
+```
+
+---
+
+`r chunk_reveal("sum-hypothesis-matrix-ginv", left_assign = "detect", title = "## 一般化逆行列を使い，仮説行列を対比行列に変換",  display_type = c("code", "output", "md"), md = c("仮説行列に対し…", "一般化逆行列を適用，仮説行列を対比行列に変換", "仮説行列に対し…", "一般化逆行列を適用，仮説行列を対比行列に変換", "行名・列名を再付与", "分数表記に"))`
+
+
+```{r}
+#| sum-hypothesis-matrix-ginv,
+#| include = FALSE
+
+XcSum <- HcSum |> 
+  hypr::ginv2()
+
+XcSum <- HcSum |>
+  ginv() |>
+  provideDimnames(base = dimnames(HcSum)[2:1]) |>
+  fractions()
+```
+
+---
+
+`r chunk_reveal("sum-hypothesis-matrix-ginv-contr-sum", left_assign = "detect", title = "## 一般化逆行列を使い，仮説行列を対比行列に変換",  display_type = c("code", "output", "md"), md = c("仮説行列に一般化逆行列を適用したもの", "3水準の時のsum contrast", "1を…", "3水準の時のsum contrastの行列の1列目に付与", "分数表記に"))`
+
+
+```{r}
+#| sum-hypothesis-matrix-ginv-contr-sum,
+#| include = FALSE
+
+XcSum
+
+contr.sum(3)
+
+1 |>
+  cbind(contr.sum(3)) |>
+  fractions()
+```
+
+
+
+---
+
+## 対比行列を要因に当てはめ，線形モデルを走らせる
+
+
+
+---

@@ -12,6 +12,12 @@ class: inverse, middle
 1. シミュレーション用データについて
 2. Sum contrasts
 3. The hypothesis matrix
+  1. 検証したい仮説を用意する
+  1. 重みづけを抽出し，「仮説行列」 *hypothesis matrix* に書く
+  1. 一般化逆行列 *generalised matrix inverse* を使い，仮説行列を対比行列に変換
+  1. 対比行列を要因に当てはめ，線形モデルを走らせる
+
+
 ---
 
 ## シミュレーション用データについて
