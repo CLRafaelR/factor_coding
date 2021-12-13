@@ -18,7 +18,7 @@ class: center, middle, inverse, title-slide
 ## Schad et al (2020)日本語注解
 ### 小川雅貴
 ### 東京大学
-### 2021/12/17 (updated: 2021-12-12)
+### 2021/12/17 (updated: 2021-12-13)
 
 ---
 
@@ -4733,7 +4733,8 @@ class: inverse, middle
 
 ::::: block
 
-- 本資料では，[前のセクション](#simdat2)で作成
+- データ：`simdat2`
+  - 本資料では，[前のセクション](#simdat2)で作成済
 - **応答変数**：語彙判断課題の反応時間
 - **説明変数**：判断する単語の頻度
   - 頻度が低いほど，反応時間が長い
@@ -4833,7 +4834,7 @@ name: sum-contrast-weights
 1. 検証したい帰無仮説を用意する
 1. 重みづけ（例：sum contrastであれば[この重みづけ](#sum-contrast-weights)）を抽出し，「仮説行列」 *hypothesis matrix* に書く
 1. 一般化逆行列 *generalised matrix inverse* を使い，仮説行列を対比行列に変換
-1. 対比行列を要因に当てはめ，線形モデルを走らせる
+1. 対比行列を要因に当てはめ，線形モデルを実行
 
 仮説行列?? `\(\to\)` 
 
@@ -5666,15 +5667,199 @@ hi   1   -1   -1
 
 
 
+---
+
+count: false
+ 
+## 対比行列を要因に当てはめ，線形モデルを実行
+.panel1-manual-contrasts-rotate[
+
+```r
+*contrasts(simdat2$F) &lt;- XcSum[, colnames(XcSum) != "cH00"]
+
+contrasts(simdat2$F)
+
+lm(DV ~ F, data = simdat2) |&gt;
+  tidy(conf.int = TRUE, conf.level = 0.95) |&gt;
+  mutate(
+    `95% CI` = paste0(
+      "[",
+      conf.low |&gt; round(2),
+      ", ",
+      conf.high |&gt; round(2),
+      "]"
+    )
+  ) |&gt;
+  relocate(`95% CI`, .after = estimate) |&gt;
+  dplyr::select(-c(std.error, conf.low, conf.high)) |&gt;
+  kable(
+    digits = 2,
+    escape = FALSE,
+    col.names = c(
+      'Predictor',
+      'Estimate',
+      '95% CI',
+      '$t$-value',
+      '$p$-value'
+    )
+  )
+```
+]
+ 
+.panel2-manual-contrasts-rotate[
+
+```
+       cH01 cH02
+low     1    0  
+medium  0    1  
+high   -1   -1  
+```
+
+
+
+|Predictor   | Estimate|95% CI           | `\(t\)`-value| `\(p\)`-value|
+|:-----------|--------:|:----------------|---------:|---------:|
+|(Intercept) |      450|[436.94, 463.06] |      77.9|         0|
+|FcH01       |       50|[31.53, 68.47]   |       6.1|         0|
+|FcH02       |        0|[-18.47, 18.47]  |       0.0|         1|
+]
+ 
+.panel3-manual-contrasts-rotate[
+仮説行列から作ったSum contrastsを適用
+]
+
+---
+count: false
+ 
+## 対比行列を要因に当てはめ，線形モデルを実行
+.panel1-manual-contrasts-rotate[
+
+```r
+*contrasts(simdat2$F) &lt;- contr.sum(3)
+
+contrasts(simdat2$F)
+
+lm(DV ~ F, data = simdat2) |&gt;
+  tidy(conf.int = TRUE, conf.level = 0.95) |&gt;
+  mutate(
+    `95% CI` = paste0(
+      "[",
+      conf.low |&gt; round(2),
+      ", ",
+      conf.high |&gt; round(2),
+      "]"
+    )
+  ) |&gt;
+  relocate(`95% CI`, .after = estimate) |&gt;
+  dplyr::select(-c(std.error, conf.low, conf.high)) |&gt;
+  kable(
+    digits = 2,
+    escape = FALSE,
+    col.names = c(
+      'Predictor',
+      'Estimate',
+      '95% CI',
+      '$t$-value',
+      '$p$-value'
+    )
+  )
+```
+]
+ 
+.panel2-manual-contrasts-rotate[
+
+```
+       [,1] [,2]
+low       1    0
+medium    0    1
+high     -1   -1
+```
+
+
+
+|Predictor   | Estimate|95% CI           | `\(t\)`-value| `\(p\)`-value|
+|:-----------|--------:|:----------------|---------:|---------:|
+|(Intercept) |      450|[436.94, 463.06] |      77.9|         0|
+|F1          |       50|[31.53, 68.47]   |       6.1|         0|
+|F2          |        0|[-18.47, 18.47]  |       0.0|         1|
+]
+ 
+.panel3-manual-contrasts-rotate[
+**contr.sum(3)**で作ったSum contrastsを適用
+]
+
+&lt;style&gt;
+.panel1-manual-contrasts-rotate {
+  color: black;
+  width: 48.5%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-manual-contrasts-rotate {
+  color: black;
+  width: 32.3333333333333%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-manual-contrasts-rotate {
+  color: black;
+  width: 16.1666666666667%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
 
 
 ---
 
-## 対比行列を要因に当てはめ，線形モデルを走らせる
+## 統計モデルから仮説を検証
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+&lt;!--
+### 検証する仮説
+--&gt;
+
+1. 低頻度語への反応時間 `\(\mu_1\)` は，全体平均 `\(\frac{\mu_1 + \mu_2 + \mu_3}{3}\)` と異なるか？
+    - `FcH01`より， `\(\mu_1 = 50\)`
+    - `\(t\)` 値が `\(t(9)\)` の両側2.5% `\(t \leq -2.26, 2.26 \leq t\)`にあるため，低頻度語への反応時間は全体平均より有意に長い
+2. 中頻度語への反応時間 `\(\mu_2\)` は，全体平均 `\(\frac{\mu_1 + \mu_2 + \mu_3}{3}\)` と異なるか？
+    - `FcH02`より， `\(\mu_2 = 0\)`
+    - `\(t\)` 値が `\(t(9)\)` の両側2.5%にないため，低頻度語への反応時間と全体平均の差は有意ではない
+3. 全体平均 `\(\frac{\mu_1 + \mu_2 + \mu_3}{3}\)` は0秒と同じ？
+    - `(Intercept)`より， `\(\frac{\mu_1 + \mu_2 + \mu_3}{3} = 450\)`
+
+:::::
+
+::::
+
+:::: pull-right
 
 
+|Predictor   | Estimate|95% CI     | `\(t\)`-value| `\(p\)`-value|
+|:-----------|--------:|:----------|---------:|---------:|
+|(Intercept) |      450|[437, 463] |      77.9|         0|
+|FcH01       |       50|[32, 68]   |       6.1|         0|
+|FcH02       |        0|[-18, 18]  |       0.0|         1|
 
----
+&lt;img src="figures/Notes-Schad-etal-2020-fig-simdat2-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
 
 
 ---
