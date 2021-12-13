@@ -1297,7 +1297,6 @@ simdat |&gt;
 
 
 
-
 ---
 
 ::: columns
@@ -5936,6 +5935,760 @@ set.seed(1212); simdat3 &lt;- mixedDesign(
 ::::
 
 :::
+
+---
+
+count: false
+ 
+### シミュレーションの結果を図や表で確認
+.panel1-fig-simdat3-auto[
+
+```r
+*simdat3
+```
+]
+ 
+.panel2-fig-simdat3-auto[
+
+```
+             F id   DV
+1          low  1  3.6
+2          low  2 11.3
+3          low  3  7.3
+4          low  4  1.2
+5          low  5 26.5
+6   medium-low  6  9.2
+7   medium-low  7 36.5
+8   medium-low  8 17.9
+9   medium-low  9 18.0
+10  medium-low 10 18.4
+11 medium-high 11 -3.7
+12 medium-high 12 13.7
+13 medium-high 13 22.6
+14 medium-high 14  4.4
+15 medium-high 15 13.0
+16        high 16 51.2
+17        high 17 34.0
+18        high 18 35.9
+19        high 19 28.9
+20        high 20 50.0
+```
+]
+ 
+.panel3-fig-simdat3-auto[
+データセット
+]
+
+---
+count: false
+ 
+### シミュレーションの結果を図や表で確認
+.panel1-fig-simdat3-auto[
+
+```r
+simdat3 |&gt;
+* group_by(F)
+```
+]
+ 
+.panel2-fig-simdat3-auto[
+
+```
+# A tibble: 20 x 3
+# Groups:   F [4]
+   F           id       DV
+   &lt;fct&gt;       &lt;fct&gt; &lt;dbl&gt;
+ 1 low         1      3.57
+ 2 low         2     11.3 
+ 3 low         3      7.34
+ 4 low         4      1.22
+ 5 low         5     26.5 
+ 6 medium-low  6      9.24
+ 7 medium-low  7     36.5 
+ 8 medium-low  8     17.9 
+ 9 medium-low  9     18.0 
+10 medium-low  10    18.4 
+11 medium-high 11    -3.71
+12 medium-high 12    13.7 
+13 medium-high 13    22.6 
+14 medium-high 14     4.44
+15 medium-high 15    13.0 
+16 high        16    51.2 
+17 high        17    34.0 
+18 high        18    35.9 
+19 high        19    28.9 
+20 high        20    50.0 
+```
+]
+ 
+.panel3-fig-simdat3-auto[
+説明変数の水準毎にデータをまとめ上げ
+]
+
+---
+count: false
+ 
+### シミュレーションの結果を図や表で確認
+.panel1-fig-simdat3-auto[
+
+```r
+simdat3 |&gt;
+  group_by(F) |&gt;
+* summarise(
+*   N = length(DV),
+*   M = mean(DV),
+*   SD = sd(DV),
+*   SE = SD / sqrt(N)
+* )
+```
+]
+ 
+.panel2-fig-simdat3-auto[
+
+```
+# A tibble: 4 x 5
+  F               N     M    SD    SE
+  &lt;fct&gt;       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 low             5    10    10  4.47
+2 medium-low      5    20    10  4.47
+3 medium-high     5    10    10  4.47
+4 high            5    40    10  4.47
+```
+]
+ 
+.panel3-fig-simdat3-auto[
+水準毎に，  
+- データの個数**N**，  
+- 応答変数の平均値**M**，  
+- 応答変数の平均値の標準偏差**SD**，  
+- 応答変数の平均値の標準偏差**SE**  
+  
+を計算
+]
+
+---
+count: false
+ 
+### シミュレーションの結果を図や表で確認
+.panel1-fig-simdat3-auto[
+
+```r
+simdat3 |&gt;
+  group_by(F) |&gt;
+  summarise(
+    N = length(DV),
+    M = mean(DV),
+    SD = sd(DV),
+    SE = SD / sqrt(N)
+  ) |&gt;
+* ungroup()
+```
+]
+ 
+.panel2-fig-simdat3-auto[
+
+```
+# A tibble: 4 x 5
+  F               N     M    SD    SE
+  &lt;fct&gt;       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 low             5    10    10  4.47
+2 medium-low      5    20    10  4.47
+3 medium-high     5    10    10  4.47
+4 high            5    40    10  4.47
+```
+]
+ 
+.panel3-fig-simdat3-auto[
+まとめ上げを解除
+]
+
+---
+count: false
+ 
+### シミュレーションの結果を図や表で確認
+.panel1-fig-simdat3-auto[
+
+```r
+simdat3 |&gt;
+  group_by(F) |&gt;
+  summarise(
+    N = length(DV),
+    M = mean(DV),
+    SD = sd(DV),
+    SE = SD / sqrt(N)
+  ) |&gt;
+  ungroup() |&gt;
+* mutate(
+*   GM = mean(M)
+* )
+```
+]
+ 
+.panel2-fig-simdat3-auto[
+
+```
+# A tibble: 4 x 6
+  F               N     M    SD    SE    GM
+  &lt;fct&gt;       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 low             5    10    10  4.47    20
+2 medium-low      5    20    10  4.47    20
+3 medium-high     5    10    10  4.47    20
+4 high            5    40    10  4.47    20
+```
+]
+ 
+.panel3-fig-simdat3-auto[
+線グラフを描画
+]
+
+---
+count: false
+ 
+### シミュレーションの結果を図や表で確認
+.panel1-fig-simdat3-auto[
+
+```r
+simdat3 |&gt;
+  group_by(F) |&gt;
+  summarise(
+    N = length(DV),
+    M = mean(DV),
+    SD = sd(DV),
+    SE = SD / sqrt(N)
+  ) |&gt;
+  ungroup() |&gt;
+  mutate(
+    GM = mean(M)
+  ) |&gt;
+* (
+*   \(d){
+*     qplot(
+*       x = F, y = M,
+*       group = 1,
+*       data = d,
+*       geom = c("point", "line")
+*     ) +
+*     geom_errorbar(
+*       aes(
+*         max = M + SE,
+*         min = M - SE
+*       ),
+*       width = 0
+*     ) +
+*     labs(
+*       y = "Mean DV",
+*       x = "Factor F"
+*     ) +
+*     geom_hline(
+*       yintercept = d$GM,
+*       linetype = "dashed"
+*     )
+*   }
+* )()
+```
+]
+ 
+.panel2-fig-simdat3-auto[
+&lt;img src="figures/Notes-Schad-etal-2020-fig-simdat3_auto_06_output-1.png" width="576" style="display: block; margin: auto;" /&gt;
+]
+ 
+.panel3-fig-simdat3-auto[
+誤差範囲 ( `\(\pm 1SE\)` ) を描画  
+※ `\(\pm 1SE\)` 自体は95%信頼区間ではない（68%信頼区間）  
+※信頼区間にする場合， `\(\pm 1.96SE\)` 
+]
+
+&lt;style&gt;
+.panel1-fig-simdat3-auto {
+  color: black;
+  width: 38.8%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-fig-simdat3-auto {
+  color: black;
+  width: 38.8%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-fig-simdat3-auto {
+  color: black;
+  width: 19.4%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+count: false
+ 
+### シミュレーションの結果を図や表で確認
+.panel1-tab-simdat3-auto[
+
+```r
+*simdat3
+```
+]
+ 
+.panel2-tab-simdat3-auto[
+
+```
+             F id   DV
+1          low  1  3.6
+2          low  2 11.3
+3          low  3  7.3
+4          low  4  1.2
+5          low  5 26.5
+6   medium-low  6  9.2
+7   medium-low  7 36.5
+8   medium-low  8 17.9
+9   medium-low  9 18.0
+10  medium-low 10 18.4
+11 medium-high 11 -3.7
+12 medium-high 12 13.7
+13 medium-high 13 22.6
+14 medium-high 14  4.4
+15 medium-high 15 13.0
+16        high 16 51.2
+17        high 17 34.0
+18        high 18 35.9
+19        high 19 28.9
+20        high 20 50.0
+```
+]
+ 
+.panel3-tab-simdat3-auto[
+データセット
+]
+
+---
+count: false
+ 
+### シミュレーションの結果を図や表で確認
+.panel1-tab-simdat3-auto[
+
+```r
+simdat3 |&gt;
+* group_by(F)
+```
+]
+ 
+.panel2-tab-simdat3-auto[
+
+```
+# A tibble: 20 x 3
+# Groups:   F [4]
+   F           id       DV
+   &lt;fct&gt;       &lt;fct&gt; &lt;dbl&gt;
+ 1 low         1      3.57
+ 2 low         2     11.3 
+ 3 low         3      7.34
+ 4 low         4      1.22
+ 5 low         5     26.5 
+ 6 medium-low  6      9.24
+ 7 medium-low  7     36.5 
+ 8 medium-low  8     17.9 
+ 9 medium-low  9     18.0 
+10 medium-low  10    18.4 
+11 medium-high 11    -3.71
+12 medium-high 12    13.7 
+13 medium-high 13    22.6 
+14 medium-high 14     4.44
+15 medium-high 15    13.0 
+16 high        16    51.2 
+17 high        17    34.0 
+18 high        18    35.9 
+19 high        19    28.9 
+20 high        20    50.0 
+```
+]
+ 
+.panel3-tab-simdat3-auto[
+説明変数の水準毎にデータをまとめ上げ
+]
+
+---
+count: false
+ 
+### シミュレーションの結果を図や表で確認
+.panel1-tab-simdat3-auto[
+
+```r
+simdat3 |&gt;
+  group_by(F) |&gt;
+* summarise(
+*   N = length(DV),
+*   M = mean(DV),
+*   SD = sd(DV),
+*   SE = SD / sqrt(N)
+* )
+```
+]
+ 
+.panel2-tab-simdat3-auto[
+
+```
+# A tibble: 4 x 5
+  F               N     M    SD    SE
+  &lt;fct&gt;       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 low             5    10    10  4.47
+2 medium-low      5    20    10  4.47
+3 medium-high     5    10    10  4.47
+4 high            5    40    10  4.47
+```
+]
+ 
+.panel3-tab-simdat3-auto[
+水準毎に，  
+- データの個数**N**，  
+- 応答変数の平均値**M**，  
+- 応答変数の平均値の標準偏差**SD**，  
+- 応答変数の平均値の標準偏差**SE**  
+  
+を計算
+]
+
+---
+count: false
+ 
+### シミュレーションの結果を図や表で確認
+.panel1-tab-simdat3-auto[
+
+```r
+simdat3 |&gt;
+  group_by(F) |&gt;
+  summarise(
+    N = length(DV),
+    M = mean(DV),
+    SD = sd(DV),
+    SE = SD / sqrt(N)
+  ) |&gt;
+* ungroup()
+```
+]
+ 
+.panel2-tab-simdat3-auto[
+
+```
+# A tibble: 4 x 5
+  F               N     M    SD    SE
+  &lt;fct&gt;       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 low             5    10    10  4.47
+2 medium-low      5    20    10  4.47
+3 medium-high     5    10    10  4.47
+4 high            5    40    10  4.47
+```
+]
+ 
+.panel3-tab-simdat3-auto[
+まとめ上げを解除
+]
+
+---
+count: false
+ 
+### シミュレーションの結果を図や表で確認
+.panel1-tab-simdat3-auto[
+
+```r
+simdat3 |&gt;
+  group_by(F) |&gt;
+  summarise(
+    N = length(DV),
+    M = mean(DV),
+    SD = sd(DV),
+    SE = SD / sqrt(N)
+  ) |&gt;
+  ungroup() |&gt;
+* kable(
+*   digits = 2,
+*   col.names = c(
+*     'Levels of Factor',
+*     'N. of data points',
+*     'Mean RT',
+*     'Std. Dev.',
+*     'Std. Err.'
+*   )
+* )
+```
+]
+ 
+.panel2-tab-simdat3-auto[
+
+|Levels of Factor | N. of data points| Mean RT| Std. Dev.| Std. Err.|
+|:----------------|-----------------:|-------:|---------:|---------:|
+|low              |                 5|      10|        10|       4.5|
+|medium-low       |                 5|      20|        10|       4.5|
+|medium-high      |                 5|      10|        10|       4.5|
+|high             |                 5|      40|        10|       4.5|
+]
+ 
+.panel3-tab-simdat3-auto[
+表の出力  
+- **digits**：有効数字の桁数を指定  
+- **col.names**：表内での各列の名前を変更
+]
+
+&lt;style&gt;
+.panel1-tab-simdat3-auto {
+  color: black;
+  width: 38.8%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-tab-simdat3-auto {
+  color: black;
+  width: 38.8%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-tab-simdat3-auto {
+  color: black;
+  width: 19.4%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+
+name: repeated-contrast-weights
+
+## Repeated contrasts
+
+::: columns
+
+:::: pull-left
+
+- （順序が決まっている）隣り合う水準同士を比較
+  - 実験群1 vs 実験群2
+  - 実験群2 vs 実験群3
+  - 実験群3 vs 実験群4...
+
+--
+
+- 例：語の頻度の効果を，隣り合う水準と比べる
+    1. 低頻度
+    2. 中頻度・低
+    3. 中頻度・高
+    4. 高頻度
+
+--
+
+  - 主な対比は次の3つ
+      1. 中頻度・低のRT &lt; 低頻度のRT
+      2. 中頻度・高のRT &lt; 中頻度・低のRT
+      3. 高頻度のRT &lt; 中頻度・高のRT
+
+::::
+
+:::: pull-right
+
+&lt;img src="figures/Notes-Schad-etal-2020-schema-simdat3-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
+
+---
+
+## Repeated contrasts
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### 検証する仮説
+
+1. 中頻度・低のRT `\(\mu_2\)` は，低頻度語へのRT `\(\mu_1\)` と異なるか？
+2. 中頻度・高のRT `\(\mu_3\)` は，中頻度・低のRT `\(\mu_2\)` と異なるか？
+3. 高頻度のRT `\(\mu_4\)` は， 中頻度・高のRT `\(\mu_3\)` と異なるか？
+&lt;!--
+4. 全体平均 `\(\frac{\mu_1 + \mu_2 + \mu_3 + \mu_4}{4}\)` は0秒と同じ？
+--&gt;
+
+:::::
+
+::::
+
+:::: pull-right
+
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-67-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
+
+---
+
+## Repeated contrasts
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### 検証する仮説
+
+言葉を数式に変換
+
+`$$\begin{aligned}
+{H_0}_{2-1}: &amp; \mu_2 = \mu_1 \\
+{H_0}_{3-2}: &amp; \mu_3 = \mu_2 \\
+{H_0}_{4-3}: &amp; \mu_4 = \mu_3
+\end{aligned}$$`
+
+&lt;!--
+4. 全体平均 `\(\frac{\mu_1 + \mu_2 + \mu_3 + \mu_4}{4}\)` は0秒と同じ？
+--&gt;
+
+:::::
+
+::::
+
+:::: pull-right
+
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-68-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
+
+---
+
+## Repeated contrasts
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### 検証する仮説
+
+両辺から右辺部分を引く
+
+`$$\begin{aligned}
+{H_0}_{2-1}: &amp; \mu_2 - \mu_1 = 0 \\
+{H_0}_{3-2}: &amp; \mu_3 - \mu_2 = 0 \\
+{H_0}_{4-3}: &amp; \mu_4 - \mu_3 = 0
+\end{aligned}$$`
+
+&lt;!--
+4. 全体平均 `\(\frac{\mu_1 + \mu_2 + \mu_3 + \mu_4}{4}\)` は0秒と同じ？
+--&gt;
+
+:::::
+
+::::
+
+:::: pull-right
+
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-69-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
+
+---
+
+## Repeated contrasts
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### 検証する仮説
+
+- `\(\mu_1, ..., \mu_4\)` の内，各式に存在しないものを書き加える
+- 書き加えるときには，追加するものに0を掛けてから
+
+`$$\begin{aligned}
+{H_0}_{2-1}: &amp; \mu_2 - \mu_1 + 0 \times \mu_3 + 0 \times \mu_4 = 0 \\
+{H_0}_{3-2}: &amp; \mu_3 - \mu_2 + 0 \times \mu_1 + 0 \times \mu_4 = 0 \\
+{H_0}_{4-3}: &amp; \mu_4 - \mu_3 + 0 \times \mu_1 + 0 \times \mu_2 = 0
+\end{aligned}$$`
+
+&lt;!--
+4. 全体平均 `\(\frac{\mu_1 + \mu_2 + \mu_3 + \mu_4}{4}\)` は0秒と同じ？
+--&gt;
+
+:::::
+
+::::
+
+:::: pull-right
+
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-70-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
+
+---
+
+## Repeated contrasts
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### 検証する仮説
+
+- `\(\mu_1, ..., \mu_4\)` の内，各式に存在しないものを書き加える
+- 書き加えるときには，追加するものに0を掛けてから
+
+`$$\begin{aligned}
+{H_0}_{2-1}: &amp; (-1) \times \mu_1 + 1\times \mu_2 + 0 \times \mu_3 + 0 \times \mu_4 = 0 \\
+{H_0}_{3-2}: &amp; 0 \times \mu_1 + (-1) \times \mu_2 + 1 \times \mu_3 + 0 \times \mu_4 = 0 \\
+{H_0}_{4-3}: &amp; 0 \times \mu_1 + 0 \times \mu_2 + (-1) \times \mu_3 + \mu_4= 0
+\end{aligned}$$`
+
+&lt;!--
+4. 全体平均 `\(\frac{\mu_1 + \mu_2 + \mu_3 + \mu_4}{4}\)` は0秒と同じ？
+--&gt;
+
+:::::
+
+::::
+
+:::: pull-right
+
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-71-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
+
 
 ---
 
