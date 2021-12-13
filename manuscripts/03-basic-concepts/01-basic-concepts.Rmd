@@ -42,32 +42,20 @@ class: inverse, middle
 https://stackoverflow.com/questions/67750561/vertically-scrollable-code-with-rstudio-and-xaringan
 -->
 
-`r chunk_reveal("simdat", left_assign=TRUE)`
-
-<!--
-#### the number of between-subject factors
--->
+`r chunk_reveal("simdat", left_assign = "detect", title = "### シミュレーション用データを作成", display_type = c("code", "output", "md"), md = c("データフレーム作成  \n- **B**：被験者間計画での水準数，  \n- **W**：被験者内計画での水準数，  \n- **n**：被験者間計画での1水準あたりの実験参加者数，  \n  - 実験参加者総数は，**B * n**  \n- **M**：水準ごとの応答変数の平均を示した行列  \n  - 各行に水準ごとの応答変数の平均を入れる  \n- **SD**：要因の標準偏差  \n- **long**：「1試行1データ」の整然データでデータフレームを作成", "要因名をB_AからFに変更", "水準名をA\\*からF\\*に変更", "データフレームの中身の詳細を表示"), widths = c(2, 2, 1))`
 
 ```{r simdat, include = FALSE}
 set.seed(1212); simdat <- mixedDesign(
-  #### 被験者間計画での水準数 ####
   B = 2,
-  #### 被験者内計画での水準数 ####
   W = NULL,
-  #### 被験者間計画での1水準あたりの実験参加者数 ####
-  #### 実験参加者総数は，`B * n` ####
   n = 5,
-  #### 水準ごとの応答変数の平均を示した行列 ####
-  #### 各行に水準ごとの応答変数の平均を入れる ####
   M = matrix(
     c(0.8, 0.4),
     nrow = 2,
     ncol = 1,
     byrow = FALSE
   ),
-  #### 要因の標準偏差 ####
   SD = 0.20,
-  #### 「1試行1データ」の整然データでデータフレームを作成 ####
   long = TRUE
 ) |>
   rename(F = B_A) |>
@@ -96,7 +84,7 @@ str(simdat)
 
 ---
 
-`r chunk_reveal("fig-simdat")`
+`r chunk_reveal("fig-simdat", title = "### シミュレーションの結果を図や表で確認", display_type = c("code", "output", "md"), md = c("データセット", "説明変数の水準毎にデータをまとめ上げ", "水準毎に，  \n- データの個数**N**，  \n- 応答変数の平均値**M**，  \n- 応答変数の平均値の標準偏差**SD**，  \n- 応答変数の平均値の標準偏差**SE**  \n  \nを計算", "まとめ上げを解除", "線グラフを描画", "誤差範囲 ( $\\pm 1SE$ ) を描画  \n※ $\\pm 1SE$ 自体は95%信頼区間ではない（68%信頼区間）  \n※信頼区間にする場合， $\\pm 1.96SE$ ", "x軸・y軸の軸名を変更"), widths = c(2, 2, 1))`
 
 ```{r fig-simdat, include = FALSE}
 simdat |>
@@ -133,7 +121,8 @@ simdat |>
 
 ---
 
-`r chunk_reveal("tab-simdat")`
+`r chunk_reveal("tab-simdat", title = "### シミュレーションの結果を図や表で確認", display_type = c("code", "output", "md"), md = c("データセット", "説明変数の水準毎にデータをまとめ上げ", "水準毎に，  \n- データの個数**N**，  \n- 応答変数の平均値**M**，  \n- 応答変数の平均値の標準偏差**SD**，  \n- 応答変数の平均値の標準偏差**SE**  \n  \nを計算", "まとめ上げを解除", "表の出力  \n- **digits**：有効数字の桁数を指定  \n- **col.names**：表内での各列の名前を変更"), widths = c(2, 2, 1))`
+
 
 ```{r tab-simdat, include = FALSE}
 simdat |>

@@ -178,6 +178,10 @@ library(gghighlight)
 ```{r child = "manuscripts/05-hypothesis-matrix/00-hypothesis-matrix.Rmd"}
 ```
 
+---
+
+```{r child = "manuscripts/06-further-examples/00-further-examples.Rmd"}
+```
 
 ---
 

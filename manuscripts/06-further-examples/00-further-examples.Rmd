@@ -1,0 +1,82 @@
+class: inverse, middle, center
+
+# Further examples of contrasts illustrated with a factor with four levels (pp.12--16)
+
+---
+
+class: inverse, middle
+<!-- class: inverse, middle, split-50 -->
+
+## さまざまな対比行列
+
+1. Repeated contrast
+2. Contrasts in linear regression analysis: The design or model matrix
+3. Polynomial contrasts
+4. Custom contrasts
+
+---
+
+## シミュレーション用データについて
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+- データ：`simdat3`
+  - [Heister, Würzner, & Kliegl (2012)](http://read.psych.uni-potsdam.de/pmr2/attachments/article/138/Heister_etal.Chapter.2012.pdf)の実験結果に基づくシミュレーション
+- **応答変数**：fixation duration
+- **説明変数**：判断する単語の頻度
+- 被験者間計画での水準数
+  - 4水準
+- 被験者内計画での水準数
+  - なし
+- 被験者間計画での1水準あたりの実験参加者数
+  - 5人
+  - 計 $4 \times 5 = 20$ 人
+- 各水準での応答変数の平均値
+  - 10, 20, 10, 40
+- 要因の標準偏差
+  - 10
+
+::::
+
+:::: pull-right
+
+```{r}
+#| data-simdat3,
+#| echo = TRUE,
+#| eval = FALSE
+
+set.seed(1212); simdat3 <- mixedDesign(
+  B = 4,
+  W = NULL,
+  n = 5,
+  M = matrix(
+    c(10, 20, 10, 40),
+    nrow = 4,
+    ncol = 1,
+    byrow = FALSE
+  ),
+  SD = 10,
+  long = TRUE
+) |>
+  rename(F = B_A) |>
+  mutate(
+    F = fct_recode(
+      F,
+      low           = "A1",
+      `medium-low`  = "A2",
+      `medium-high` = "A3",
+      high          = "A4"
+    )
+  )
+```
+
+```{r}
+#| ref.label = c('data-simdat2'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
