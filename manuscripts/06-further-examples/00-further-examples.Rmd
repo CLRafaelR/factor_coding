@@ -7,7 +7,7 @@ class: inverse, middle, center
 class: inverse, middle
 <!-- class: inverse, middle, split-50 -->
 
-## さまざまな対比行列
+## 1要因4水準のデータに，さまざまな対比行列を当てはめる
 
 1. Repeated contrast
 2. Contrasts in linear regression analysis: The design or model matrix
@@ -27,7 +27,7 @@ class: inverse, middle
 - データ：`simdat3`
   - [Heister, Würzner, & Kliegl (2012)](http://read.psych.uni-potsdam.de/pmr2/attachments/article/138/Heister_etal.Chapter.2012.pdf)の実験結果に基づくシミュレーション
 - **応答変数**：fixation duration
-- **説明変数**：判断する単語の頻度
+- **説明変数**：単語の頻度
 - 被験者間計画での水準数
   - 4水準
 - 被験者内計画での水準数
@@ -39,6 +39,8 @@ class: inverse, middle
   - 10, 20, 10, 40
 - 要因の標準偏差
   - 10
+
+:::::
 
 ::::
 
@@ -75,8 +77,92 @@ set.seed(1212); simdat3 <- mixedDesign(
 ```
 
 ```{r}
-#| ref.label = c('data-simdat2'),
+#| ref.label = c('data-simdat3'),
 #| echo = FALSE,
 #| eval = TRUE
 ```
 
+::::
+
+:::
+
+---
+
+`r chunk_reveal("fig-simdat3", title = "### シミュレーションの結果を図や表で確認", display_type = c("code", "output", "md"), md = c("データセット", "説明変数の水準毎にデータをまとめ上げ", "水準毎に，  \n- データの個数**N**，  \n- 応答変数の平均値**M**，  \n- 応答変数の平均値の標準偏差**SD**，  \n- 応答変数の平均値の標準偏差**SE**  \n  \nを計算", "まとめ上げを解除", "線グラフを描画", "誤差範囲 ( $\\pm 1SE$ ) を描画  \n※ $\\pm 1SE$ 自体は95%信頼区間ではない（68%信頼区間）  \n※信頼区間にする場合， $\\pm 1.96SE$ ", "x軸・y軸の軸名を変更"), widths = c(2, 2, 1))`
+
+```{r}
+#| fig-simdat3,
+#| include = FALSE
+
+simdat3 |>
+  group_by(F) |>
+  summarise(
+    N = length(DV),
+    M = mean(DV),
+    SD = sd(DV),
+    SE = SD / sqrt(N)
+  ) |>
+  ungroup() |>
+  mutate(
+    GM = mean(M)
+  ) |>
+  (
+    \(d){
+      qplot(
+        x = F, y = M,
+        group = 1,
+        data = d,
+        geom = c("point", "line")
+      ) +
+      geom_errorbar(
+        aes(
+          max = M + SE,
+          min = M - SE
+        ),
+        width = 0
+      ) +
+      labs(
+        y = "Mean DV",
+        x = "Factor F"
+      ) +
+      geom_hline(
+        yintercept = d$GM,
+        linetype = "dashed"
+      )
+    }
+  )()
+```
+
+---
+
+`r chunk_reveal("tab-simdat3", title = "### シミュレーションの結果を図や表で確認", display_type = c("code", "output", "md"), md = c("データセット", "説明変数の水準毎にデータをまとめ上げ", "水準毎に，  \n- データの個数**N**，  \n- 応答変数の平均値**M**，  \n- 応答変数の平均値の標準偏差**SD**，  \n- 応答変数の平均値の標準偏差**SE**  \n  \nを計算", "まとめ上げを解除", "表の出力  \n- **digits**：有効数字の桁数を指定  \n- **col.names**：表内での各列の名前を変更"), widths = c(2, 2, 1))`
+
+```{r}
+#| tab-simdat3,
+#| include = FALSE
+
+simdat3 |>
+  group_by(F) |>
+  summarise(
+    N = length(DV),
+    M = mean(DV),
+    SD = sd(DV),
+    SE = SD / sqrt(N)
+  ) |>
+  ungroup() |>
+  kable(
+    digits = 2,
+    col.names = c(
+      'Levels of Factor',
+      'N. of data points',
+      'Mean RT',
+      'Std. Dev.',
+      'Std. Err.'
+    )
+  )
+```
+
+---
+
+```{r child = '01-repeated-contrasts.Rmd'}
+```

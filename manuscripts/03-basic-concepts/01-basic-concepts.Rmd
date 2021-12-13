@@ -123,7 +123,6 @@ simdat |>
 
 `r chunk_reveal("tab-simdat", title = "### シミュレーションの結果を図や表で確認", display_type = c("code", "output", "md"), md = c("データセット", "説明変数の水準毎にデータをまとめ上げ", "水準毎に，  \n- データの個数**N**，  \n- 応答変数の平均値**M**，  \n- 応答変数の平均値の標準偏差**SD**，  \n- 応答変数の平均値の標準偏差**SE**  \n  \nを計算", "まとめ上げを解除", "表の出力  \n- **digits**：有効数字の桁数を指定  \n- **col.names**：表内での各列の名前を変更"), widths = c(2, 2, 1))`
 
-
 ```{r tab-simdat, include = FALSE}
 simdat |>
   group_by(F) |>

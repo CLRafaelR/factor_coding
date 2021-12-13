@@ -5865,7 +5865,7 @@ class: inverse, middle, center
 class: inverse, middle
 &lt;!-- class: inverse, middle, split-50 --&gt;
 
-## さまざまな対比行列
+## 1要因4水準のデータに，さまざまな対比行列を当てはめる
 
 1. Repeated contrast
 2. Contrasts in linear regression analysis: The design or model matrix
@@ -5885,7 +5885,7 @@ class: inverse, middle
 - データ：`simdat3`
   - [Heister, Würzner, &amp; Kliegl (2012)](http://read.psych.uni-potsdam.de/pmr2/attachments/article/138/Heister_etal.Chapter.2012.pdf)の実験結果に基づくシミュレーション
 - **応答変数**：fixation duration
-- **説明変数**：判断する単語の頻度
+- **説明変数**：単語の頻度
 - 被験者間計画での水準数
   - 4水準
 - 被験者内計画での水準数
@@ -5897,6 +5897,8 @@ class: inverse, middle
   - 10, 20, 10, 40
 - 要因の標準偏差
   - 10
+
+:::::
 
 ::::
 
@@ -5931,6 +5933,9 @@ set.seed(1212); simdat3 &lt;- mixedDesign(
 
 
 
+::::
+
+:::
 
 ---
 

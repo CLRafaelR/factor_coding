@@ -1,0 +1,172 @@
+name: repeated-contrast-weights
+
+## Repeated contrasts
+
+::: columns
+
+:::: pull-left
+
+- （順序が決まっている）隣り合う水準同士を比較
+  - 実験群1 vs 実験群2
+  - 実験群2 vs 実験群3
+  - 実験群3 vs 実験群4...
+
+--
+
+- 例：語の頻度の効果を，隣り合う水準と比べる
+    1. 低頻度
+    2. 中頻度・低
+    3. 中頻度・高
+    4. 高頻度
+
+--
+
+  - 対比は次の3つ
+      1. 中頻度・低のRT < 低頻度のRT
+      2. 中頻度・高のRT < 中頻度・低のRT
+      3. 高頻度のRT < 中頻度・高のRT
+
+::::
+
+:::: pull-right
+
+```{r schema-repeated-contrasts, echo = FALSE}
+summary_simdat3 <- simdat3 |>
+  group_by(F) |>
+  summarise(
+    N = length(DV),
+    M = mean(DV),
+    SD = sd(DV),
+    SE = SD / sqrt(N)
+  ) |>
+  ungroup() |>
+  mutate(
+    GM = mean(M)
+  )
+
+demoDataFreq <- tribble(
+  ~frequency, ~rt,
+  "low", 267,
+  "medium", 304,
+  "high", 401
+) |>
+mutate(
+  lag.rt = rt - lag(rt),
+  frequency = factor(
+    frequency,
+    levels = c("low", "medium", "high")
+  )
+)
+
+label.y <- demoDataFreq |>
+  filter(
+    frequency != "low"
+  ) |>
+  mutate(
+    rt = rt - abs(lag.rt)/2,
+    label = c(
+      "paste(italic(β)[1], '= medium - low')",
+      "paste(italic(β)[2], '= high - medium')"
+    )
+  )
+
+#| fig-simdat3,
+#| include = FALSE
+
+summary_simdat3 |>
+  (
+    \(d){
+      qplot(
+        x = F, y = M,
+        group = 1,
+        data = d,
+        geom = c("point", "line")
+      ) +
+      geom_errorbar(
+        aes(
+          max = M + SE,
+          min = M - SE
+        ),
+        width = 0
+      ) +
+      labs(
+        y = "Mean DV",
+        x = "Factor F"
+      ) +
+      geom_hline(
+        yintercept = d$GM,
+        linetype = "dashed"
+      )
+    }
+  )() #+
+  geom_label(
+    aes(
+      x = "low",
+      y = mean(rt),
+    ),
+    parse = TRUE,
+    label = "paste(italic(β)[0], '= Grand Mean')"
+  ) +
+  #### difference between low and medium
+  geom_segment(
+    aes(
+      x = "medium",
+      y = demoDataFreq |>
+        filter(frequency == "low") |>
+        dplyr::select(rt) |>
+        pull(),
+      xend = "medium",
+      yend = demoDataFreq |>
+        filter(frequency == "medium") |>
+        dplyr::select(rt) |>
+        pull()
+    ),
+    arrow = arrow(
+      length = unit(0.1, "inches"),
+      ends = "both"
+    ),
+    position = position_nudge(x = -0.5),
+    colour = "red",
+    size = 0.75
+  ) +
+  #### difference between medium and high
+  geom_segment(
+    aes(
+      x = "high",
+      y = demoDataFreq |>
+        filter(frequency == "medium") |>
+        dplyr::select(rt) |>
+        pull(),
+      xend = "high",
+      yend = demoDataFreq |>
+        filter(frequency == "high") |>
+        dplyr::select(rt) |>
+        pull()
+    ),
+    arrow = arrow(
+      length = unit(0.1, "inches"),
+      ends = "both"
+    ),
+    position = position_nudge(x = -0.5),
+    colour = "red",
+    size = 0.75
+  ) +
+  geom_label(
+    data = label.y,
+    aes(
+      x = frequency,
+      y = rt,
+      label = label
+    ),
+    parse = TRUE,
+    position = position_nudge(x = -0.5)
+  ) +
+  labs(
+    x = "Word Frequency",
+    y = "Reaction Time"
+  )
+```
+
+::::
+
+:::
