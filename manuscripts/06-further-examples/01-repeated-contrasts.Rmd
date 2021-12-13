@@ -437,7 +437,9 @@ XcRE <- HcRE |>
 
 XcRE <- HcRE |>
   ginv() |>
-  provideDimnames(base = dimnames(HcRE)[2:1]) |>
+  provideDimnames(
+    base = dimnames(HcRE)[2:1]
+  ) |>
   fractions()
 ```
 
@@ -458,14 +460,14 @@ contr.sdif(4) |>
 
 ---
 
-`r chunk_reveal("manual-repeated-contrasts", left_assign = "detect", break_type = "rotate", title = "## 対比行列を要因に当てはめ，線形モデルを実行",  display_type = c("code", "output", "md"), md = c("仮説行列から作ったRE contrastsを適用", "**contr.sum(3)**で作ったRE contrastsを適用", "希望するcontrastsになったか確認", "統計モデル構築", "結果表示", "より見やすく結果表示"), widths = c(3, 2, 1))`
+`r chunk_reveal("manual-repeated-contrasts", left_assign = "detect", break_type = "rotate", title = "## 対比行列を要因に当てはめ，線形モデルを実行",  display_type = c("code", "output", "md"), md = c("仮説行列から作ったrepeated contrastsを適用", "**contr.sdif(3)**で作ったrepeated contrastsを適用", "希望するcontrastsになったか確認", "統計モデル構築", "結果表示", "より見やすく結果表示"), widths = c(3, 2, 1))`
 
 ```{r}
 #| manual-repeated-contrasts,
 #| include = FALSE
 
 contrasts(simdat3$F) <- XcRE #ROTATE
-contrasts(simdat3$F) <- contr.sum(3) #ROTATE
+contrasts(simdat3$F) <- contr.sdif(4) |> fractions() #ROTATE
 
 contrasts(simdat3$F)
 
@@ -509,14 +511,15 @@ lm(DV ~ F, data = simdat3) |>
 ### 検証する帰無仮説
 -->
 
-1. 低頻度語への反応時間 $\mu_1$ は，全体平均 $\frac{\mu_1 + \mu_2 + \mu_3}{3}$ と同じか？
-    - `FcH01`より， $\mu_1 = 50$
-    - $t$ 値が $t(9)$ の両側2.5% $t \leq `r qt(df = 9, 0.025)`, `r qt(df = 9, 0.975)` \leq t$にあるため，低頻度語への反応時間は全体平均より有意に長い
-2. 中頻度語への反応時間 $\mu_2$ は，全体平均 $\frac{\mu_1 + \mu_2 + \mu_3}{3}$ と同じか？
-    - `FcH02`より， $\mu_2 = 0$
-    - $t$ 値が $t(9)$ の両側2.5%にないため，低頻度語への反応時間と全体平均の差は有意ではない
-3. 全体平均 $\frac{\mu_1 + \mu_2 + \mu_3}{3}$ は0秒と同じ？
-    - `(Intercept)`より， $\frac{\mu_1 + \mu_2 + \mu_3}{3} = 450$
+1. 中頻度・低のRT $\mu_2$ は，低頻度語へのRT $\mu_1$ と同じか？
+    - `Fc2vs1`より， $\mu_2 - \mu_1 = 10$
+    - $t$ 値が $t(16)$ の両側2.5% $t \leq `r qt(df = 16, 0.025)`, `r qt(df = 16, 0.975)` \leq t$にないため，中頻度・低へのRTは低頻度語へのRTより有意に長いとは言えない
+2. 中頻度・高へのRT $\mu_3$ は，中頻度・低へのRT $\mu_2$ と同じか？
+    - `Fc3vs2`より， $\mu_3 - \mu_2 = -10$
+    - $t$ 値が $t(16)$ の両側2.5%にないため，中頻度・高へのRTは中頻度・低へのRTより有意に長いとは言えない
+3. 高頻度へのRT $\mu_4$ は， 中頻度・高のRT $\mu_3$ と同じか？
+    - `Fc4vs3`より， $\mu_4 - \mu_3 = 30$
+    - $t$ 値が $t(16)$ の両側2.5%にあるため，高頻度へのRTは中頻度・高へのRTより有意に長い
 
 :::::
 
@@ -529,7 +532,7 @@ lm(DV ~ F, data = simdat3) |>
 #| echo = FALSE,
 #| eval = TRUE
 
-contrasts(simdat3$F) <- XcRE[, colnames(XcRE) != "cH00"] #ROTATE
+contrasts(simdat3$F) <- XcRE
 
 lm(DV ~ F, data = simdat3) |>
   tidy(conf.int = TRUE, conf.level = 0.95) |>
@@ -558,47 +561,9 @@ lm(DV ~ F, data = simdat3) |>
 ```
 
 ```{r}
-#| fig-simdat3,
+#| ref.label = c('fig-simdat3'),
 #| echo = FALSE,
 #| eval = TRUE
-
-simdat3 |>
-  group_by(F) |>
-  summarise(
-    N = length(DV),
-    M = mean(DV),
-    SD = sd(DV),
-    SE = SD / sqrt(N)
-  ) |>
-  ungroup() |>
-  mutate(
-    GM = mean(M)
-  ) |>
-  (
-    \(d){
-      qplot(
-        x = F, y = M,
-        group = 1,
-        data = d,
-        geom = c("point", "line")
-      ) +
-      geom_errorbar(
-        aes(
-          max = M + SE,
-          min = M - SE
-        ),
-        width = 0
-      ) +
-      labs(
-        y = "Mean DV",
-        x = "Factor F"
-      ) +
-      geom_hline(
-        yintercept = d$GM,
-        linetype = "dashed"
-      )
-    }
-  )()
 ```
 
 ::::
