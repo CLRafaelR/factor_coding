@@ -166,3 +166,8 @@ simdat3 |>
 
 ```{r child = '01-repeated-contrasts.Rmd'}
 ```
+
+---
+
+```{r child = '02-design-model-matrix.Rmd'}
+```

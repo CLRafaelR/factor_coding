@@ -1,0 +1,47 @@
+## Contrasts in linear regression analysis: The design or model matrix
+
+- 質的変数の対比により，離散的な水準を数値の変数にする
+  - 離散的：とびとびの値を取る
+- どの水準間の差について検定しようとしているか，数値・数式として符号する
+
+---
+
+## The design or model matrix
+
+::::: block
+
+### Contrast matrix 対比行列
+
+それぞれの水準をどのようにコーディングしたか，1行ずつ記述したもの
+
+```{r}
+#| repeated-contrast-matrix,
+#| echo = TRUE,
+#| eval = FALSE
+
+XcRE
+```
+
+```{r}
+#| ref.label = c('repeated-contrast-matrix'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+---
+
+`r chunk_reveal("repeated-contrast-design-matrix", left_assign = "detect", title = "## The design or model matrix  \n  \n### Design matrix [配置行列](https://www.ouj.ac.jp/mijika/tokei/xml/k3_04012.xml)  \n  \n- 各データポイントに対し，具体的にどの対比が使われたか記述したもの  \n- 対比行列を各データポイントに拡張したもの  \n  \n",  display_type = c("code", "output", "md"), md = c("配置行列のオブジェクトを作る", "tibbleデータフレームにする", ""))`
+
+```{r}
+#| repeated-contrast-design-matrix,
+#| include = FALSE
+
+covars <- model.matrix(
+  ~ 1 + F, data = simdat3
+) |>
+  as_tibble()
+
+covars
+```
+
+

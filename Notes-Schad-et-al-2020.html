@@ -18,7 +18,7 @@ class: center, middle, inverse, title-slide
 ## Schad et al (2020)日本語注解
 ### 小川雅貴
 ### 東京大学
-### 2021/12/17 (updated: 2021-12-13)
+### 2021/12/17 (updated: 2021-12-14)
 
 ---
 
@@ -6538,7 +6538,7 @@ name: repeated-contrast-weights
 
 :::: pull-right
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-67-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-68-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -6570,7 +6570,7 @@ name: repeated-contrast-weights
 
 :::: pull-right
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-68-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-69-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -6602,7 +6602,7 @@ name: repeated-contrast-weights
 
 :::: pull-right
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-69-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-70-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -6635,7 +6635,7 @@ name: repeated-contrast-weights
 
 :::: pull-right
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-70-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-71-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -6668,7 +6668,7 @@ name: repeated-contrast-weights
 
 :::: pull-right
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-71-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-72-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -7326,13 +7326,13 @@ high         1/4  1/2  3/4
 --&gt;
 
 1. 中頻度・低のRT `\(\mu_2\)` は，低頻度語へのRT `\(\mu_1\)` と同じか？
-    - `Fc2vs1`より，$\mu_2 - \mu_1 = 10$
-    - `\(t\)` 値が `\(t(16)\)` の両側2.5% `\(t \leq -2.12, 2.12 \leq t\)`にないため，中頻度・低のRTは低頻度語へのRTより有意に長いとは言えない
+    - `Fc2vs1`より， `\(\mu_2 - \mu_1 = 10\)`
+    - `\(t\)` 値が `\(t(16)\)` の両側2.5% `\(t \leq -2.12, 2.12 \leq t\)`にないため，中頻度・低へのRTは低頻度語へのRTより有意に長いとは言えない
 2. 中頻度・高へのRT `\(\mu_3\)` は，中頻度・低へのRT `\(\mu_2\)` と同じか？
-    - `Fc3vs2`より，$\mu_3 - \mu_2 = -10$
+    - `Fc3vs2`より， `\(\mu_3 - \mu_2 = -10\)`
     - `\(t\)` 値が `\(t(16)\)` の両側2.5%にないため，中頻度・高へのRTは中頻度・低へのRTより有意に長いとは言えない
 3. 高頻度へのRT `\(\mu_4\)` は， 中頻度・高のRT `\(\mu_3\)` と同じか？
-    - `Fc4vs3`より，$\mu_4 - \mu_3 = 30$
+    - `Fc4vs3`より， `\(\mu_4 - \mu_3 = 30\)`
     - `\(t\)` 値が `\(t(16)\)` の両側2.5%にあるため，高頻度へのRTは中頻度・高へのRTより有意に長い
 
 :::::
@@ -7349,11 +7349,191 @@ high         1/4  1/2  3/4
 |Fc3vs2      |      -10|[-23, 3] |      -1.6|      0.13|
 |Fc4vs3      |       30|[17, 43] |       4.7|      0.00|
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-79-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-80-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
 :::
+
+---
+
+
+## Contrasts in linear regression analysis: The design or model matrix
+
+- 質的変数の対比により，離散的な水準を数値の変数にする
+  - 離散的：とびとびの値を取る
+- どの水準間の差について検定しようとしているか，数値・数式として符号する
+
+---
+
+## The design or model matrix
+
+::::: block
+
+### Contrast matrix 対比行列
+
+それぞれの水準をどのようにコーディングしたか，1行ずつ記述したもの
+
+
+```r
+XcRE
+```
+
+
+```
+        c2vs1 c3vs2 c4vs3
+low     -3/4  -1/2  -1/4 
+med-low  1/4  -1/2  -1/4 
+med-hi   1/4   1/2  -1/4 
+hi       1/4   1/2   3/4 
+```
+
+---
+
+count: false
+ 
+## The design or model matrix  
+  
+### Design matrix [配置行列](https://www.ouj.ac.jp/mijika/tokei/xml/k3_04012.xml)  
+  
+- 各データポイントに対し，具体的にどの対比が使われたか記述したもの  
+- 対比行列を各データポイントに拡張したもの  
+  
+
+.panel1-repeated-contrast-design-matrix-auto[
+
+```r
+*covars &lt;- model.matrix(
+* ~ 1 + F, data = simdat3
+*) 
+```
+]
+ 
+.panel2-repeated-contrast-design-matrix-auto[
+
+]
+ 
+.panel3-repeated-contrast-design-matrix-auto[
+配置行列のオブジェクトを作る
+]
+
+---
+count: false
+ 
+## The design or model matrix  
+  
+### Design matrix [配置行列](https://www.ouj.ac.jp/mijika/tokei/xml/k3_04012.xml)  
+  
+- 各データポイントに対し，具体的にどの対比が使われたか記述したもの  
+- 対比行列を各データポイントに拡張したもの  
+  
+
+.panel1-repeated-contrast-design-matrix-auto[
+
+```r
+covars &lt;- model.matrix(
+  ~ 1 + F, data = simdat3
+) |&gt;
+* as_tibble()
+```
+]
+ 
+.panel2-repeated-contrast-design-matrix-auto[
+
+]
+ 
+.panel3-repeated-contrast-design-matrix-auto[
+tibbleデータフレームにする
+]
+
+---
+count: false
+ 
+## The design or model matrix  
+  
+### Design matrix [配置行列](https://www.ouj.ac.jp/mijika/tokei/xml/k3_04012.xml)  
+  
+- 各データポイントに対し，具体的にどの対比が使われたか記述したもの  
+- 対比行列を各データポイントに拡張したもの  
+  
+
+.panel1-repeated-contrast-design-matrix-auto[
+
+```r
+covars &lt;- model.matrix(
+  ~ 1 + F, data = simdat3
+) |&gt;
+  as_tibble()
+
+*covars
+```
+]
+ 
+.panel2-repeated-contrast-design-matrix-auto[
+
+```
+# A tibble: 20 x 4
+   `(Intercept)` Fc2vs1 Fc3vs2 Fc4vs3
+           &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+ 1             1 -0.75  -0.5    -0.25
+ 2             1 -0.75  -0.5    -0.25
+ 3             1 -0.75  -0.5    -0.25
+ 4             1 -0.75  -0.5    -0.25
+ 5             1 -0.75  -0.5    -0.25
+ 6             1  0.250 -0.5    -0.25
+ 7             1  0.250 -0.5    -0.25
+ 8             1  0.250 -0.5    -0.25
+ 9             1  0.250 -0.5    -0.25
+10             1  0.250 -0.5    -0.25
+11             1  0.250  0.500  -0.25
+12             1  0.250  0.500  -0.25
+13             1  0.250  0.500  -0.25
+14             1  0.250  0.500  -0.25
+15             1  0.250  0.500  -0.25
+16             1  0.25   0.5     0.75
+17             1  0.25   0.5     0.75
+18             1  0.25   0.5     0.75
+19             1  0.25   0.5     0.75
+20             1  0.25   0.5     0.75
+```
+]
+ 
+.panel3-repeated-contrast-design-matrix-auto[
+
+]
+
+&lt;style&gt;
+.panel1-repeated-contrast-design-matrix-auto {
+  color: black;
+  width: 28.7040816326531%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-repeated-contrast-design-matrix-auto {
+  color: black;
+  width: 38.6020408163265%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-repeated-contrast-design-matrix-auto {
+  color: black;
+  width: 29.6938775510204%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+
 
 ---
 
