@@ -18,7 +18,7 @@ class: center, middle, inverse, title-slide
 ## Schad et al (2020)日本語注解
 ### 小川雅貴
 ### 東京大学
-### 2021/12/17 (updated: 2021-12-14)
+### 2021/12/17 (updated: 2021-12-15)
 
 ---
 
@@ -6538,7 +6538,7 @@ name: repeated-contrast-weights
 
 :::: pull-right
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-68-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-69-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -6570,7 +6570,7 @@ name: repeated-contrast-weights
 
 :::: pull-right
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-69-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-70-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -6602,7 +6602,7 @@ name: repeated-contrast-weights
 
 :::: pull-right
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-70-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-71-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -6635,7 +6635,7 @@ name: repeated-contrast-weights
 
 :::: pull-right
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-71-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-72-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -6668,7 +6668,7 @@ name: repeated-contrast-weights
 
 :::: pull-right
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-72-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-73-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -7359,7 +7359,7 @@ high         1/4   1/2   3/4
 |Fc3vs2      |      -10|[-23.41, 3.41] |      -1.6|      0.13|
 |Fc4vs3      |       30|[16.59, 43.41] |       4.7|      0.00|
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-80-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-81-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -7961,6 +7961,454 @@ Repeated contrastに基づくdesign matrixを使いモデルを構築した場�
 ---
 
 
+
+---
+
+
+name: polynomial-contrast-weights
+
+## Polynomial contrasts
+
+::: columns
+
+:::: pull-left
+
+- （順序が決まっている）隣り合う水準同士を比較
+  - 水準間で同じペースで増加・減少？
+  - 水準間毎に，増加・減少のペースが変わる？
+- 例：語の頻度の効果を，隣り合う水準と比べる
+    1. 低頻度
+    2. 中頻度・低
+    3. 中頻度・高
+    4. 高頻度
+- 主な対比は次の3つ
+    1. 1次関数ペース（Linear; どの水準間でも一定ペースで増加・減少？）
+    2. 2次関数ペース（Quadratic; 次の水準間に移るほど増加・減少が激しい・穏やか？）
+    3. 3次関数ペース（Cubic; 次の水準間に移るほど増加・減少が入れ替わる？）
+
+::::
+
+:::: pull-right
+
+&lt;img src="figures/Notes-Schad-etal-2020-schema-simdat3-polynomial-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
+
+---
+
+## Polynomial contrasts
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### 検証する帰無仮説
+
+1. 1次関数ペース（Linear; どの水準間でも一定ペースで増加・減少？）
+2. 2次関数ペース（Quadratic; 次の水準間に移るほど増加・減少が激しい・穏やか？）
+3. 3次関数ペース（Cubic; 次の水準間に移るほど増加・減少が入れ替わる？）
+
+:::::
+
+::::
+
+:::: pull-right
+
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-90-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
+
+---
+
+count: false
+ 
+## Polynomial contrastの対比行列
+.panel1-polynomial-hypothesis-matrix-ginv-contr-poly-auto[
+
+```r
+*contrasts(simdat3$F) &lt;- contr.poly(4)
+```
+]
+ 
+.panel2-polynomial-hypothesis-matrix-ginv-contr-poly-auto[
+
+]
+ 
+.panel3-polynomial-hypothesis-matrix-ginv-contr-poly-auto[
+4水準の時のPolynomial contrastの対比行列
+]
+
+---
+count: false
+ 
+## Polynomial contrastの対比行列
+.panel1-polynomial-hypothesis-matrix-ginv-contr-poly-auto[
+
+```r
+contrasts(simdat3$F) &lt;- contr.poly(4)
+*contrasts(simdat3$F)
+```
+]
+ 
+.panel2-polynomial-hypothesis-matrix-ginv-contr-poly-auto[
+
+```
+               .L   .Q    .C
+low         -0.67  0.5 -0.22
+medium-low  -0.22 -0.5  0.67
+medium-high  0.22 -0.5 -0.67
+high         0.67  0.5  0.22
+```
+]
+ 
+.panel3-polynomial-hypothesis-matrix-ginv-contr-poly-auto[
+希望するcontrastsになったか確認
+]
+
+&lt;style&gt;
+.panel1-polynomial-hypothesis-matrix-ginv-contr-poly-auto {
+  color: black;
+  width: 28.7040816326531%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-polynomial-hypothesis-matrix-ginv-contr-poly-auto {
+  color: black;
+  width: 38.6020408163265%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-polynomial-hypothesis-matrix-ginv-contr-poly-auto {
+  color: black;
+  width: 29.6938775510204%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+
+---
+
+count: false
+ 
+## 対比行列を要因に当てはめ，線形モデルを実行
+.panel1-manual-polynomial-contrasts-auto[
+
+```r
+*lm(DV ~ F, data = simdat3)
+```
+]
+ 
+.panel2-manual-polynomial-contrasts-auto[
+
+```
+
+Call:
+lm(formula = DV ~ F, data = simdat3)
+
+Coefficients:
+(Intercept)          F.L          F.Q          F.C  
+       20.0         17.9         10.0         13.4  
+```
+]
+ 
+.panel3-manual-polynomial-contrasts-auto[
+統計モデル構築
+]
+
+---
+count: false
+ 
+## 対比行列を要因に当てはめ，線形モデルを実行
+.panel1-manual-polynomial-contrasts-auto[
+
+```r
+lm(DV ~ F, data = simdat3) |&gt;
+* tidy(conf.int = TRUE, conf.level = 0.95)
+```
+]
+ 
+.panel2-manual-polynomial-contrasts-auto[
+
+```
+# A tibble: 4 x 7
+  term        estimate std.error statistic     p.value conf.low conf.high
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)     20        2.24      8.94 0.000000127   15.3        24.7
+2 F.L             17.9      4.47      4    0.00103        8.41       27.4
+3 F.Q             10        4.47      2.24 0.0399         0.519      19.5
+4 F.C             13.4      4.47      3    0.00848        3.94       22.9
+```
+]
+ 
+.panel3-manual-polynomial-contrasts-auto[
+結果表示（各係数の95%信頼区間も算出）
+]
+
+---
+count: false
+ 
+## 対比行列を要因に当てはめ，線形モデルを実行
+.panel1-manual-polynomial-contrasts-auto[
+
+```r
+lm(DV ~ F, data = simdat3) |&gt;
+  tidy(conf.int = TRUE, conf.level = 0.95) |&gt;
+* mutate(
+*   `95% CI` = paste0(
+*     "[",
+*     conf.low |&gt; round(0),
+*     ", ",
+*     conf.high |&gt; round(0),
+*     "]"
+*   )
+* )
+```
+]
+ 
+.panel2-manual-polynomial-contrasts-auto[
+
+```
+# A tibble: 4 x 8
+  term        estimate std.error statistic   p.value conf.low conf.high `95% CI`
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;   
+1 (Intercept)     20        2.24      8.94   1.27e-7   15.3        24.7 [15, 25]
+2 F.L             17.9      4.47      4      1.03e-3    8.41       27.4 [8, 27] 
+3 F.Q             10        4.47      2.24   3.99e-2    0.519      19.5 [1, 19] 
+4 F.C             13.4      4.47      3      8.48e-3    3.94       22.9 [4, 23] 
+```
+]
+ 
+.panel3-manual-polynomial-contrasts-auto[
+各係数の95%信頼区間を1列にまとめる
+]
+
+---
+count: false
+ 
+## 対比行列を要因に当てはめ，線形モデルを実行
+.panel1-manual-polynomial-contrasts-auto[
+
+```r
+lm(DV ~ F, data = simdat3) |&gt;
+  tidy(conf.int = TRUE, conf.level = 0.95) |&gt;
+  mutate(
+    `95% CI` = paste0(
+      "[",
+      conf.low |&gt; round(0),
+      ", ",
+      conf.high |&gt; round(0),
+      "]"
+    )
+  ) |&gt;
+* relocate(`95% CI`, .after = estimate)
+```
+]
+ 
+.panel2-manual-polynomial-contrasts-auto[
+
+```
+# A tibble: 4 x 8
+  term        estimate `95% CI` std.error statistic   p.value conf.low conf.high
+  &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)     20   [15, 25]      2.24      8.94   1.27e-7   15.3        24.7
+2 F.L             17.9 [8, 27]       4.47      4      1.03e-3    8.41       27.4
+3 F.Q             10   [1, 19]       4.47      2.24   3.99e-2    0.519      19.5
+4 F.C             13.4 [4, 23]       4.47      3      8.48e-3    3.94       22.9
+```
+]
+ 
+.panel3-manual-polynomial-contrasts-auto[
+各係数の95%信頼区間をまとめた列を，係数の列の後ろに配置
+]
+
+---
+count: false
+ 
+## 対比行列を要因に当てはめ，線形モデルを実行
+.panel1-manual-polynomial-contrasts-auto[
+
+```r
+lm(DV ~ F, data = simdat3) |&gt;
+  tidy(conf.int = TRUE, conf.level = 0.95) |&gt;
+  mutate(
+    `95% CI` = paste0(
+      "[",
+      conf.low |&gt; round(0),
+      ", ",
+      conf.high |&gt; round(0),
+      "]"
+    )
+  ) |&gt;
+  relocate(`95% CI`, .after = estimate) |&gt;
+* dplyr::select(-c(std.error, conf.low, conf.high))
+```
+]
+ 
+.panel2-manual-polynomial-contrasts-auto[
+
+```
+# A tibble: 4 x 5
+  term        estimate `95% CI` statistic     p.value
+  &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt;       &lt;dbl&gt;
+1 (Intercept)     20   [15, 25]      8.94 0.000000127
+2 F.L             17.9 [8, 27]       4    0.00103    
+3 F.Q             10   [1, 19]       2.24 0.0399     
+4 F.C             13.4 [4, 23]       3    0.00848    
+```
+]
+ 
+.panel3-manual-polynomial-contrasts-auto[
+標準誤差，95%信頼区間の上・下限の列を削除
+]
+
+---
+count: false
+ 
+## 対比行列を要因に当てはめ，線形モデルを実行
+.panel1-manual-polynomial-contrasts-auto[
+
+```r
+lm(DV ~ F, data = simdat3) |&gt;
+  tidy(conf.int = TRUE, conf.level = 0.95) |&gt;
+  mutate(
+    `95% CI` = paste0(
+      "[",
+      conf.low |&gt; round(0),
+      ", ",
+      conf.high |&gt; round(0),
+      "]"
+    )
+  ) |&gt;
+  relocate(`95% CI`, .after = estimate) |&gt;
+  dplyr::select(-c(std.error, conf.low, conf.high)) |&gt;
+* kable(
+*   digits = 2,
+*   escape = FALSE,
+*   col.names = c(
+*     'Predictor',
+*     'Estimate',
+*     '95% CI',
+*     '$t$-value',
+*     '$p$-value'
+*   )
+* )
+```
+]
+ 
+.panel2-manual-polynomial-contrasts-auto[
+
+|Predictor   | Estimate|95% CI   | `\(t\)`-value| `\(p\)`-value|
+|:-----------|--------:|:--------|---------:|---------:|
+|(Intercept) |       20|[15, 25] |       8.9|      0.00|
+|F.L         |       18|[8, 27]  |       4.0|      0.00|
+|F.Q         |       10|[1, 19]  |       2.2|      0.04|
+|F.C         |       13|[4, 23]  |       3.0|      0.01|
+]
+ 
+.panel3-manual-polynomial-contrasts-auto[
+表にまとめる
+]
+
+&lt;style&gt;
+.panel1-manual-polynomial-contrasts-auto {
+  color: black;
+  width: 48.5%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-manual-polynomial-contrasts-auto {
+  color: black;
+  width: 32.3333333333333%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-manual-polynomial-contrasts-auto {
+  color: black;
+  width: 16.1666666666667%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+## 統計モデルから仮説を検証
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+&lt;!--
+### 検証する帰無仮説
+--&gt;
+
+1. 1次関数ペース（Linear; どの水準間でも一定ペースで増加・減少？）
+    - `F L`より，linear trend 有意
+2. 2次関数ペース（Quadratic; 次の水準間に移るほど増加・減少が激しい・穏やか？）
+    - `F Q`より，quadratic trend 有意
+3. 3次関数ペース（Cubic; 次の水準間に移るほど増加・減少が入れ替わる？）
+    - `F C`より，cubic trend 有意
+
+:::::
+
+::::
+
+:::: pull-right
+
+
+|Predictor   | Estimate|95% CI   | `\(t\)`-value| `\(p\)`-value|
+|:-----------|--------:|:--------|---------:|---------:|
+|(Intercept) |       20|[15, 25] |       8.9|      0.00|
+|F.L         |       18|[8, 27]  |       4.0|      0.00|
+|F.Q         |       10|[1, 19]  |       2.2|      0.04|
+|F.C         |       13|[4, 23]  |       3.0|      0.01|
+
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-94-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
+
+---
+
+## Polynomial contrastの長所
+
+- Polynomial contrastでlinear trendを指定することで，全体的な増加傾向をlinear trendの係数として表現することができる
+  - 全体的な増加傾向の検出力も上がる
+  - （データに応じ，全体的な減少傾向もlinear trendの係数として表現可能なはず）
+- 要因の水準が増えれば増えるほど，他の対比方法（コーディング方法）やオムニバスF検定よりも，polynomial contrastを使う時の方が，少ない変数で応答変数を説明できる
+  - オムニバスF検定：全ての水準から2つ選んでできる水準の組み合わせ全てについて1回ずつ統計を掛ける
+
+---
 
 ---
 

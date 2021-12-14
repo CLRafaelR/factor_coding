@@ -174,7 +174,7 @@ simdat3 |>
 
 ---
 
-```{r child = '01-polynomial-contrasts.Rmd'}
+```{r child = '03-polynomial-contrasts.Rmd'}
 ```
 
 ---
