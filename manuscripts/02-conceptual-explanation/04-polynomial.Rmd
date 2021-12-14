@@ -79,7 +79,7 @@ demoDataFreq |>
     # 恐らく切片はGrand Mean
     label = "paste(italic(β)[0], '= Grand Mean')"
   ) +
-  #### linear trend
+  #### quadratic trend
   stat_smooth(
     inherit.aes = FALSE,
     aes(
@@ -91,7 +91,7 @@ demoDataFreq |>
     size = 2,
     colour = "red"
   ) +
-  #### quadratic trend
+  #### linear trend
   stat_smooth(
     inherit.aes = FALSE,
     aes(

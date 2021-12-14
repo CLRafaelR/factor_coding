@@ -1,15 +1,14 @@
-name: repeated-contrast-weights
+name: polynomial-contrast-weights
 
-## Repeated contrasts
+## Polynomial contrasts
 
 ::: columns
 
 :::: pull-left
 
 - （順序が決まっている）隣り合う水準同士を比較
-  - 実験群1 vs 実験群2
-  - 実験群2 vs 実験群3
-  - 実験群3 vs 実験群4...
+  - 水準間で同じペースで増加・減少？
+  - 水準間毎に，増加・減少のペースが変わる？
 
 --
 
@@ -22,9 +21,9 @@ name: repeated-contrast-weights
 --
 
   - 主な対比は次の3つ
-      1. 中頻度・低のRT < 低頻度のRT
-      2. 中頻度・高のRT < 中頻度・低のRT
-      3. 高頻度のRT < 中頻度・高のRT
+      1. 1次関数ペース（Linear; どの水準間でも一定ペースで増加・減少？）
+      2. 2次関数ペース（Quadratic; 次の水準間に移るほど増加・減少が激しい・穏やか？）
+      3. 3次関数ペース（Cubic; 次の水準間に移るほど増加・減少が激しい・穏やか？）
 
 ::::
 
@@ -34,20 +33,6 @@ name: repeated-contrast-weights
 #| schema-simdat3,
 #| echo = FALSE
 
-summary_simdat3 <- simdat3 |>
-  group_by(F) |>
-  summarise(
-    N = length(DV),
-    M = mean(DV),
-    SD = sd(DV),
-    SE = SD / sqrt(N)
-  ) |>
-  ungroup() |>
-  mutate(
-    GM = mean(M),
-    lag.M = M - lag(M)
-  )
-
 label.y <- summary_simdat3 |>
   filter(
     F != "low"
@@ -55,9 +40,9 @@ label.y <- summary_simdat3 |>
   mutate(
     M = M - abs(lag.M)/2,
     label = c(
-      "paste(italic(β)[1], '= (medium-low) - (low)')",
-      "paste(italic(β)[2], '= (medium-high) - (medium-low)')",
-      "paste(italic(β)[3], '= (high) - (medium-high)')"
+      "paste(italic(β)[1], '= Linear trend')",
+      "paste(italic(β)[2], '= Quadratic trend')",
+      "paste(italic(β)[3], '= Cubic trend')"
     )
   )
 
@@ -95,72 +80,48 @@ summary_simdat3 |>
     parse = TRUE,
     label = "paste(italic(β)[0], '= Grand Mean')"
   ) +
-  #### difference between low and medium-low
-  geom_segment(
+  #### Cubic trend
+  stat_smooth(
+    #inherit.aes = FALSE,
     aes(
-      x = "medium-low",
-      y = summary_simdat3 |>
-        filter(F == "low") |>
-        dplyr::select(M) |>
-        pull(),
-      xend = "medium-low",
-      yend = summary_simdat3 |>
-        filter(F == "medium-low") |>
-        dplyr::select(M) |>
-        pull()
+      x = as.numeric(F),
+      y = M
     ),
-    arrow = arrow(
-      length = unit(0.1, "inches"),
-      ends = "both"
-    ),
-    position = position_nudge(x = -0.5),
+    method = "lm",
+    formula = y ~ poly(x, 3),
+    size = 1,
     colour = "red",
-    size = 0.75
+    se = FALSE
   ) +
-  #### difference between medium-low and medium-high
-  geom_segment(
+  #### quadratic trend
+  stat_smooth(
+    #inherit.aes = FALSE,
     aes(
-      x = "medium-high",
-      y = summary_simdat3 |>
-        filter(F == "medium-low") |>
-        dplyr::select(M) |>
-        pull(),
-      xend = "medium-high",
-      yend = summary_simdat3 |>
-        filter(F == "medium-high") |>
-        dplyr::select(M) |>
-        pull()
+      x = as.numeric(F),
+      y = M
     ),
-    arrow = arrow(
-      length = unit(0.1, "inches"),
-      ends = "both"
-    ),
-    position = position_nudge(x = -0.5),
+    method = "lm",
+    formula = y ~ poly(x, 2),
+    size = 1,
     colour = "red",
-    size = 0.75
+    linetype = "dashed",
+    se = FALSE
   ) +
-  #### difference between medium-high and high
-  geom_segment(
+  #### linear trend
+  stat_smooth(
+    inherit.aes = FALSE,
     aes(
-      x = "high",
-      y = summary_simdat3 |>
-        filter(F == "medium-high") |>
-        dplyr::select(M) |>
-        pull(),
-      xend = "high",
-      yend = summary_simdat3 |>
-        filter(F == "high") |>
-        dplyr::select(M) |>
-        pull()
+      x = as.numeric(F),
+      y = M
     ),
-    arrow = arrow(
-      length = unit(0.1, "inches"),
-      ends = "both"
-    ),
-    position = position_nudge(x = -0.5),
+    method = "lm",
+    formula = y ~ x,
+    size = 1,
     colour = "red",
-    size = 0.75
+    linetype = "88",
+    se = FALSE
   ) +
+  #### labels
   geom_label(
     data = label.y,
     aes(
@@ -168,8 +129,7 @@ summary_simdat3 |>
       y = M,
       label = label
     ),
-    parse = TRUE,
-    position = position_nudge(x = -0.5)
+    parse = TRUE
   ) +
   labs(
     x = "Word Frequency",
@@ -183,7 +143,7 @@ summary_simdat3 |>
 
 ---
 
-## Repeated contrasts
+## Polynomial contrasts
 
 ::: columns
 
@@ -219,7 +179,7 @@ summary_simdat3 |>
 
 ---
 
-## Repeated contrasts
+## Polynomial contrasts
 
 ::: columns
 
@@ -255,7 +215,7 @@ $$\begin{aligned}
 
 ---
 
-## Repeated contrasts
+## Polynomial contrasts
 
 ::: columns
 
@@ -291,7 +251,7 @@ $$\begin{aligned}
 
 ---
 
-## Repeated contrasts
+## Polynomial contrasts
 
 ::: columns
 
@@ -328,7 +288,7 @@ $$\begin{aligned}
 
 ---
 
-## Repeated contrasts
+## Polynomial contrasts
 
 ::: columns
 
@@ -390,7 +350,7 @@ $$\begin{aligned}
 - 各列：各水準への**重み**
 
 ```{r}
-#| repeated-hypothesis-matrix,
+#| polynomial-hypothesis-matrix,
 #| echo = TRUE,
 #| eval = FALSE
 
@@ -402,7 +362,7 @@ HcRE <- rbind(
 ```
 
 ```{r}
-#| ref.label = c('repeated-hypothesis-matrix'),
+#| ref.label = c('polynomial-hypothesis-matrix'),
 #| echo = FALSE,
 #| eval = TRUE
 ```
@@ -413,11 +373,11 @@ HcRE <- rbind(
 
 ---
 
-`r chunk_reveal("repeated-hypothesis-matrix-transpose", left_assign = "detect", title = "## 重みづけを抽出し，「仮説行列」に書く",  display_type = c("code", "output", "md"), md = c("仮説行列", "仮説行列を転置 *transpose*  \n今度は各行が水準，各列が仮説に変わる"))`
+`r chunk_reveal("polynomial-hypothesis-matrix-transpose", left_assign = "detect", title = "## 重みづけを抽出し，「仮説行列」に書く",  display_type = c("code", "output", "md"), md = c("仮説行列", "仮説行列を転置 *transpose*  \n今度は各行が水準，各列が仮説に変わる"))`
 
 
 ```{r}
-#| repeated-hypothesis-matrix-transpose,
+#| polynomial-hypothesis-matrix-transpose,
 #| include = FALSE
 HcRE |>
   t()
@@ -425,11 +385,11 @@ HcRE |>
 
 ---
 
-`r chunk_reveal("repeated-hypothesis-matrix-ginv", left_assign = "detect", title = "## 一般化逆行列を使い，仮説行列を対比行列に変換",  display_type = c("code", "output", "md"), md = c("仮説行列に対し…", "一般化逆行列を適用，仮説行列を対比行列に変換", "仮説行列に対し…", "一般化逆行列を適用，仮説行列を対比行列に変換", "行名・列名を再付与", "分数表記に"))`
+`r chunk_reveal("polynomial-hypothesis-matrix-ginv", left_assign = "detect", title = "## 一般化逆行列を使い，仮説行列を対比行列に変換",  display_type = c("code", "output", "md"), md = c("仮説行列に対し…", "一般化逆行列を適用，仮説行列を対比行列に変換", "仮説行列に対し…", "一般化逆行列を適用，仮説行列を対比行列に変換", "行名・列名を再付与", "分数表記に"))`
 
 
 ```{r}
-#| repeated-hypothesis-matrix-ginv,
+#| polynomial-hypothesis-matrix-ginv,
 #| include = FALSE
 
 XcRE <- HcRE |>
@@ -445,11 +405,11 @@ XcRE <- HcRE |>
 
 ---
 
-`r chunk_reveal("repeated-hypothesis-matrix-ginv-contr-sdif", left_assign = "detect", title = "## 一般化逆行列を使い，仮説行列を対比行列に変換",  display_type = c("code", "output", "md"), md = c("仮説行列に一般化逆行列を適用したもの", "4水準の時のrepeated contrast", "分数表記に"))`
+`r chunk_reveal("polynomial-hypothesis-matrix-ginv-contr-sdif", left_assign = "detect", title = "## 一般化逆行列を使い，仮説行列を対比行列に変換",  display_type = c("code", "output", "md"), md = c("仮説行列に一般化逆行列を適用したもの", "4水準の時のpolynomial contrast", "分数表記に"))`
 
 
 ```{r}
-#| repeated-hypothesis-matrix-ginv-contr-sdif,
+#| polynomial-hypothesis-matrix-ginv-contr-sdif,
 #| include = FALSE
 
 XcRE
@@ -460,10 +420,10 @@ contr.sdif(4) |>
 
 ---
 
-`r chunk_reveal("manual-repeated-contrasts", left_assign = "detect", break_type = "rotate", title = "## 対比行列を要因に当てはめ，線形モデルを実行",  display_type = c("code", "output", "md"), md = c("**contr.sdif(3)**で作ったrepeated contrastsを適用", "仮説行列から作ったrepeated contrastsを適用", "希望するcontrastsになったか確認", "統計モデル構築", "結果表示", "より見やすく結果表示"), widths = c(3, 2, 1))`
+`r chunk_reveal("manual-polynomial-contrasts", left_assign = "detect", break_type = "rotate", title = "## 対比行列を要因に当てはめ，線形モデルを実行",  display_type = c("code", "output", "md"), md = c("**contr.sdif(3)**で作ったpolynomial contrastsを適用", "仮説行列から作ったpolynomial contrastsを適用", "希望するcontrastsになったか確認", "統計モデル構築", "結果表示", "より見やすく結果表示"), widths = c(3, 2, 1))`
 
 ```{r}
-#| manual-repeated-contrasts,
+#| manual-polynomial-contrasts,
 #| include = FALSE
 
 contrasts(simdat3$F) <- contr.sdif(4) |> fractions() #ROTATE
@@ -528,7 +488,7 @@ lm(DV ~ F, data = simdat3) |>
 :::: pull-right
 
 ```{r}
-#| ref.label = c('manual-repeated-contrasts'),
+#| ref.label = c('manual-polynomial-contrasts'),
 #| echo = FALSE,
 #| eval = TRUE
 ```
