@@ -171,3 +171,10 @@ simdat3 |>
 
 ```{r child = '02-design-model-matrix.Rmd'}
 ```
+
+---
+
+```{r child = '01-polynomial-contrasts.Rmd'}
+```
+
+---

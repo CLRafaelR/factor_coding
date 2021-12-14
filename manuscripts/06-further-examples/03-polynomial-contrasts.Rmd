@@ -1,0 +1,544 @@
+name: repeated-contrast-weights
+
+## Repeated contrasts
+
+::: columns
+
+:::: pull-left
+
+- （順序が決まっている）隣り合う水準同士を比較
+  - 実験群1 vs 実験群2
+  - 実験群2 vs 実験群3
+  - 実験群3 vs 実験群4...
+
+--
+
+- 例：語の頻度の効果を，隣り合う水準と比べる
+    1. 低頻度
+    2. 中頻度・低
+    3. 中頻度・高
+    4. 高頻度
+
+--
+
+  - 主な対比は次の3つ
+      1. 中頻度・低のRT < 低頻度のRT
+      2. 中頻度・高のRT < 中頻度・低のRT
+      3. 高頻度のRT < 中頻度・高のRT
+
+::::
+
+:::: pull-right
+
+```{r}
+#| schema-simdat3,
+#| echo = FALSE
+
+summary_simdat3 <- simdat3 |>
+  group_by(F) |>
+  summarise(
+    N = length(DV),
+    M = mean(DV),
+    SD = sd(DV),
+    SE = SD / sqrt(N)
+  ) |>
+  ungroup() |>
+  mutate(
+    GM = mean(M),
+    lag.M = M - lag(M)
+  )
+
+label.y <- summary_simdat3 |>
+  filter(
+    F != "low"
+  ) |>
+  mutate(
+    M = M - abs(lag.M)/2,
+    label = c(
+      "paste(italic(β)[1], '= (medium-low) - (low)')",
+      "paste(italic(β)[2], '= (medium-high) - (medium-low)')",
+      "paste(italic(β)[3], '= (high) - (medium-high)')"
+    )
+  )
+
+summary_simdat3 |>
+  (
+    \(d){
+      qplot(
+        x = F, y = M,
+        group = 1,
+        data = d,
+        geom = c("point", "line")
+      ) +
+      geom_errorbar(
+        aes(
+          max = M + SE,
+          min = M - SE
+        ),
+        width = 0
+      ) +
+      labs(
+        y = "Mean DV",
+        x = "Factor F"
+      ) +
+      geom_hline(
+        yintercept = d$GM,
+        linetype = "dashed"
+      )
+    }
+  )() +
+  geom_label(
+    aes(
+      x = "low",
+      y = mean(M),
+    ),
+    parse = TRUE,
+    label = "paste(italic(β)[0], '= Grand Mean')"
+  ) +
+  #### difference between low and medium-low
+  geom_segment(
+    aes(
+      x = "medium-low",
+      y = summary_simdat3 |>
+        filter(F == "low") |>
+        dplyr::select(M) |>
+        pull(),
+      xend = "medium-low",
+      yend = summary_simdat3 |>
+        filter(F == "medium-low") |>
+        dplyr::select(M) |>
+        pull()
+    ),
+    arrow = arrow(
+      length = unit(0.1, "inches"),
+      ends = "both"
+    ),
+    position = position_nudge(x = -0.5),
+    colour = "red",
+    size = 0.75
+  ) +
+  #### difference between medium-low and medium-high
+  geom_segment(
+    aes(
+      x = "medium-high",
+      y = summary_simdat3 |>
+        filter(F == "medium-low") |>
+        dplyr::select(M) |>
+        pull(),
+      xend = "medium-high",
+      yend = summary_simdat3 |>
+        filter(F == "medium-high") |>
+        dplyr::select(M) |>
+        pull()
+    ),
+    arrow = arrow(
+      length = unit(0.1, "inches"),
+      ends = "both"
+    ),
+    position = position_nudge(x = -0.5),
+    colour = "red",
+    size = 0.75
+  ) +
+  #### difference between medium-high and high
+  geom_segment(
+    aes(
+      x = "high",
+      y = summary_simdat3 |>
+        filter(F == "medium-high") |>
+        dplyr::select(M) |>
+        pull(),
+      xend = "high",
+      yend = summary_simdat3 |>
+        filter(F == "high") |>
+        dplyr::select(M) |>
+        pull()
+    ),
+    arrow = arrow(
+      length = unit(0.1, "inches"),
+      ends = "both"
+    ),
+    position = position_nudge(x = -0.5),
+    colour = "red",
+    size = 0.75
+  ) +
+  geom_label(
+    data = label.y,
+    aes(
+      x = F,
+      y = M,
+      label = label
+    ),
+    parse = TRUE,
+    position = position_nudge(x = -0.5)
+  ) +
+  labs(
+    x = "Word Frequency",
+    y = "Reaction Time"
+  )
+```
+
+::::
+
+:::
+
+---
+
+## Repeated contrasts
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### 検証する帰無仮説
+
+1. 中頻度・低のRT $\mu_2$ は，低頻度語へのRT $\mu_1$ と同じか？
+2. 中頻度・高のRT $\mu_3$ は，中頻度・低のRT $\mu_2$ と同じか？
+3. 高頻度のRT $\mu_4$ は， 中頻度・高のRT $\mu_3$ と同じか？
+
+<!--
+4. 全体平均 $\frac{\mu_1 + \mu_2 + \mu_3 + \mu_4}{4}$ は0秒と同じ？
+-->
+
+:::::
+
+::::
+
+:::: pull-right
+
+```{r}
+#| ref.label = c('schema-simdat3'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+::::
+
+:::
+
+---
+
+## Repeated contrasts
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### 検証する帰無仮説
+
+言葉を数式に変換
+
+$$\begin{aligned}
+{H_0}_{2-1}: & \mu_2 = \mu_1 \\
+{H_0}_{3-2}: & \mu_3 = \mu_2 \\
+{H_0}_{4-3}: & \mu_4 = \mu_3
+\end{aligned}$$
+
+:::::
+
+::::
+
+:::: pull-right
+
+```{r}
+#| ref.label = c('schema-simdat3'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+::::
+
+:::
+
+---
+
+## Repeated contrasts
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### 検証する帰無仮説
+
+両辺から右辺部分を引く
+
+$$\begin{aligned}
+{H_0}_{2-1}: & \mu_2 - \mu_1 = 0 \\
+{H_0}_{3-2}: & \mu_3 - \mu_2 = 0 \\
+{H_0}_{4-3}: & \mu_4 - \mu_3 = 0
+\end{aligned}$$
+
+:::::
+
+::::
+
+:::: pull-right
+
+```{r}
+#| ref.label = c('schema-simdat3'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+::::
+
+:::
+
+---
+
+## Repeated contrasts
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### 検証する帰無仮説
+
+- $\mu_1, ..., \mu_4$ の内，各式に存在しないものを書き加える
+- 書き加えるときには，追加するものに0を掛けてから
+
+$$\begin{aligned}
+{H_0}_{2-1}: & \mu_2 - \mu_1 + 0 \times \mu_3 + 0 \times \mu_4 = 0 \\
+{H_0}_{3-2}: & \mu_3 - \mu_2 + 0 \times \mu_1 + 0 \times \mu_4 = 0 \\
+{H_0}_{4-3}: & \mu_4 - \mu_3 + 0 \times \mu_1 + 0 \times \mu_2 = 0
+\end{aligned}$$
+
+:::::
+
+::::
+
+:::: pull-right
+
+```{r}
+#| ref.label = c('schema-simdat3'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+::::
+
+:::
+
+---
+
+## Repeated contrasts
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+### 検証する帰無仮説
+
+- $\mu_1, ..., \mu_4$ の順番を整理
+- $\mu_1, ..., \mu_4$に掛かっている数が，それぞれに対する重みづけ
+
+$$\begin{aligned}
+{H_0}_{2-1}: & (-1) \times \mu_1 + 1\times \mu_2 + 0 \times \mu_3 + 0 \times \mu_4 = 0 \\
+{H_0}_{3-2}: & 0 \times \mu_1 + (-1) \times \mu_2 + 1 \times \mu_3 + 0 \times \mu_4 = 0 \\
+{H_0}_{4-3}: & 0 \times \mu_1 + 0 \times \mu_2 + (-1) \times \mu_3 + 1 \times \mu_4= 0
+\end{aligned}$$
+
+:::::
+
+::::
+
+:::: pull-right
+
+```{r}
+#| ref.label = c('schema-simdat3'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+::::
+
+:::
+
+---
+
+## 重みづけを抽出し，「仮説行列」に書く
+
+$\mu_1$, $\mu_2$, $\mu_3$, $\mu_4$ には重みづけがある
+
+::: columns
+
+:::: pull-left
+
+$$\begin{aligned}
+{H_0}_{2-1}: & (-1) \times \mu_1 + 1\times \mu_2 + 0 \times \mu_3 + 0 \times \mu_4 = 0 \\
+{H_0}_{3-2}: & 0 \times \mu_1 + (-1) \times \mu_2 + 1 \times \mu_3 + 0 \times \mu_4 = 0 \\
+{H_0}_{4-3}: & 0 \times \mu_1 + 0 \times \mu_2 + (-1) \times \mu_3 + 1 \times \mu_4= 0
+\end{aligned}$$
+
+::::
+
+:::: pull-right
+
+- 各行：**帰無仮説**
+  - ${H_0}_{2-1}$: `c2vs1`
+  - ${H_0}_{3-2}$: `c3vs2`
+  - ${H_0}_{4-3}$: `c4vs3`
+- 各列：各水準への**重み**
+
+```{r}
+#| repeated-hypothesis-matrix,
+#| echo = TRUE,
+#| eval = FALSE
+
+HcRE <- rbind(
+  c2vs1 = c(low = -1, `med-low` =  1, `med-hi` =  0, hi = 0),
+  c3vs2 = c(low =  0, `med-low` = -1, `med-hi` =  1, hi = 0),
+  c4vs3 = c(low =  0, `med-low` =  0, `med-hi` = -1, hi = 1)
+)
+```
+
+```{r}
+#| ref.label = c('repeated-hypothesis-matrix'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+::::
+
+:::
+
+---
+
+`r chunk_reveal("repeated-hypothesis-matrix-transpose", left_assign = "detect", title = "## 重みづけを抽出し，「仮説行列」に書く",  display_type = c("code", "output", "md"), md = c("仮説行列", "仮説行列を転置 *transpose*  \n今度は各行が水準，各列が仮説に変わる"))`
+
+
+```{r}
+#| repeated-hypothesis-matrix-transpose,
+#| include = FALSE
+HcRE |>
+  t()
+```
+
+---
+
+`r chunk_reveal("repeated-hypothesis-matrix-ginv", left_assign = "detect", title = "## 一般化逆行列を使い，仮説行列を対比行列に変換",  display_type = c("code", "output", "md"), md = c("仮説行列に対し…", "一般化逆行列を適用，仮説行列を対比行列に変換", "仮説行列に対し…", "一般化逆行列を適用，仮説行列を対比行列に変換", "行名・列名を再付与", "分数表記に"))`
+
+
+```{r}
+#| repeated-hypothesis-matrix-ginv,
+#| include = FALSE
+
+XcRE <- HcRE |>
+  hypr::ginv2()
+
+XcRE <- HcRE |>
+  ginv() |>
+  provideDimnames(
+    base = dimnames(HcRE)[2:1]
+  ) |>
+  fractions()
+```
+
+---
+
+`r chunk_reveal("repeated-hypothesis-matrix-ginv-contr-sdif", left_assign = "detect", title = "## 一般化逆行列を使い，仮説行列を対比行列に変換",  display_type = c("code", "output", "md"), md = c("仮説行列に一般化逆行列を適用したもの", "4水準の時のrepeated contrast", "分数表記に"))`
+
+
+```{r}
+#| repeated-hypothesis-matrix-ginv-contr-sdif,
+#| include = FALSE
+
+XcRE
+
+contr.sdif(4) |>
+  fractions()
+```
+
+---
+
+`r chunk_reveal("manual-repeated-contrasts", left_assign = "detect", break_type = "rotate", title = "## 対比行列を要因に当てはめ，線形モデルを実行",  display_type = c("code", "output", "md"), md = c("**contr.sdif(3)**で作ったrepeated contrastsを適用", "仮説行列から作ったrepeated contrastsを適用", "希望するcontrastsになったか確認", "統計モデル構築", "結果表示", "より見やすく結果表示"), widths = c(3, 2, 1))`
+
+```{r}
+#| manual-repeated-contrasts,
+#| include = FALSE
+
+contrasts(simdat3$F) <- contr.sdif(4) |> fractions() #ROTATE
+contrasts(simdat3$F) <- XcRE #ROTATE
+
+contrasts(simdat3$F)
+
+lm(DV ~ F, data = simdat3) |>
+  tidy(conf.int = TRUE, conf.level = 0.95) |>
+  mutate(
+    `95% CI` = paste0(
+      "[",
+      conf.low |> round(2),
+      ", ",
+      conf.high |> round(2),
+      "]"
+    )
+  ) |>
+  relocate(`95% CI`, .after = estimate) |>
+  dplyr::select(-c(std.error, conf.low, conf.high)) |>
+  kable(
+    digits = 2,
+    escape = FALSE,
+    col.names = c(
+      'Predictor',
+      'Estimate',
+      '95% CI',
+      '$t$-value',
+      '$p$-value'
+    )
+  )
+```
+
+---
+
+## 統計モデルから仮説を検証
+
+::: columns
+
+:::: pull-left
+
+::::: block
+
+<!--
+### 検証する帰無仮説
+-->
+
+1. 中頻度・低のRT $\mu_2$ は，低頻度語へのRT $\mu_1$ と同じか？
+    - `Fc2vs1`より， $\mu_2 - \mu_1 = 10$
+    - $t$ 値が $t(16)$ の両側2.5% $t \leq `r qt(df = 16, 0.025)`, `r qt(df = 16, 0.975)` \leq t$にないため，中頻度・低へのRTは低頻度語へのRTより有意に長いとは言えない
+2. 中頻度・高へのRT $\mu_3$ は，中頻度・低へのRT $\mu_2$ と同じか？
+    - `Fc3vs2`より， $\mu_3 - \mu_2 = -10$
+    - $t$ 値が $t(16)$ の両側2.5%にないため，中頻度・高へのRTは中頻度・低へのRTより有意に長いとは言えない
+3. 高頻度へのRT $\mu_4$ は， 中頻度・高のRT $\mu_3$ と同じか？
+    - `Fc4vs3`より， $\mu_4 - \mu_3 = 30$
+    - $t$ 値が $t(16)$ の両側2.5%にあるため，高頻度へのRTは中頻度・高へのRTより有意に長い
+
+:::::
+
+::::
+
+:::: pull-right
+
+```{r}
+#| ref.label = c('manual-repeated-contrasts'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+```{r}
+#| ref.label = c('fig-simdat3'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+::::
+
+:::
