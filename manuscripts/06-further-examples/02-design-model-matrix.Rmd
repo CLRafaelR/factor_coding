@@ -6,11 +6,7 @@
 
 ---
 
-## The design or model matrix
-
-::::: block
-
-### Contrast matrix 対比行列
+## Contrast matrix 対比行列
 
 それぞれの水準をどのようにコーディングしたか，1行ずつ記述したもの
 
@@ -30,7 +26,7 @@ XcRE
 
 ---
 
-`r chunk_reveal("repeated-contrast-design-matrix", left_assign = "detect", title = "## The design or model matrix  \n  \n### Design matrix [配置行列](https://www.ouj.ac.jp/mijika/tokei/xml/k3_04012.xml)  \n  \n- 各データポイントに対し，具体的にどの対比が使われたか記述したもの  \n- 対比行列を各データポイントに拡張したもの  \n  \n",  display_type = c("code", "output", "md"), md = c("配置行列のオブジェクトを作る", "tibbleデータフレームにする", ""))`
+`r chunk_reveal("repeated-contrast-design-matrix", left_assign = "detect", title = "## Design matrix [配置行列](https://www.ouj.ac.jp/mijika/tokei/xml/k3_04012.xml)  \n  \n各データポイントに対し，具体的にどの対比が使われたか記述したもの  \n",  display_type = c("code", "output", "md"), md = c("配置行列のオブジェクトを作る", "tibbleデータフレームにする", ""))`
 
 ```{r}
 #| repeated-contrast-design-matrix,
@@ -43,5 +39,115 @@ covars <- model.matrix(
 
 covars
 ```
+
+---
+
+
+.pull-left[
+
+### Contrast matrix 対比行列
+
+```{r}
+#| ref.label = c('repeated-contrast-matrix'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+]
+
+.pull-right[
+
+### Design matrix 配置行列
+
+- 対比行列を各データポイントに拡張したもの
+- どのデータポイントに，どの水準（コーディング）が**配置**されているか示す
+- `Fc2vs1`のような列は，「質的変数の各水準を，1つずつ量的な説明変数に替えたもの」
+
+<!--
+"元データ", "要因**F**の列だけ抽出", "要因**F**の列と**covars**を結合する", "**F**を**(Intercept)**の後ろに"
+-->
+
+```{r}
+#| repeated-contrast-design-matrix-show,
+#| echo = FALSE,
+#| eval = TRUE
+
+simdat3 |>
+  dplyr::select(F) |>
+  bind_cols(
+    covars
+  ) |>
+  relocate(
+    F,
+    .after = `(Intercept)`
+  ) |>
+  head(15)
+```
+
+]
+
+---
+
+## Design matrixを線形モデルの要因として使う
+
+Design matrixにおける`Fc2vs1`のような列は，「質的変数の各水準を，1つずつの量的な説明変数に替えたもの」
+
+- `Fc2vs1`などを「『質的な説明変数』の水準」の1つではなく，「量的な説明変数」の1つとして捉える
+  - `Fc2vs1`は，質的な説明変数`F`の水準の1つ
+  - `Fc2vs1`は，量的な説明変数`Fc2vs1`であり， $-\frac{3}{4}$ または $\frac{1}{4}$を取る
+
+**Design matrixにおける`Fc2vs1`などを説明変数として利用できる**
+
+---
+
+`r chunk_reveal("simdat3-with-repeated-contrast-design-matrix", left_assign = "detect", title = "## Design matrixを線形モデルの要因として使う  \n  \nDesign matrixをsimdat3に結合  \n",  display_type = c("code", "output", "md"), md = c("配置行列のオブジェクト", "**(Intercept)**列を除去", "**(Intercept)**列を除去した配置行列を，**simdat3**に結合", "**F**列が最先頭列になるよう列を並べ替え"))`
+
+```{r}
+#| simdat3-with-repeated-contrast-design-matrix,
+#| include = FALSE
+
+simdat3_DM <- covars |>
+  dplyr::select(-`(Intercept)`) |>
+  bind_cols(simdat3) |>
+  relocate(F)
+```
+---
+
+`r chunk_reveal("lm-with-repeated-contrast-design-matrix", left_assign = "detect", break_type = "rotate", title = "## Design matrixを線形モデルの要因として使う",  display_type = c("code", "output", "md"), md = c("Repeated contrastを適用した**F**を使いモデルを構築した場合", "Repeated contrastに基づくdesign matrixを使いモデルを構築した場合"))`
+
+```{r}
+#| lm-with-repeated-contrast-design-matrix,
+#| include = FALSE
+
+m3_mr <- lm(DV ~ F, data = simdat3_DM) #ROTATE
+m3_mr <- lm(DV ~ Fc2vs1 + Fc3vs2 + Fc4vs3, data = simdat3_DM) #ROTATE
+
+m3_mr |>
+  tidy(conf.int = TRUE, conf.level = 0.95) |>
+  mutate(
+    `95% CI` = paste0(
+      "[",
+      conf.low |> round(2),
+      ", ",
+      conf.high |> round(2),
+      "]"
+    )
+  ) |>
+  relocate(`95% CI`, .after = estimate) |>
+  dplyr::select(-c(std.error, conf.low, conf.high)) |>
+  kable(
+    digits = 2,
+    escape = FALSE,
+    col.names = c(
+      'Predictor',
+      'Estimate',
+      '95% CI',
+      '$t$-value',
+      '$p$-value'
+    )
+  )
+```
+
+---
 
 

@@ -7366,11 +7366,7 @@ high         1/4  1/2  3/4
 
 ---
 
-## The design or model matrix
-
-::::: block
-
-### Contrast matrix 対比行列
+## Contrast matrix 対比行列
 
 それぞれの水準をどのようにコーディングしたか，1行ずつ記述したもの
 
@@ -7392,13 +7388,9 @@ hi       1/4   1/2   3/4
 
 count: false
  
-## The design or model matrix  
+## Design matrix [配置行列](https://www.ouj.ac.jp/mijika/tokei/xml/k3_04012.xml)  
   
-### Design matrix [配置行列](https://www.ouj.ac.jp/mijika/tokei/xml/k3_04012.xml)  
-  
-- 各データポイントに対し，具体的にどの対比が使われたか記述したもの  
-- 対比行列を各データポイントに拡張したもの  
-  
+各データポイントに対し，具体的にどの対比が使われたか記述したもの  
 
 .panel1-repeated-contrast-design-matrix-auto[
 
@@ -7420,13 +7412,9 @@ count: false
 ---
 count: false
  
-## The design or model matrix  
+## Design matrix [配置行列](https://www.ouj.ac.jp/mijika/tokei/xml/k3_04012.xml)  
   
-### Design matrix [配置行列](https://www.ouj.ac.jp/mijika/tokei/xml/k3_04012.xml)  
-  
-- 各データポイントに対し，具体的にどの対比が使われたか記述したもの  
-- 対比行列を各データポイントに拡張したもの  
-  
+各データポイントに対し，具体的にどの対比が使われたか記述したもの  
 
 .panel1-repeated-contrast-design-matrix-auto[
 
@@ -7449,13 +7437,9 @@ tibbleデータフレームにする
 ---
 count: false
  
-## The design or model matrix  
+## Design matrix [配置行列](https://www.ouj.ac.jp/mijika/tokei/xml/k3_04012.xml)  
   
-### Design matrix [配置行列](https://www.ouj.ac.jp/mijika/tokei/xml/k3_04012.xml)  
-  
-- 各データポイントに対し，具体的にどの対比が使われたか記述したもの  
-- 対比行列を各データポイントに拡張したもの  
-  
+各データポイントに対し，具体的にどの対比が使われたか記述したもの  
 
 .panel1-repeated-contrast-design-matrix-auto[
 
@@ -7530,6 +7514,433 @@ covars &lt;- model.matrix(
 &lt;/style&gt;
 
 
+
+
+
+---
+
+
+.pull-left[
+
+### Contrast matrix 対比行列
+
+
+```
+        c2vs1 c3vs2 c4vs3
+low     -3/4  -1/2  -1/4 
+med-low  1/4  -1/2  -1/4 
+med-hi   1/4   1/2  -1/4 
+hi       1/4   1/2   3/4 
+```
+
+]
+
+.pull-right[
+
+### Design matrix 配置行列
+
+- 対比行列を各データポイントに拡張したもの
+- どのデータポイントに，どの水準（コーディング）が**配置**されているか示す
+- `Fc2vs1`のような列は，「質的変数の各水準を，1つずつ量的な説明変数に替えたもの」
+
+&lt;!--
+"元データ", "要因**F**の列だけ抽出", "要因**F**の列と**covars**を結合する", "**F**を**(Intercept)**の後ろに"
+--&gt;
+
+
+```
+   (Intercept)           F Fc2vs1 Fc3vs2 Fc4vs3
+1            1         low  -0.75   -0.5  -0.25
+2            1         low  -0.75   -0.5  -0.25
+3            1         low  -0.75   -0.5  -0.25
+4            1         low  -0.75   -0.5  -0.25
+5            1         low  -0.75   -0.5  -0.25
+6            1  medium-low   0.25   -0.5  -0.25
+7            1  medium-low   0.25   -0.5  -0.25
+8            1  medium-low   0.25   -0.5  -0.25
+9            1  medium-low   0.25   -0.5  -0.25
+10           1  medium-low   0.25   -0.5  -0.25
+11           1 medium-high   0.25    0.5  -0.25
+12           1 medium-high   0.25    0.5  -0.25
+13           1 medium-high   0.25    0.5  -0.25
+14           1 medium-high   0.25    0.5  -0.25
+15           1 medium-high   0.25    0.5  -0.25
+```
+
+]
+
+---
+
+## Design matrixを線形モデルの要因として使う
+
+Design matrixにおける`Fc2vs1`のような列は，「質的変数の各水準を，1つずつの量的な説明変数に替えたもの」
+
+- `Fc2vs1`などを「『質的な説明変数』の水準」の1つではなく，「量的な説明変数」の1つとして捉える
+  - `Fc2vs1`は，質的な説明変数`F`の水準の1つ
+  - `Fc2vs1`は，量的な説明変数`Fc2vs1`であり， `\(-\frac{3}{4}\)` または `\(\frac{1}{4}\)`を取る
+
+**Design matrixにおける`Fc2vs1`などを説明変数として利用できる**
+
+---
+
+count: false
+ 
+## Design matrixを線形モデルの要因として使う  
+  
+Design matrixをsimdat3に結合  
+
+.panel1-simdat3-with-repeated-contrast-design-matrix-auto[
+
+```r
+*simdat3_DM &lt;- covars
+
+simdat3_DM
+```
+]
+ 
+.panel2-simdat3-with-repeated-contrast-design-matrix-auto[
+
+```
+# A tibble: 20 x 4
+   `(Intercept)` Fc2vs1 Fc3vs2 Fc4vs3
+           &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+ 1             1 -0.75  -0.5    -0.25
+ 2             1 -0.75  -0.5    -0.25
+ 3             1 -0.75  -0.5    -0.25
+ 4             1 -0.75  -0.5    -0.25
+ 5             1 -0.75  -0.5    -0.25
+ 6             1  0.250 -0.5    -0.25
+ 7             1  0.250 -0.5    -0.25
+ 8             1  0.250 -0.5    -0.25
+ 9             1  0.250 -0.5    -0.25
+10             1  0.250 -0.5    -0.25
+11             1  0.250  0.500  -0.25
+12             1  0.250  0.500  -0.25
+13             1  0.250  0.500  -0.25
+14             1  0.250  0.500  -0.25
+15             1  0.250  0.500  -0.25
+16             1  0.25   0.5     0.75
+17             1  0.25   0.5     0.75
+18             1  0.25   0.5     0.75
+19             1  0.25   0.5     0.75
+20             1  0.25   0.5     0.75
+```
+]
+ 
+.panel3-simdat3-with-repeated-contrast-design-matrix-auto[
+配置行列のオブジェクト
+]
+
+---
+count: false
+ 
+## Design matrixを線形モデルの要因として使う  
+  
+Design matrixをsimdat3に結合  
+
+.panel1-simdat3-with-repeated-contrast-design-matrix-auto[
+
+```r
+simdat3_DM &lt;- covars |&gt;
+* dplyr::select(-`(Intercept)`)
+
+simdat3_DM
+```
+]
+ 
+.panel2-simdat3-with-repeated-contrast-design-matrix-auto[
+
+```
+# A tibble: 20 x 3
+   Fc2vs1 Fc3vs2 Fc4vs3
+    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+ 1 -0.75  -0.5    -0.25
+ 2 -0.75  -0.5    -0.25
+ 3 -0.75  -0.5    -0.25
+ 4 -0.75  -0.5    -0.25
+ 5 -0.75  -0.5    -0.25
+ 6  0.250 -0.5    -0.25
+ 7  0.250 -0.5    -0.25
+ 8  0.250 -0.5    -0.25
+ 9  0.250 -0.5    -0.25
+10  0.250 -0.5    -0.25
+11  0.250  0.500  -0.25
+12  0.250  0.500  -0.25
+13  0.250  0.500  -0.25
+14  0.250  0.500  -0.25
+15  0.250  0.500  -0.25
+16  0.25   0.5     0.75
+17  0.25   0.5     0.75
+18  0.25   0.5     0.75
+19  0.25   0.5     0.75
+20  0.25   0.5     0.75
+```
+]
+ 
+.panel3-simdat3-with-repeated-contrast-design-matrix-auto[
+**(Intercept)**列を除去
+]
+
+---
+count: false
+ 
+## Design matrixを線形モデルの要因として使う  
+  
+Design matrixをsimdat3に結合  
+
+.panel1-simdat3-with-repeated-contrast-design-matrix-auto[
+
+```r
+simdat3_DM &lt;- covars |&gt;
+  dplyr::select(-`(Intercept)`) |&gt;
+* bind_cols(simdat3)
+
+simdat3_DM
+```
+]
+ 
+.panel2-simdat3-with-repeated-contrast-design-matrix-auto[
+
+```
+# A tibble: 20 x 6
+   Fc2vs1 Fc3vs2 Fc4vs3 F           id       DV
+    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;fct&gt;       &lt;fct&gt; &lt;dbl&gt;
+ 1 -0.75  -0.5    -0.25 low         1      3.57
+ 2 -0.75  -0.5    -0.25 low         2     11.3 
+ 3 -0.75  -0.5    -0.25 low         3      7.34
+ 4 -0.75  -0.5    -0.25 low         4      1.22
+ 5 -0.75  -0.5    -0.25 low         5     26.5 
+ 6  0.250 -0.5    -0.25 medium-low  6      9.24
+ 7  0.250 -0.5    -0.25 medium-low  7     36.5 
+ 8  0.250 -0.5    -0.25 medium-low  8     17.9 
+ 9  0.250 -0.5    -0.25 medium-low  9     18.0 
+10  0.250 -0.5    -0.25 medium-low  10    18.4 
+11  0.250  0.500  -0.25 medium-high 11    -3.71
+12  0.250  0.500  -0.25 medium-high 12    13.7 
+13  0.250  0.500  -0.25 medium-high 13    22.6 
+14  0.250  0.500  -0.25 medium-high 14     4.44
+15  0.250  0.500  -0.25 medium-high 15    13.0 
+16  0.25   0.5     0.75 high        16    51.2 
+17  0.25   0.5     0.75 high        17    34.0 
+18  0.25   0.5     0.75 high        18    35.9 
+19  0.25   0.5     0.75 high        19    28.9 
+20  0.25   0.5     0.75 high        20    50.0 
+```
+]
+ 
+.panel3-simdat3-with-repeated-contrast-design-matrix-auto[
+**(Intercept)**列を除去した配置行列を，**simdat3**に結合
+]
+
+---
+count: false
+ 
+## Design matrixを線形モデルの要因として使う  
+  
+Design matrixをsimdat3に結合  
+
+.panel1-simdat3-with-repeated-contrast-design-matrix-auto[
+
+```r
+simdat3_DM &lt;- covars |&gt;
+  dplyr::select(-`(Intercept)`) |&gt;
+  bind_cols(simdat3) |&gt;
+* relocate(F)
+
+simdat3_DM
+```
+]
+ 
+.panel2-simdat3-with-repeated-contrast-design-matrix-auto[
+
+```
+# A tibble: 20 x 6
+   F           Fc2vs1 Fc3vs2 Fc4vs3 id       DV
+   &lt;fct&gt;        &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;fct&gt; &lt;dbl&gt;
+ 1 low         -0.75  -0.5    -0.25 1      3.57
+ 2 low         -0.75  -0.5    -0.25 2     11.3 
+ 3 low         -0.75  -0.5    -0.25 3      7.34
+ 4 low         -0.75  -0.5    -0.25 4      1.22
+ 5 low         -0.75  -0.5    -0.25 5     26.5 
+ 6 medium-low   0.250 -0.5    -0.25 6      9.24
+ 7 medium-low   0.250 -0.5    -0.25 7     36.5 
+ 8 medium-low   0.250 -0.5    -0.25 8     17.9 
+ 9 medium-low   0.250 -0.5    -0.25 9     18.0 
+10 medium-low   0.250 -0.5    -0.25 10    18.4 
+11 medium-high  0.250  0.500  -0.25 11    -3.71
+12 medium-high  0.250  0.500  -0.25 12    13.7 
+13 medium-high  0.250  0.500  -0.25 13    22.6 
+14 medium-high  0.250  0.500  -0.25 14     4.44
+15 medium-high  0.250  0.500  -0.25 15    13.0 
+16 high         0.25   0.5     0.75 16    51.2 
+17 high         0.25   0.5     0.75 17    34.0 
+18 high         0.25   0.5     0.75 18    35.9 
+19 high         0.25   0.5     0.75 19    28.9 
+20 high         0.25   0.5     0.75 20    50.0 
+```
+]
+ 
+.panel3-simdat3-with-repeated-contrast-design-matrix-auto[
+**F**列が最先頭列になるよう列を並べ替え
+]
+
+&lt;style&gt;
+.panel1-simdat3-with-repeated-contrast-design-matrix-auto {
+  color: black;
+  width: 28.7040816326531%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-simdat3-with-repeated-contrast-design-matrix-auto {
+  color: black;
+  width: 38.6020408163265%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-simdat3-with-repeated-contrast-design-matrix-auto {
+  color: black;
+  width: 29.6938775510204%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+---
+
+count: false
+ 
+## Design matrixを線形モデルの要因として使う
+.panel1-lm-with-repeated-contrast-design-matrix-rotate[
+
+```r
+*m3_mr &lt;- lm(DV ~ F, data = simdat3_DM)
+
+m3_mr |&gt;
+  tidy(conf.int = TRUE, conf.level = 0.95) |&gt;
+  mutate(
+    `95% CI` = paste0(
+      "[",
+      conf.low |&gt; round(2),
+      ", ",
+      conf.high |&gt; round(2),
+      "]"
+    )
+  ) |&gt;
+  relocate(`95% CI`, .after = estimate) |&gt;
+  dplyr::select(-c(std.error, conf.low, conf.high)) |&gt;
+  kable(
+    digits = 2,
+    escape = FALSE,
+    col.names = c(
+      'Predictor',
+      'Estimate',
+      '95% CI',
+      '$t$-value',
+      '$p$-value'
+    )
+  )
+```
+]
+ 
+.panel2-lm-with-repeated-contrast-design-matrix-rotate[
+
+|Predictor   | Estimate|95% CI         | `\(t\)`-value| `\(p\)`-value|
+|:-----------|--------:|:--------------|---------:|---------:|
+|(Intercept) |       20|[15.26, 24.74] |       8.9|      0.00|
+|Fc2vs1      |       10|[-3.41, 23.41] |       1.6|      0.13|
+|Fc3vs2      |      -10|[-23.41, 3.41] |      -1.6|      0.13|
+|Fc4vs3      |       30|[16.59, 43.41] |       4.7|      0.00|
+]
+ 
+.panel3-lm-with-repeated-contrast-design-matrix-rotate[
+Repeated contrastを適用した**F**を使いモデルを構築した場合
+]
+
+---
+count: false
+ 
+## Design matrixを線形モデルの要因として使う
+.panel1-lm-with-repeated-contrast-design-matrix-rotate[
+
+```r
+*m3_mr &lt;- lm(DV ~ Fc2vs1 + Fc3vs2 + Fc4vs3, data = simdat3_DM)
+
+m3_mr |&gt;
+  tidy(conf.int = TRUE, conf.level = 0.95) |&gt;
+  mutate(
+    `95% CI` = paste0(
+      "[",
+      conf.low |&gt; round(2),
+      ", ",
+      conf.high |&gt; round(2),
+      "]"
+    )
+  ) |&gt;
+  relocate(`95% CI`, .after = estimate) |&gt;
+  dplyr::select(-c(std.error, conf.low, conf.high)) |&gt;
+  kable(
+    digits = 2,
+    escape = FALSE,
+    col.names = c(
+      'Predictor',
+      'Estimate',
+      '95% CI',
+      '$t$-value',
+      '$p$-value'
+    )
+  )
+```
+]
+ 
+.panel2-lm-with-repeated-contrast-design-matrix-rotate[
+
+|Predictor   | Estimate|95% CI         | `\(t\)`-value| `\(p\)`-value|
+|:-----------|--------:|:--------------|---------:|---------:|
+|(Intercept) |       20|[15.26, 24.74] |       8.9|      0.00|
+|Fc2vs1      |       10|[-3.41, 23.41] |       1.6|      0.13|
+|Fc3vs2      |      -10|[-23.41, 3.41] |      -1.6|      0.13|
+|Fc4vs3      |       30|[16.59, 43.41] |       4.7|      0.00|
+]
+ 
+.panel3-lm-with-repeated-contrast-design-matrix-rotate[
+Repeated contrastに基づくdesign matrixを使いモデルを構築した場合
+]
+
+&lt;style&gt;
+.panel1-lm-with-repeated-contrast-design-matrix-rotate {
+  color: black;
+  width: 28.7040816326531%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-lm-with-repeated-contrast-design-matrix-rotate {
+  color: black;
+  width: 38.6020408163265%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-lm-with-repeated-contrast-design-matrix-rotate {
+  color: black;
+  width: 29.6938775510204%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
 
 
 
