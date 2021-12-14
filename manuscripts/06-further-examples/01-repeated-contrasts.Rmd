@@ -460,14 +460,14 @@ contr.sdif(4) |>
 
 ---
 
-`r chunk_reveal("manual-repeated-contrasts", left_assign = "detect", break_type = "rotate", title = "## 対比行列を要因に当てはめ，線形モデルを実行",  display_type = c("code", "output", "md"), md = c("仮説行列から作ったrepeated contrastsを適用", "**contr.sdif(3)**で作ったrepeated contrastsを適用", "希望するcontrastsになったか確認", "統計モデル構築", "結果表示", "より見やすく結果表示"), widths = c(3, 2, 1))`
+`r chunk_reveal("manual-repeated-contrasts", left_assign = "detect", break_type = "rotate", title = "## 対比行列を要因に当てはめ，線形モデルを実行",  display_type = c("code", "output", "md"), md = c("**contr.sdif(3)**で作ったrepeated contrastsを適用", "仮説行列から作ったrepeated contrastsを適用", "希望するcontrastsになったか確認", "統計モデル構築", "結果表示", "より見やすく結果表示"), widths = c(3, 2, 1))`
 
 ```{r}
 #| manual-repeated-contrasts,
 #| include = FALSE
 
-contrasts(simdat3$F) <- XcRE #ROTATE
 contrasts(simdat3$F) <- contr.sdif(4) |> fractions() #ROTATE
+contrasts(simdat3$F) <- XcRE #ROTATE
 
 contrasts(simdat3$F)
 
@@ -528,36 +528,9 @@ lm(DV ~ F, data = simdat3) |>
 :::: pull-right
 
 ```{r}
-#| tab-results-simdat3,
+#| ref.label = c('manual-repeated-contrasts'),
 #| echo = FALSE,
 #| eval = TRUE
-
-contrasts(simdat3$F) <- XcRE
-
-lm(DV ~ F, data = simdat3) |>
-  tidy(conf.int = TRUE, conf.level = 0.95) |>
-  mutate(
-    `95% CI` = paste0(
-      "[",
-      conf.low |> round(0),
-      ", ",
-      conf.high |> round(0),
-      "]"
-    )
-  ) |>
-  relocate(`95% CI`, .after = estimate) |>
-  dplyr::select(-c(std.error, conf.low, conf.high)) |>
-  kable(
-    digits = 2,
-    escape = FALSE,
-    col.names = c(
-      'Predictor',
-      'Estimate',
-      '95% CI',
-      '$t$-value',
-      '$p$-value'
-    )
-  )
 ```
 
 ```{r}

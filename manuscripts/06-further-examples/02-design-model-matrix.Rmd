@@ -113,7 +113,7 @@ simdat3_DM <- covars |>
 ```
 ---
 
-`r chunk_reveal("lm-with-repeated-contrast-design-matrix", left_assign = "detect", break_type = "rotate", title = "## Design matrixを線形モデルの要因として使う",  display_type = c("code", "output", "md"), md = c("Repeated contrastを適用した**F**を使いモデルを構築した場合", "Repeated contrastに基づくdesign matrixを使いモデルを構築した場合"))`
+`r chunk_reveal("lm-with-repeated-contrast-design-matrix", left_assign = "detect", break_type = "rotate", title = "## Design matrixを線形モデルの要因として使う",  display_type = c("code", "output", "md"), md = c("Repeated contrastを適用した**F**を使いモデルを構築した場合", "Repeated contrastに基づくdesign matrixを使いモデルを構築した場合  \n  \n**Repeated contrastを適用したFを使いモデルを構築した場合と結果が完全に一致！**"))`
 
 ```{r}
 #| lm-with-repeated-contrast-design-matrix,

@@ -7163,68 +7163,6 @@ count: false
 .panel1-manual-repeated-contrasts-rotate[
 
 ```r
-*contrasts(simdat3$F) &lt;- XcRE
-
-contrasts(simdat3$F)
-
-lm(DV ~ F, data = simdat3) |&gt;
-  tidy(conf.int = TRUE, conf.level = 0.95) |&gt;
-  mutate(
-    `95% CI` = paste0(
-      "[",
-      conf.low |&gt; round(2),
-      ", ",
-      conf.high |&gt; round(2),
-      "]"
-    )
-  ) |&gt;
-  relocate(`95% CI`, .after = estimate) |&gt;
-  dplyr::select(-c(std.error, conf.low, conf.high)) |&gt;
-  kable(
-    digits = 2,
-    escape = FALSE,
-    col.names = c(
-      'Predictor',
-      'Estimate',
-      '95% CI',
-      '$t$-value',
-      '$p$-value'
-    )
-  )
-```
-]
- 
-.panel2-manual-repeated-contrasts-rotate[
-
-```
-            c2vs1 c3vs2 c4vs3
-low         -3/4  -1/2  -1/4 
-medium-low   1/4  -1/2  -1/4 
-medium-high  1/4   1/2  -1/4 
-high         1/4   1/2   3/4 
-```
-
-
-
-|Predictor   | Estimate|95% CI         | `\(t\)`-value| `\(p\)`-value|
-|:-----------|--------:|:--------------|---------:|---------:|
-|(Intercept) |       20|[15.26, 24.74] |       8.9|      0.00|
-|Fc2vs1      |       10|[-3.41, 23.41] |       1.6|      0.13|
-|Fc3vs2      |      -10|[-23.41, 3.41] |      -1.6|      0.13|
-|Fc4vs3      |       30|[16.59, 43.41] |       4.7|      0.00|
-]
- 
-.panel3-manual-repeated-contrasts-rotate[
-仮説行列から作ったrepeated contrastsを適用
-]
-
----
-count: false
- 
-## 対比行列を要因に当てはめ，線形モデルを実行
-.panel1-manual-repeated-contrasts-rotate[
-
-```r
 *contrasts(simdat3$F) &lt;- contr.sdif(4) |&gt; fractions()
 
 contrasts(simdat3$F)
@@ -7278,6 +7216,68 @@ high         1/4  1/2  3/4
  
 .panel3-manual-repeated-contrasts-rotate[
 **contr.sdif(3)**で作ったrepeated contrastsを適用
+]
+
+---
+count: false
+ 
+## 対比行列を要因に当てはめ，線形モデルを実行
+.panel1-manual-repeated-contrasts-rotate[
+
+```r
+*contrasts(simdat3$F) &lt;- XcRE
+
+contrasts(simdat3$F)
+
+lm(DV ~ F, data = simdat3) |&gt;
+  tidy(conf.int = TRUE, conf.level = 0.95) |&gt;
+  mutate(
+    `95% CI` = paste0(
+      "[",
+      conf.low |&gt; round(2),
+      ", ",
+      conf.high |&gt; round(2),
+      "]"
+    )
+  ) |&gt;
+  relocate(`95% CI`, .after = estimate) |&gt;
+  dplyr::select(-c(std.error, conf.low, conf.high)) |&gt;
+  kable(
+    digits = 2,
+    escape = FALSE,
+    col.names = c(
+      'Predictor',
+      'Estimate',
+      '95% CI',
+      '$t$-value',
+      '$p$-value'
+    )
+  )
+```
+]
+ 
+.panel2-manual-repeated-contrasts-rotate[
+
+```
+            c2vs1 c3vs2 c4vs3
+low         -3/4  -1/2  -1/4 
+medium-low   1/4  -1/2  -1/4 
+medium-high  1/4   1/2  -1/4 
+high         1/4   1/2   3/4 
+```
+
+
+
+|Predictor   | Estimate|95% CI         | `\(t\)`-value| `\(p\)`-value|
+|:-----------|--------:|:--------------|---------:|---------:|
+|(Intercept) |       20|[15.26, 24.74] |       8.9|      0.00|
+|Fc2vs1      |       10|[-3.41, 23.41] |       1.6|      0.13|
+|Fc3vs2      |      -10|[-23.41, 3.41] |      -1.6|      0.13|
+|Fc4vs3      |       30|[16.59, 43.41] |       4.7|      0.00|
+]
+ 
+.panel3-manual-repeated-contrasts-rotate[
+仮説行列から作ったrepeated contrastsを適用
 ]
 
 &lt;style&gt;
@@ -7342,12 +7342,22 @@ high         1/4  1/2  3/4
 :::: pull-right
 
 
-|Predictor   | Estimate|95% CI   | `\(t\)`-value| `\(p\)`-value|
-|:-----------|--------:|:--------|---------:|---------:|
-|(Intercept) |       20|[15, 25] |       8.9|      0.00|
-|Fc2vs1      |       10|[-3, 23] |       1.6|      0.13|
-|Fc3vs2      |      -10|[-23, 3] |      -1.6|      0.13|
-|Fc4vs3      |       30|[17, 43] |       4.7|      0.00|
+```
+            c2vs1 c3vs2 c4vs3
+low         -3/4  -1/2  -1/4 
+medium-low   1/4  -1/2  -1/4 
+medium-high  1/4   1/2  -1/4 
+high         1/4   1/2   3/4 
+```
+
+
+
+|Predictor   | Estimate|95% CI         | `\(t\)`-value| `\(p\)`-value|
+|:-----------|--------:|:--------------|---------:|---------:|
+|(Intercept) |       20|[15.26, 24.74] |       8.9|      0.00|
+|Fc2vs1      |       10|[-3.41, 23.41] |       1.6|      0.13|
+|Fc3vs2      |      -10|[-23.41, 3.41] |      -1.6|      0.13|
+|Fc4vs3      |       30|[16.59, 43.41] |       4.7|      0.00|
 
 &lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-80-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
@@ -7912,7 +7922,9 @@ m3_mr |&gt;
 ]
  
 .panel3-lm-with-repeated-contrast-design-matrix-rotate[
-Repeated contrastに基づくdesign matrixを使いモデルを構築した場合
+Repeated contrastに基づくdesign matrixを使いモデルを構築した場合  
+  
+**Repeated contrastを適用したFを使いモデルを構築した場合と結果が完全に一致！**
 ]
 
 &lt;style&gt;
@@ -7943,6 +7955,10 @@ Repeated contrastに基づくdesign matrixを使いモデルを構築した場�
 &lt;/style&gt;
 
 
+
+
+
+---
 
 
 
