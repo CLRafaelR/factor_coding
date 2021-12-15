@@ -103,7 +103,7 @@ simdat3_CC <- simdat3 |>
 
 ---
 
-`r chunk_reveal("manual-custom-contrasts", left_assign = "detect", title = "## 対比行列を要因に当てはめ，線形モデルを実行",  display_type = c("code", "output", "md"), md = c("統計モデル構築", "結果表示（各係数の95%信頼区間も算出）", "各係数の95%信頼区間を1列にまとめる", "各係数の95%信頼区間をまとめた列を，係数の列の後ろに配置", "標準誤差，95%信頼区間の上・下限の列を削除", "表にまとめる"), widths = c(3, 2, 1))`
+`r chunk_reveal("manual-custom-contrasts", left_assign = "detect", title = "## Custom contrastで，線形モデルを実行",  display_type = c("code", "output", "md"), md = c("統計モデル構築", "結果表示（各係数の95%信頼区間も算出）", "各係数の95%信頼区間を1列にまとめる", "各係数の95%信頼区間をまとめた列を，係数の列の後ろに配置", "標準誤差，95%信頼区間の上・下限の列を削除", "表にまとめる"), widths = c(3, 2, 1))`
 
 ```{r}
 #| manual-custom-contrasts,
