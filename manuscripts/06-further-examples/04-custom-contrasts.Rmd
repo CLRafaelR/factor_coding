@@ -1,30 +1,34 @@
-name: polynomial-contrast-weights
+name: custom-contrast-weights
 
-## Polynomial contrasts
+## Custom contrasts
+
+- 先行研究の結果や推論に基づいて，特定の応答変数（の平均値）のパターンが予測できることがある
+- そうしたパターンを検定するための対比
+
+---
+
+## Custom contrasts
 
 ::: columns
 
 :::: pull-left
 
-- （順序が決まっている）隣り合う水準同士を比較
-  - 水準間で同じペースで増加・減少？
-  - 水準間毎に，増加・減少のペースが変わる？
-- 例：語の頻度の効果を，隣り合う水準と比べる
-    1. 低頻度
-    2. 中頻度・低
-    3. 中頻度・高
-    4. 高頻度
-- 主な対比は次の3つ
-    1. 1次関数ペース（Linear; どの水準間でも一定ペースで増加・減少？）
-    2. 2次関数ペース（Quadratic; 次の水準間に移るほど増加・減少が激しい・穏やか？）
-    3. 3次関数ペース（Cubic; 次の水準間に移るほど増加・減少が入れ替わる？）
+- 例：語の頻度の効果について
+    1. 低頻度へのRTと中頻度・低へのRTは，同じ
+    2. 中頻度・高へのRTから高頻度へのRTにかけて，一定ペースで増加する
+
+| 低頻度へのRT | 中頻度・低へのRT | 中頻度・高へのRT | 高頻度へのRT |
+|:----------:|:----------:|:----------:|:----------:|
+| 10 | 10 | 20 | 30 |
+
+
 
 ::::
 
 :::: pull-right
 
 ```{r}
-#| schema-simdat3-polynomial,
+#| schema-simdat3-custom,
 #| echo = FALSE
 
 label.y <- summary_simdat3 |>
@@ -137,7 +141,7 @@ summary_simdat3 |>
 
 ---
 
-## Polynomial contrasts
+## Custom contrasts
 
 ::: columns
 
@@ -158,7 +162,7 @@ summary_simdat3 |>
 :::: pull-right
 
 ```{r}
-#| ref.label = c('schema-simdat3-polynomial'),
+#| ref.label = c('schema-simdat3-custom'),
 #| echo = FALSE,
 #| eval = TRUE
 ```
@@ -169,11 +173,11 @@ summary_simdat3 |>
 
 ---
 
-`r chunk_reveal("polynomial-hypothesis-matrix-ginv-contr-poly", left_assign = "detect", title = "## Polynomial contrastの対比行列", display_type = c("code", "output", "md"), md = c("4水準の時のPolynomial contrastの対比行列", "希望するcontrastsになったか確認"))`
+`r chunk_reveal("custom-hypothesis-matrix-ginv-contr-poly", left_assign = "detect", title = "## Custom contrastの対比行列", display_type = c("code", "output", "md"), md = c("4水準の時のCustom contrastの対比行列", "希望するcontrastsになったか確認"))`
 
 
 ```{r}
-#| polynomial-hypothesis-matrix-ginv-contr-poly,
+#| custom-hypothesis-matrix-ginv-contr-poly,
 #| include = FALSE
 
 contrasts(simdat3$F) <- contr.poly(4)
@@ -182,10 +186,10 @@ contrasts(simdat3$F)
 
 ---
 
-`r chunk_reveal("manual-polynomial-contrasts", left_assign = "detect", title = "## 対比行列を要因に当てはめ，線形モデルを実行",  display_type = c("code", "output", "md"), md = c("統計モデル構築", "結果表示（各係数の95%信頼区間も算出）", "各係数の95%信頼区間を1列にまとめる", "各係数の95%信頼区間をまとめた列を，係数の列の後ろに配置", "標準誤差，95%信頼区間の上・下限の列を削除", "表にまとめる"), widths = c(3, 2, 1))`
+`r chunk_reveal("manual-custom-contrasts", left_assign = "detect", title = "## 対比行列を要因に当てはめ，線形モデルを実行",  display_type = c("code", "output", "md"), md = c("統計モデル構築", "結果表示（各係数の95%信頼区間も算出）", "各係数の95%信頼区間を1列にまとめる", "各係数の95%信頼区間をまとめた列を，係数の列の後ろに配置", "標準誤差，95%信頼区間の上・下限の列を削除", "表にまとめる"), widths = c(3, 2, 1))`
 
 ```{r}
-#| manual-polynomial-contrasts,
+#| manual-custom-contrasts,
 #| include = FALSE
 
 lm(DV ~ F, data = simdat3) |>
@@ -242,13 +246,13 @@ lm(DV ~ F, data = simdat3) |>
 :::: pull-right
 
 ```{r}
-#| ref.label = c('manual-polynomial-contrasts'),
+#| ref.label = c('manual-custom-contrasts'),
 #| echo = FALSE,
 #| eval = TRUE
 ```
 
 ```{r}
-#| ref.label = c('schema-simdat3-polynomial'),
+#| ref.label = c('schema-simdat3-custom'),
 #| echo = FALSE,
 #| eval = TRUE
 ```
@@ -259,12 +263,12 @@ lm(DV ~ F, data = simdat3) |>
 
 ---
 
-## Polynomial contrastの長所
+## Custom contrastの長所
 
-- Polynomial contrastでlinear trendを指定することで，全体的な増加傾向をlinear trendの係数として表現することができる
+- Custom contrastでlinear trendを指定することで，全体的な増加傾向をlinear trendの係数として表現することができる
   - 全体的な増加傾向の検出力も上がる
   - （データに応じ，全体的な減少傾向もlinear trendの係数として表現可能なはず）
-- 要因の水準が増えれば増えるほど，他の対比方法（コーディング方法）やオムニバスF検定よりも，polynomial contrastを使う時の方が，少ない変数で応答変数を説明できる
+- 要因の水準が増えれば増えるほど，他の対比方法（コーディング方法）やオムニバスF検定よりも，Custom contrastを使う時の方が，少ない変数で応答変数を説明できる
   - オムニバスF検定：全ての水準から2つ選んでできる水準の組み合わせ全てについて1回ずつ統計を掛ける
 
 ---

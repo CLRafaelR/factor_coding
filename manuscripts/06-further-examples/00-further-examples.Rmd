@@ -178,3 +178,8 @@ simdat3 |>
 ```
 
 ---
+
+```{r child = '04-custom-contrasts.Rmd'}
+```
+
+---
