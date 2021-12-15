@@ -7,42 +7,40 @@ name: custom-contrast-weights
 
 ---
 
-## Custom contrasts
-
 ::: columns
 
 :::: pull-left
+
+## Custom contrasts
 
 - 例：語の頻度の効果について
     1. 低頻度へのRTと中頻度・低へのRTは，同じ
     2. 中頻度・高へのRTから高頻度へのRTにかけて，一定ペースで増加する
 
-| 低頻度へのRT | 中頻度・低へのRT | 中頻度・高へのRT | 高頻度へのRT |
-|:----------:|:----------:|:----------:|:----------:|
-| 10 | 10 | 20 | 30 |
+<!-- -->
 
+1. ↑の予測に基づき，応答変数の平均値のパターンを考える
+2. 応答変数の平均値を中心化
+    - 各水準へのRTが，全体平均からどれだけ離れているか
+3. 中心化した値の比を同じ数で割り，最小の整数値から成る比にする
 
+他にも，例えば
+[このような方法](https://stats.idre.ucla.edu/r/library/r-library-contrast-coding-systems-for-categorical-variables/#User)
+がある
 
 ::::
 
 :::: pull-right
 
+|| 低頻度へのRT | 中頻度・低へのRT | 中頻度・高へのRT | 高頻度へのRT |
+|:-:|:----------:|:----------:|:----------:|:----------:|
+|1| 10 | 10 | 20 | 30 |
+|2| `r 10 - (10 + 10 + 20 + 30)/4` | `r 10 - (10 + 10 + 20 + 30)/4` | `r 20 - (10 + 10 + 20 + 30)/4` | `r 30 - (10 + 10 + 20 + 30)/4` |
+|3| `r (10 - (10 + 10 + 20 + 30)/4)/2.5` | `r (10 - (10 + 10 + 20 + 30)/4)/2.5` | `r (20 - (10 + 10 + 20 + 30)/4)/2.5` | `r (30 - (10 + 10 + 20 + 30)/4)/2.5` |
+
 ```{r}
 #| schema-simdat3-custom,
 #| echo = FALSE
-
-label.y <- summary_simdat3 |>
-  filter(
-    F != "low"
-  ) |>
-  mutate(
-    M =c(14, 18, 25),
-    label = c(
-      "paste(italic(β)[1], '= Linear trend')",
-      "paste(italic(β)[2], '= Quadratic trend')",
-      "paste(italic(β)[3], '= Cubic trend')"
-    )
-  )
 
 summary_simdat3 |>
   (
@@ -64,71 +62,16 @@ summary_simdat3 |>
         y = "Mean DV",
         x = "Factor F"
       ) +
-      geom_hline(
-        yintercept = d$GM,
+      geom_path(
+        data = tibble(
+            F = c("low", "medium-low", "medium-high", "high"),
+            M = c(10, 10, 20, 30)
+        ),
+        colour = "red",
         linetype = "dashed"
       )
     }
   )() +
-  geom_label(
-    aes(
-      x = "low",
-      y = mean(M),
-    ),
-    parse = TRUE,
-    label = "paste(italic(β)[0], '= Grand Mean')"
-  ) +
-  #### Cubic trend
-  stat_smooth(
-    #inherit.aes = FALSE,
-    aes(
-      x = as.numeric(F),
-      y = M
-    ),
-    method = "lm",
-    formula = y ~ poly(x, 3),
-    size = 1,
-    colour = "red",
-    se = FALSE
-  ) +
-  #### quadratic trend
-  stat_smooth(
-    #inherit.aes = FALSE,
-    aes(
-      x = as.numeric(F),
-      y = M
-    ),
-    method = "lm",
-    formula = y ~ poly(x, 2),
-    size = 1,
-    colour = "red",
-    linetype = "dashed",
-    se = FALSE
-  ) +
-  #### linear trend
-  stat_smooth(
-    inherit.aes = FALSE,
-    aes(
-      x = as.numeric(F),
-      y = M
-    ),
-    method = "lm",
-    formula = y ~ x,
-    size = 1,
-    colour = "red",
-    linetype = "88",
-    se = FALSE
-  ) +
-  #### labels
-  geom_label(
-    data = label.y,
-    aes(
-      x = F,
-      y = M,
-      label = label
-    ),
-    parse = TRUE
-  ) +
   labs(
     x = "Word Frequency",
     y = "Reaction Time"
@@ -141,47 +84,21 @@ summary_simdat3 |>
 
 ---
 
-## Custom contrasts
-
-::: columns
-
-:::: pull-left
-
-::::: block
-
-### 検証する帰無仮説
-
-1. 1次関数ペース（Linear; どの水準間でも一定ペースで増加・減少？）
-2. 2次関数ペース（Quadratic; 次の水準間に移るほど増加・減少が激しい・穏やか？）
-3. 3次関数ペース（Cubic; 次の水準間に移るほど増加・減少が入れ替わる？）
-
-:::::
-
-::::
-
-:::: pull-right
-
-```{r}
-#| ref.label = c('schema-simdat3-custom'),
-#| echo = FALSE,
-#| eval = TRUE
-```
-
-::::
-
-:::
-
----
-
-`r chunk_reveal("custom-hypothesis-matrix-ginv-contr-poly", left_assign = "detect", title = "## Custom contrastの対比行列", display_type = c("code", "output", "md"), md = c("4水準の時のCustom contrastの対比行列", "希望するcontrastsになったか確認"))`
-
+`r chunk_reveal("custom-hypothesis-matrix-ginv-contr-poly", left_assign = "detect", title = "## Custom contrastの使い方  \n  \n- Schad et al. (2020), p.16 では，custom contrastの対比行列と，それに基づく配置行列を作っている  \n- ここでは，custom contrastを新しい説明変数として直接データに組み込む方法を紹介  \n  \n", display_type = c("code", "output", "md"), md = c("データ", "**F**の水準に応じて異なる値を取る，新しい説明変数**Fcust**を作る"))`
 
 ```{r}
 #| custom-hypothesis-matrix-ginv-contr-poly,
 #| include = FALSE
 
-contrasts(simdat3$F) <- contr.poly(4)
-contrasts(simdat3$F)
+simdat3_CC <- simdat3 |>
+  mutate(
+    Fcust = case_when(
+      F == "low" | F == "medium-low" ~ -3,
+      F == "medium-high" ~ 1,
+      F == "high" ~ 5,
+      TRUE ~ NaN
+    )
+  )
 ```
 
 ---
@@ -192,7 +109,7 @@ contrasts(simdat3$F)
 #| manual-custom-contrasts,
 #| include = FALSE
 
-lm(DV ~ F, data = simdat3) |>
+lm(DV ~ Fcust, data = simdat3_CC) |>
   tidy(conf.int = TRUE, conf.level = 0.95) |>
   mutate(
     `95% CI` = paste0(
@@ -217,58 +134,5 @@ lm(DV ~ F, data = simdat3) |>
     )
   )
 ```
-
----
-
-## 統計モデルから仮説を検証
-
-::: columns
-
-:::: pull-left
-
-::::: block
-
-<!--
-### 検証する帰無仮説
--->
-
-1. 1次関数ペース（Linear; どの水準間でも一定ペースで増加・減少？）
-    - `F L`より，linear trend 有意
-2. 2次関数ペース（Quadratic; 次の水準間に移るほど増加・減少が激しい・穏やか？）
-    - `F Q`より，quadratic trend 有意
-3. 3次関数ペース（Cubic; 次の水準間に移るほど増加・減少が入れ替わる？）
-    - `F C`より，cubic trend 有意
-
-:::::
-
-::::
-
-:::: pull-right
-
-```{r}
-#| ref.label = c('manual-custom-contrasts'),
-#| echo = FALSE,
-#| eval = TRUE
-```
-
-```{r}
-#| ref.label = c('schema-simdat3-custom'),
-#| echo = FALSE,
-#| eval = TRUE
-```
-
-::::
-
-:::
-
----
-
-## Custom contrastの長所
-
-- Custom contrastでlinear trendを指定することで，全体的な増加傾向をlinear trendの係数として表現することができる
-  - 全体的な増加傾向の検出力も上がる
-  - （データに応じ，全体的な減少傾向もlinear trendの係数として表現可能なはず）
-- 要因の水準が増えれば増えるほど，他の対比方法（コーディング方法）やオムニバスF検定よりも，Custom contrastを使う時の方が，少ない変数で応答変数を説明できる
-  - オムニバスF検定：全ての水準から2つ選んでできる水準の組み合わせ全てについて1回ずつ統計を掛ける
 
 ---

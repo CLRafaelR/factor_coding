@@ -115,7 +115,7 @@ set.seed(1212); simdat2 <- mixedDesign(
 
 ---
 
-`r chunk_reveal("multiple-contrasts", left_assign = "detect", break_type = "rotate", title = "## 任意の対比行列を充てる方法",  display_type = c("code", "output", "md"), md = c("Treatment contrastsを適用", "Sum contrastsを適用", "Repeated contrastsを適用", "Polynomial contrastsを適用", "Helmert contrastsを適用", "希望するcontrastsになったか確認", "統計モデル構築", "結果表示"), widths = c(3, 2, 1))`
+`r chunk_reveal("multiple-contrasts", left_assign = "detect", break_type = "rotate", title = "## 任意の対比行列を充てる方法",  display_type = c("code", "output", "md"), md = c("Treatment contrastsを適用", "Sum contrastsを適用", "Repeated contrastsを適用", "Polynomial contrastsを適用", "Helmert contrastsを適用", "希望するcontrastsになったか確認", "統計モデル構築", "結果表示"), widths = c(2, 2, 1))`
 
 ```{r}
 #| multiple-contrasts,

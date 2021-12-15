@@ -4663,7 +4663,7 @@ Helmert contrastsを適用
 &lt;style&gt;
 .panel1-multiple-contrasts-rotate {
   color: black;
-  width: 48.5%;
+  width: 38.8%;
   hight: 32%;
   float: left;
   padding-left: 1%;
@@ -4671,7 +4671,7 @@ Helmert contrastsを適用
 }
 .panel2-multiple-contrasts-rotate {
   color: black;
-  width: 32.3333333333333%;
+  width: 38.8%;
   hight: 32%;
   float: left;
   padding-left: 1%;
@@ -4679,7 +4679,7 @@ Helmert contrastsを適用
 }
 .panel3-multiple-contrasts-rotate {
   color: black;
-  width: 16.1666666666667%;
+  width: 19.4%;
   hight: 33%;
   float: left;
   padding-left: 1%;
@@ -6538,7 +6538,7 @@ name: repeated-contrast-weights
 
 :::: pull-right
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-69-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-70-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -6570,7 +6570,7 @@ name: repeated-contrast-weights
 
 :::: pull-right
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-70-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-71-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -6602,7 +6602,7 @@ name: repeated-contrast-weights
 
 :::: pull-right
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-71-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-72-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -6635,7 +6635,7 @@ name: repeated-contrast-weights
 
 :::: pull-right
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-72-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-73-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -6668,7 +6668,7 @@ name: repeated-contrast-weights
 
 :::: pull-right
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-73-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-74-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -7359,7 +7359,7 @@ high         1/4   1/2   3/4
 |Fc3vs2      |      -10|[-23.41, 3.41] |      -1.6|      0.13|
 |Fc4vs3      |       30|[16.59, 43.41] |       4.7|      0.00|
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-81-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-82-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -8018,7 +8018,7 @@ name: polynomial-contrast-weights
 
 :::: pull-right
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-90-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-91-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -8392,7 +8392,7 @@ lm(DV ~ F, data = simdat3) |&gt;
 |F.Q         |       10|[1, 19]  |       2.2|      0.04|
 |F.C         |       13|[4, 23]  |       3.0|      0.01|
 
-&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-94-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="figures/Notes-Schad-etal-2020-unnamed-chunk-95-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ::::
 
@@ -8407,6 +8407,441 @@ lm(DV ~ F, data = simdat3) |&gt;
   - （データに応じ，全体的な減少傾向もlinear trendの係数として表現可能なはず）
 - 要因の水準が増えれば増えるほど，他の対比方法（コーディング方法）やオムニバスF検定よりも，polynomial contrastを使う時の方が，少ない変数で応答変数を説明できる
   - オムニバスF検定：全ての水準から2つ選んでできる水準の組み合わせ全てについて1回ずつ統計を掛ける
+
+---
+
+---
+
+
+name: custom-contrast-weights
+
+## Custom contrasts
+
+- 先行研究の結果や推論に基づいて，特定の応答変数（の平均値）のパターンが予測できることがある
+- そうしたパターンを検定するための対比
+
+---
+
+::: columns
+
+:::: pull-left
+
+## Custom contrasts
+
+- 例：語の頻度の効果について
+    1. 低頻度へのRTと中頻度・低へのRTは，同じ
+    2. 中頻度・高へのRTから高頻度へのRTにかけて，一定ペースで増加する
+
+&lt;!-- --&gt;
+
+1. ↑の予測に基づき，応答変数の平均値のパターンを考える
+2. 応答変数の平均値を中心化
+    - 各水準へのRTが，全体平均からどれだけ離れているか
+3. 中心化した値の比を同じ数で割り，最小の整数値から成る比にする
+
+他にも，例えば
+[このような方法](https://stats.idre.ucla.edu/r/library/r-library-contrast-coding-systems-for-categorical-variables/#User)
+がある
+
+::::
+
+:::: pull-right
+
+|| 低頻度へのRT | 中頻度・低へのRT | 中頻度・高へのRT | 高頻度へのRT |
+|:-:|:----------:|:----------:|:----------:|:----------:|
+|1| 10 | 10 | 20 | 30 |
+|2| -7.5 | -7.5 | 2.5 | 12.5 |
+|3| -3 | -3 | 1 | 5 |
+
+&lt;img src="figures/Notes-Schad-etal-2020-schema-simdat3-custom-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+::::
+
+:::
+
+---
+
+count: false
+ 
+## Custom contrastの使い方  
+  
+- Schad et al. (2020), p.16 では，custom contrastの対比行列と，それに基づく配置行列を作っている  
+- ここでは，custom contrastを新しい説明変数として直接データに組み込む方法を紹介  
+  
+
+.panel1-custom-hypothesis-matrix-ginv-contr-poly-auto[
+
+```r
+*simdat3_CC &lt;- simdat3
+
+simdat3_CC
+```
+]
+ 
+.panel2-custom-hypothesis-matrix-ginv-contr-poly-auto[
+
+```
+             F id   DV
+1          low  1  3.6
+2          low  2 11.3
+3          low  3  7.3
+4          low  4  1.2
+5          low  5 26.5
+6   medium-low  6  9.2
+7   medium-low  7 36.5
+8   medium-low  8 17.9
+9   medium-low  9 18.0
+10  medium-low 10 18.4
+11 medium-high 11 -3.7
+12 medium-high 12 13.7
+13 medium-high 13 22.6
+14 medium-high 14  4.4
+15 medium-high 15 13.0
+16        high 16 51.2
+17        high 17 34.0
+18        high 18 35.9
+19        high 19 28.9
+20        high 20 50.0
+```
+]
+ 
+.panel3-custom-hypothesis-matrix-ginv-contr-poly-auto[
+データ
+]
+
+---
+count: false
+ 
+## Custom contrastの使い方  
+  
+- Schad et al. (2020), p.16 では，custom contrastの対比行列と，それに基づく配置行列を作っている  
+- ここでは，custom contrastを新しい説明変数として直接データに組み込む方法を紹介  
+  
+
+.panel1-custom-hypothesis-matrix-ginv-contr-poly-auto[
+
+```r
+simdat3_CC &lt;- simdat3 |&gt;
+* mutate(
+*   Fcust = case_when(
+*     F == "low" | F == "medium-low" ~ -3,
+*     F == "medium-high" ~ 1,
+*     F == "high" ~ 5,
+*     TRUE ~ NaN
+*   )
+* )
+
+simdat3_CC
+```
+]
+ 
+.panel2-custom-hypothesis-matrix-ginv-contr-poly-auto[
+
+```
+             F id   DV Fcust
+1          low  1  3.6    -3
+2          low  2 11.3    -3
+3          low  3  7.3    -3
+4          low  4  1.2    -3
+5          low  5 26.5    -3
+6   medium-low  6  9.2    -3
+7   medium-low  7 36.5    -3
+8   medium-low  8 17.9    -3
+9   medium-low  9 18.0    -3
+10  medium-low 10 18.4    -3
+11 medium-high 11 -3.7     1
+12 medium-high 12 13.7     1
+13 medium-high 13 22.6     1
+14 medium-high 14  4.4     1
+15 medium-high 15 13.0     1
+16        high 16 51.2     5
+17        high 17 34.0     5
+18        high 18 35.9     5
+19        high 19 28.9     5
+20        high 20 50.0     5
+```
+]
+ 
+.panel3-custom-hypothesis-matrix-ginv-contr-poly-auto[
+**F**の水準に応じて異なる値を取る，新しい説明変数**Fcust**を作る
+]
+
+&lt;style&gt;
+.panel1-custom-hypothesis-matrix-ginv-contr-poly-auto {
+  color: black;
+  width: 28.7040816326531%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-custom-hypothesis-matrix-ginv-contr-poly-auto {
+  color: black;
+  width: 38.6020408163265%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-custom-hypothesis-matrix-ginv-contr-poly-auto {
+  color: black;
+  width: 29.6938775510204%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+count: false
+ 
+## 対比行列を要因に当てはめ，線形モデルを実行
+.panel1-manual-custom-contrasts-auto[
+
+```r
+*lm(DV ~ Fcust, data = simdat3_CC)
+```
+]
+ 
+.panel2-manual-custom-contrasts-auto[
+
+```
+
+Call:
+lm(formula = DV ~ Fcust, data = simdat3_CC)
+
+Coefficients:
+(Intercept)        Fcust  
+      20.00         2.73  
+```
+]
+ 
+.panel3-manual-custom-contrasts-auto[
+統計モデル構築
+]
+
+---
+count: false
+ 
+## 対比行列を要因に当てはめ，線形モデルを実行
+.panel1-manual-custom-contrasts-auto[
+
+```r
+lm(DV ~ Fcust, data = simdat3_CC) |&gt;
+* tidy(conf.int = TRUE, conf.level = 0.95)
+```
+]
+ 
+.panel2-manual-custom-contrasts-auto[
+
+```
+# A tibble: 2 x 7
+  term        estimate std.error statistic    p.value conf.low conf.high
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)    20        2.87       6.97 0.00000164   14.0       26.0 
+2 Fcust           2.73     0.865      3.15 0.00551       0.910      4.54
+```
+]
+ 
+.panel3-manual-custom-contrasts-auto[
+結果表示（各係数の95%信頼区間も算出）
+]
+
+---
+count: false
+ 
+## 対比行列を要因に当てはめ，線形モデルを実行
+.panel1-manual-custom-contrasts-auto[
+
+```r
+lm(DV ~ Fcust, data = simdat3_CC) |&gt;
+  tidy(conf.int = TRUE, conf.level = 0.95) |&gt;
+* mutate(
+*   `95% CI` = paste0(
+*     "[",
+*     conf.low |&gt; round(0),
+*     ", ",
+*     conf.high |&gt; round(0),
+*     "]"
+*   )
+* )
+```
+]
+ 
+.panel2-manual-custom-contrasts-auto[
+
+```
+# A tibble: 2 x 8
+  term        estimate std.error statistic   p.value conf.low conf.high `95% CI`
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;   
+1 (Intercept)    20        2.87       6.97   1.64e-6   14.0       26.0  [14, 26]
+2 Fcust           2.73     0.865      3.15   5.51e-3    0.910      4.54 [1, 5]  
+```
+]
+ 
+.panel3-manual-custom-contrasts-auto[
+各係数の95%信頼区間を1列にまとめる
+]
+
+---
+count: false
+ 
+## 対比行列を要因に当てはめ，線形モデルを実行
+.panel1-manual-custom-contrasts-auto[
+
+```r
+lm(DV ~ Fcust, data = simdat3_CC) |&gt;
+  tidy(conf.int = TRUE, conf.level = 0.95) |&gt;
+  mutate(
+    `95% CI` = paste0(
+      "[",
+      conf.low |&gt; round(0),
+      ", ",
+      conf.high |&gt; round(0),
+      "]"
+    )
+  ) |&gt;
+* relocate(`95% CI`, .after = estimate)
+```
+]
+ 
+.panel2-manual-custom-contrasts-auto[
+
+```
+# A tibble: 2 x 8
+  term        estimate `95% CI` std.error statistic   p.value conf.low conf.high
+  &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)    20    [14, 26]     2.87       6.97   1.64e-6   14.0       26.0 
+2 Fcust           2.73 [1, 5]       0.865      3.15   5.51e-3    0.910      4.54
+```
+]
+ 
+.panel3-manual-custom-contrasts-auto[
+各係数の95%信頼区間をまとめた列を，係数の列の後ろに配置
+]
+
+---
+count: false
+ 
+## 対比行列を要因に当てはめ，線形モデルを実行
+.panel1-manual-custom-contrasts-auto[
+
+```r
+lm(DV ~ Fcust, data = simdat3_CC) |&gt;
+  tidy(conf.int = TRUE, conf.level = 0.95) |&gt;
+  mutate(
+    `95% CI` = paste0(
+      "[",
+      conf.low |&gt; round(0),
+      ", ",
+      conf.high |&gt; round(0),
+      "]"
+    )
+  ) |&gt;
+  relocate(`95% CI`, .after = estimate) |&gt;
+* dplyr::select(-c(std.error, conf.low, conf.high))
+```
+]
+ 
+.panel2-manual-custom-contrasts-auto[
+
+```
+# A tibble: 2 x 5
+  term        estimate `95% CI` statistic    p.value
+  &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt;      &lt;dbl&gt;
+1 (Intercept)    20    [14, 26]      6.97 0.00000164
+2 Fcust           2.73 [1, 5]        3.15 0.00551   
+```
+]
+ 
+.panel3-manual-custom-contrasts-auto[
+標準誤差，95%信頼区間の上・下限の列を削除
+]
+
+---
+count: false
+ 
+## 対比行列を要因に当てはめ，線形モデルを実行
+.panel1-manual-custom-contrasts-auto[
+
+```r
+lm(DV ~ Fcust, data = simdat3_CC) |&gt;
+  tidy(conf.int = TRUE, conf.level = 0.95) |&gt;
+  mutate(
+    `95% CI` = paste0(
+      "[",
+      conf.low |&gt; round(0),
+      ", ",
+      conf.high |&gt; round(0),
+      "]"
+    )
+  ) |&gt;
+  relocate(`95% CI`, .after = estimate) |&gt;
+  dplyr::select(-c(std.error, conf.low, conf.high)) |&gt;
+* kable(
+*   digits = 2,
+*   escape = FALSE,
+*   col.names = c(
+*     'Predictor',
+*     'Estimate',
+*     '95% CI',
+*     '$t$-value',
+*     '$p$-value'
+*   )
+* )
+```
+]
+ 
+.panel2-manual-custom-contrasts-auto[
+
+|Predictor   | Estimate|95% CI   | `\(t\)`-value| `\(p\)`-value|
+|:-----------|--------:|:--------|---------:|---------:|
+|(Intercept) |     20.0|[14, 26] |       7.0|      0.00|
+|Fcust       |      2.7|[1, 5]   |       3.1|      0.01|
+]
+ 
+.panel3-manual-custom-contrasts-auto[
+表にまとめる
+]
+
+&lt;style&gt;
+.panel1-manual-custom-contrasts-auto {
+  color: black;
+  width: 48.5%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-manual-custom-contrasts-auto {
+  color: black;
+  width: 32.3333333333333%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-manual-custom-contrasts-auto {
+  color: black;
+  width: 16.1666666666667%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
 
 ---
 
