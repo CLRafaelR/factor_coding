@@ -7,7 +7,7 @@ class: inverse, middle, center
 class: inverse, middle
 <!-- class: inverse, middle, split-50 -->
 
-## 1要因4水準のデータに，さまざまな対比行列を当てはめる
+## 対比の中心化・直交性：分散分析から一般化線形モデルへ
 
 2. Centered contrasts
 3. Orthogonal contrasts
@@ -15,170 +15,59 @@ class: inverse, middle
 
 ---
 
-## シミュレーション用データについて
+## 対比で，分散分析のオムニバスF検定を分解する
 
-::: columns
-
-:::: pull-left
-
-::::: block
-
-- データ：`simdat3`
-  - [Heister, Würzner, & Kliegl (2012)](http://read.psych.uni-potsdam.de/pmr2/attachments/article/138/Heister_etal.Chapter.2012.pdf)の実験結果に基づくシミュレーション
-- **応答変数**：fixation duration
-- **説明変数**：単語の頻度
-- 被験者間計画での水準数
-  - 4水準
-- 被験者内計画での水準数
-  - なし
-- 被験者間計画での1水準あたりの実験参加者数
-  - 5人
-  - 計 $4 \times 5 = 20$ 人
-- 各水準での応答変数の平均値
-  - 10, 20, 10, 40
-- 要因の標準偏差
-  - 10
-
-:::::
-
-::::
-
-:::: pull-right
-
-```{r}
-#| data-simdat3,
-#| echo = TRUE,
-#| eval = FALSE
-
-set.seed(1212); simdat3 <- mixedDesign(
-  B = 4,
-  W = NULL,
-  n = 5,
-  M = matrix(
-    c(10, 20, 10, 40),
-    nrow = 4,
-    ncol = 1,
-    byrow = FALSE
-  ),
-  SD = 10,
-  long = TRUE
-) |>
-  rename(F = B_A) |>
-  mutate(
-    F = fct_recode(
-      F,
-      low           = "A1",
-      `medium-low`  = "A2",
-      `medium-high` = "A3",
-      high          = "A4"
-    )
-  )
-```
-
-```{r}
-#| ref.label = c('data-simdat3'),
-#| echo = FALSE,
-#| eval = TRUE
-```
-
-::::
-
-:::
+- 分散分析のオムニバスF検定
+  - 各データと「データの全体平均」の差の2乗和 $\Sigma (y - \bar{y})^2$ を，「水準分け（条件分け）で説明できる部分」と「説明できない部分」に分ける
+  - 「水準分け（条件分け）で説明できる部分」が，「説明できない部分」より有意に大きければ，水準分けに意味があるとみなす
+  - F検定：「水準分け（条件分け）で説明できる部分」が「説明できない部分」より大きいことを比で示す
+- **水準分け（条件分け）で説明できる部分**：「各々の条件の平均」と「データの全体平均」の差の2乗和の総和
+  - **水準間平方和**
+  - 例：条件が2つある場合
+  - $\Sigma (\bar{y}_{\text{cond1}} - \bar{y})^2 + \Sigma (\bar{y}_{\text{cond2}} - \bar{y})^2$
+- **水準分け（条件分け）で説明できない部分**：「各々の条件下のデータ」と「その条件の平均」の差の2乗和の総和
+  - **残差平方和**（**水準内平方和**）
+  - 例：条件が2つある場合
+  - $\overbrace{\Sigma (y_{\text{cond1}} - \bar{y}_{\text{cond1}})^2}^{\text{特定できない原因で，cond1内に生じたバラツキ}} + \overbrace{\Sigma (y_{\text{cond2}} - \bar{y}_{\text{cond2}})^2}^{\text{特定できない原因で，cond2内に生じたバラツキ}}$
 
 ---
 
-`r chunk_reveal("fig-simdat3", title = "### シミュレーションの結果を図や表で確認", display_type = c("code", "output", "md"), md = c("データセット", "説明変数の水準毎にデータをまとめ上げ", "水準毎に，  \n- データの個数**N**，  \n- 応答変数の平均値**M**，  \n- 応答変数の平均値の標準偏差**SD**，  \n- 応答変数の平均値の標準偏差**SE**  \n  \nを計算", "まとめ上げを解除", "線グラフを描画", "誤差範囲 ( $\\pm 1SE$ ) を描画  \n※ $\\pm 1SE$ 自体は95%信頼区間ではない（68%信頼区間）  \n※信頼区間にする場合， $\\pm 1.96SE$ ", "x軸・y軸の軸名を変更"), widths = c(2, 2, 1))`
+## F検定の特徴から見る，対比の必要性
 
-```{r}
-#| fig-simdat3,
-#| include = FALSE
+- 対比の数は，(条件数)-1
+  - 1要因3水準なら，条件数が3なので，対比は2
+  - 3水準ずつの2要因なら，条件数が $3 \times 3 = 9$ なので，対比は8
+- 「水準分け（条件分け）に意味があるか」（水準間平方和の方が残差平方和より大きいか）は検定できる
+- 具体的にどの条件間で差が出たかまでは特定できない
+- 具体的にどの条件間で差が出たかは，対比で特定する
 
-simdat3 |>
-  group_by(F) |>
-  summarise(
-    N = length(DV),
-    M = mean(DV),
-    SD = sd(DV),
-    SE = SD / sqrt(N)
-  ) |>
-  ungroup() |>
-  mutate(
-    GM = mean(M)
-  ) |>
-  (
-    \(d){
-      qplot(
-        x = F, y = M,
-        group = 1,
-        data = d,
-        geom = c("point", "line")
-      ) +
-      geom_errorbar(
-        aes(
-          max = M + SE,
-          min = M - SE
-        ),
-        width = 0
-      ) +
-      labs(
-        y = "Mean DV",
-        x = "Factor F"
-      ) +
-      geom_hline(
-        yintercept = d$GM,
-        linetype = "dashed"
-      )
-    }
-  )()
+---
+
+## よい対比とは
+
+- Orthogonal contrasts 直交である対比
+  - データに関して，互いに独立した異なる仮説を検証できるような対比
+- 研究上の問いに答えられるような対比
+  - 研究上の問いを数式（帰無仮説の数式）に変える仮説行列の設定が重要
+
+---
+
+```{r child = '01-repeated-contrasts.Rmd', eval = FALSE}
 ```
 
 ---
 
-`r chunk_reveal("tab-simdat3", title = "### シミュレーションの結果を図や表で確認", display_type = c("code", "output", "md"), md = c("データセット", "説明変数の水準毎にデータをまとめ上げ", "水準毎に，  \n- データの個数**N**，  \n- 応答変数の平均値**M**，  \n- 応答変数の平均値の標準偏差**SD**，  \n- 応答変数の平均値の標準偏差**SE**  \n  \nを計算", "まとめ上げを解除", "表の出力  \n- **digits**：有効数字の桁数を指定  \n- **col.names**：表内での各列の名前を変更"), widths = c(2, 2, 1))`
-
-```{r}
-#| tab-simdat3,
-#| include = FALSE
-
-simdat3 |>
-  group_by(F) |>
-  summarise(
-    N = length(DV),
-    M = mean(DV),
-    SD = sd(DV),
-    SE = SD / sqrt(N)
-  ) |>
-  ungroup() |>
-  kable(
-    digits = 2,
-    col.names = c(
-      'Levels of Factor',
-      'N. of data points',
-      'Mean RT',
-      'Std. Dev.',
-      'Std. Err.'
-    )
-  )
+```{r child = '02-design-model-matrix.Rmd', eval = FALSE}
 ```
 
 ---
 
-```{r child = '01-repeated-contrasts.Rmd'}
+```{r child = '03-polynomial-contrasts.Rmd', eval = FALSE}
 ```
 
 ---
 
-```{r child = '02-design-model-matrix.Rmd'}
-```
-
----
-
-```{r child = '03-polynomial-contrasts.Rmd'}
-```
-
----
-
-```{r child = '04-custom-contrasts.Rmd'}
+```{r child = '04-custom-contrasts.Rmd', eval = FALSE}
 ```
 
 ---

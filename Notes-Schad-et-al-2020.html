@@ -9,6 +9,7 @@
     <link href="libs/remark-css/hygge.css" rel="stylesheet" />
     <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
     <link href="libs/remark-css/robot.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/fonts.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -18,7 +19,7 @@ class: center, middle, inverse, title-slide
 ## Schad et al (2020)日本語注解
 ### 小川雅貴
 ### 東京大学
-### 2021/12/17 (updated: 2021-12-15)
+### 2021/12/17 (updated: 2021-12-17)
 
 ---
 
@@ -4703,7 +4704,7 @@ class: inverse, middle, center
 class: inverse, middle
 &lt;!-- class: inverse, middle, split-50 --&gt;
 
-## さまざまな対比行列
+## 仮説行列から対比行列を作り，統計モデルにつなげる
 
 1. シミュレーション用データについて
 2. Sum contrasts
@@ -8847,6 +8848,77 @@ lm(DV ~ Fcust, data = simdat3_CC) |&gt;
 
 ---
 
+
+class: inverse, middle, center
+
+# What makes a good set of contrasts? (pp.16--18)
+
+---
+
+class: inverse, middle
+&lt;!-- class: inverse, middle, split-50 --&gt;
+
+## 対比の中心化・直交性：分散分析から一般化線形モデルへ
+
+2. Centered contrasts
+3. Orthogonal contrasts
+4. The role of the intercept in non-centered contrasts
+
+---
+
+## 対比で，分散分析のオムニバスF検定を分解する
+
+- 分散分析のオムニバスF検定
+  - 各データと「データの全体平均」の差の2乗和 `\(\Sigma (y - \bar{y})^2\)` を，「水準分け（条件分け）で説明できる部分」と「説明できない部分」に分ける
+  - 「水準分け（条件分け）で説明できる部分」が，「説明できない部分」より有意に大きければ，水準分けに意味があるとみなす
+  - F検定：「水準分け（条件分け）で説明できる部分」が「説明できない部分」より大きいことを比で示す
+- **水準分け（条件分け）で説明できる部分**：「各々の条件の平均」と「データの全体平均」の差の2乗和の総和
+  - **水準間平方和**
+  - 例：条件が2つある場合
+  - `\(\Sigma (\bar{y}_{\text{cond1}} - \bar{y})^2 + \Sigma (\bar{y}_{\text{cond2}} - \bar{y})^2\)`
+- **水準分け（条件分け）で説明できない部分**：「各々の条件下のデータ」と「その条件の平均」の差の2乗和の総和
+  - **残差平方和**（**水準内平方和**）
+  - 例：条件が2つある場合
+  - `\(\overbrace{\Sigma (y_{\text{cond1}} - \bar{y}_{\text{cond1}})^2}^{\text{特定できない原因で，cond1内に生じたバラツキ}} + \overbrace{\Sigma (y_{\text{cond2}} - \bar{y}_{\text{cond2}})^2}^{\text{特定できない原因で，cond2内に生じたバラツキ}}\)`
+
+---
+
+## F検定の特徴から見る，対比の必要性
+
+- 対比の数は，(条件数)-1
+  - 1要因3水準なら，条件数が3なので，対比は2
+  - 3水準ずつの2要因なら，条件数が `\(3 \times 3 = 9\)` なので，対比は8
+- 「水準分け（条件分け）に意味があるか」（水準間平方和の方が残差平方和より大きいか）は検定できる
+- 具体的にどの条件間で差が出たかまでは特定できない
+- 具体的にどの条件間で差が出たかは，対比で特定する
+
+## よい対比とは
+
+- Orthogonal contrasts 直交である対比
+  - データに関して，互いに独立した異なる仮説を検証できるような対比
+- 研究上の問いに答えられるような対比
+  - 研究上の問いを数式（帰無仮説の数式）に変える仮説行列の設定が重要
+
+---
+
+
+
+---
+
+
+
+---
+
+
+
+---
+
+
+
+---
+
+---
+
 &lt;!-- adjust font size in this css code chunk, currently 80 --&gt;
 
 &lt;style type="text/css"&gt;
@@ -8862,7 +8934,6 @@ code.r.hljs.remark-code{
   position: relative;
   overflow-x: hidden;
 }
-
 
 code.r.hljs.remark-code:hover{
   overflow-x:visible;
@@ -8907,7 +8978,7 @@ code.r.hljs.remark-code:hover{
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "ratio": "16:9",
-"highlightStyle": "magula",
+"highlightStyle": "github",
 "highlightLanguage": "r",
 "highlightLines": true,
 "highlightSpans": false,

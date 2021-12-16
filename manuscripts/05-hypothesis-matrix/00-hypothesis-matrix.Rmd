@@ -7,7 +7,7 @@ class: inverse, middle, center
 class: inverse, middle
 <!-- class: inverse, middle, split-50 -->
 
-## さまざまな対比行列
+## 仮説行列から対比行列を作り，統計モデルにつなげる
 
 1. シミュレーション用データについて
 2. Sum contrasts

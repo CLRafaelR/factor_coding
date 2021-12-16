@@ -10,13 +10,18 @@ output:
   xaringan::moon_reader:
     lib_dir: libs
     # css: [default, hygge, ninjutsu]
-    css: [default, hygge, ninjutsu, robot]
     # css: [default, hygge, ninjutsu, robot-fonts]
     # css: [ninjutsu]
+    css:
+      - default
+      - hygge
+      - ninjutsu
+      - robot
+      - "assets/fonts.css"
     nature:
       ratio: 16:9
-      #highlightStyle: github
-      highlightStyle: magula
+      highlightStyle: github
+      #highlightStyle: magula
       highlightLanguage: r
       highlightLines: true
       highlightSpans: false
@@ -185,6 +190,11 @@ library(gghighlight)
 
 ---
 
+```{r child = "manuscripts/07-good-set/00-good-set.Rmd"}
+```
+
+---
+
 <!-- adjust font size in this css code chunk, currently 80 -->
 
 ```{css, eval = TRUE, echo = FALSE}
@@ -200,7 +210,6 @@ code.r.hljs.remark-code{
   position: relative;
   overflow-x: hidden;
 }
-
 
 code.r.hljs.remark-code:hover{
   overflow-x:visible;
