@@ -1,0 +1,19 @@
+name: repeated-contrast-weights
+
+`r chunk_reveal("center-contrast-coefficient", left_assign = "TRUE", break_type = "rotate", title = "## Centered contrasts  \n  \n**中心化された対比**：対比行列の中で，個々の水準に割り当てられている対比係数を，対比ごと（列ごと）に足し合わせた時に0になる", display_type = c("code", "output", "md"), md = c("Sum contrastsを適用", "Repeated contrastsを適用", "Polynomial contrastsを適用", "Helmert contrastsを適用", "Treatment contrastsを適用  \n  \n**Treatment contrastsでは，0にならず，1になる**"))`
+
+```{r}
+#| center-contrast-coefficient,
+#| include = FALSE
+
+contrast <- contr.sum(4) #ROTATE
+contrast <- contr.sdif(4) #ROTATE
+contrast <- contr.poly(4) #ROTATE
+contrast <- contr.helmert(4) #ROTATE
+contrast <- contr.treatment(4) #ROTATE
+
+contrast |>
+  colSums()
+```
+
+---

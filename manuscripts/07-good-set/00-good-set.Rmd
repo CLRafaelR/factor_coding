@@ -52,7 +52,7 @@ class: inverse, middle
 
 ---
 
-```{r child = '01-repeated-contrasts.Rmd', eval = FALSE}
+```{r child = '01-centered-contrasts.Rmd'}
 ```
 
 ---
