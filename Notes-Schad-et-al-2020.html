@@ -10303,7 +10303,7 @@ name: intercept
 - **Treatment contrast**：中心化されていない対比
 - 中心化されていない対比
   - 対比行列の中で，各列の和が0でない対比
-- 切片の列と他の列1列が直交する場合
+- ここで，**切片の列**と**他の列1列**が直交する場合を考える
   - 切片の列に入っている数値 `\(c_{1, i} = 1\)`
   - 切片でない列1列に入っている数値 `\(c_{2, i}\)`
 
@@ -10313,6 +10313,7 @@ name: intercept
 \end{aligned}$$`
 
 - `\(\overbrace{\Sigma_i c_{2, i}}^{切片でない列1列に入っている数値の総和}\)` は，その切片でない列が中心化されているかを確かめる式
+- `\(\therefore\)` 「切片でない列が中心化されているか否か」は，「その列と切片の列が直交しているか否か」から分かる
 
 ]
 
@@ -10484,12 +10485,369 @@ sel.cols |&gt;
 
 
 
+---
+
 ## The role of the intercept in non-centered contrasts
 
 - 中心化されていない対比では，切片が重要
 - **Treatment contrast**：中心化されていない対比
 - 中心化されていない対比
   - 対比行列の中で，各列の和が0でない対比
+
+---
+
+---
+
+
+class: inverse, middle, center
+
+# A closer look at hypothesis and contrast matrices (pp.18--23)
+
+---
+
+class: inverse, middle
+&lt;!-- class: inverse, middle, split-50 --&gt;
+
+## 仮説行列と対比行列，そしてなぜ一般化逆行列が必要だったのか明らかに
+
+2. Inverting the procedure: from a contrast matrix to the associated hypothesis matrix
+3. The importance of the intercept when transforming between the contrast matrix and the hypothesis matrix in non-centered contrasts
+4. The hypothesis matrix and contrast matrix in matrix form
+
+---
+
+
+name: inverting-the-procedure
+
+## Inverting the procedure
+
+- ここまで，仮説行列から対比行列を作ってきた
+- ここでは，「対比行列から仮説行列を作るとどうなるか」考える
+  - 仮説行列から対比行列を作る際に使った一般化逆行列の意味や，なぜ一般化逆行列が必要なのかが理解できる
+
+---
+
+count: false
+ 
+## Inverting the procedure
+.panel1-inverting-hypo-contr-auto[
+
+```r
+*HcRe &lt;- rbind(
+* c2vs1 = c(F1 = -1, F2 = 1, F3 = 0),
+* c3vs2 = c(F1 = 0, F2 = -1, F3 = 1)
+*) 
+```
+]
+ 
+.panel2-inverting-hypo-contr-auto[
+
+]
+ 
+.panel3-inverting-hypo-contr-auto[
+Repeated contrastの仮説行列を作成
+]
+
+---
+count: false
+ 
+## Inverting the procedure
+.panel1-inverting-hypo-contr-auto[
+
+```r
+HcRe &lt;- rbind(
+  c2vs1 = c(F1 = -1, F2 = 1, F3 = 0),
+  c3vs2 = c(F1 = 0, F2 = -1, F3 = 1)
+)
+
+*HcRe
+```
+]
+ 
+.panel2-inverting-hypo-contr-auto[
+
+```
+      F1 F2 F3
+c2vs1 -1  1  0
+c3vs2  0 -1  1
+```
+]
+ 
+.panel3-inverting-hypo-contr-auto[
+出来上がった仮説行列
+]
+
+---
+count: false
+ 
+## Inverting the procedure
+.panel1-inverting-hypo-contr-auto[
+
+```r
+HcRe &lt;- rbind(
+  c2vs1 = c(F1 = -1, F2 = 1, F3 = 0),
+  c3vs2 = c(F1 = 0, F2 = -1, F3 = 1)
+)
+
+HcRe |&gt;
+* hypr::ginv2()
+```
+]
+ 
+.panel2-inverting-hypo-contr-auto[
+
+```
+   c2vs1 c3vs2
+F1 -2/3  -1/3 
+F2  1/3  -1/3 
+F3  1/3   2/3 
+```
+]
+ 
+.panel3-inverting-hypo-contr-auto[
+仮説行列に一般化逆行列を適用すると，対比行列ができる
+]
+
+---
+count: false
+ 
+## Inverting the procedure
+.panel1-inverting-hypo-contr-auto[
+
+```r
+HcRe &lt;- rbind(
+  c2vs1 = c(F1 = -1, F2 = 1, F3 = 0),
+  c3vs2 = c(F1 = 0, F2 = -1, F3 = 1)
+)
+
+HcRe |&gt;
+  hypr::ginv2() |&gt;
+* hypr::ginv2()
+```
+]
+ 
+.panel2-inverting-hypo-contr-auto[
+
+```
+      F1 F2 F3
+c2vs1 -1  1  0
+c3vs2  0 -1  1
+```
+]
+ 
+.panel3-inverting-hypo-contr-auto[
+さらにもう1回一般化逆行列を適用すると，仮説行列に戻ってくる  
+  
+**対比行列に一般化逆行列を適用すると，仮説行列が作れる**
+]
+
+&lt;style&gt;
+.panel1-inverting-hypo-contr-auto {
+  color: black;
+  width: 48.5%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-inverting-hypo-contr-auto {
+  color: black;
+  width: 32.3333333333333%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-inverting-hypo-contr-auto {
+  color: black;
+  width: 16.1666666666667%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+count: false
+ 
+## Inverting the procedure  
+  - 対比行列に一般化逆行列を適用すると，仮説行列が作れる  
+- 対比行列（に切片の列を加えたもの）に一般化逆行列を適用すれば，仮説行列が取り出せる  
+  - 対比行列で何を対比しているのか調べられる  
+
+.panel1-contr-to-hypo-auto[
+
+```r
+*XcTr &lt;- cbind(
+* intercept = 1,
+* contr.treatment(3)
+*) 
+```
+]
+ 
+.panel2-contr-to-hypo-auto[
+
+]
+ 
+.panel3-contr-to-hypo-auto[
+Treatment contrastの対比行列を作成，その際切片の列も加える
+]
+
+---
+count: false
+ 
+## Inverting the procedure  
+  - 対比行列に一般化逆行列を適用すると，仮説行列が作れる  
+- 対比行列（に切片の列を加えたもの）に一般化逆行列を適用すれば，仮説行列が取り出せる  
+  - 対比行列で何を対比しているのか調べられる  
+
+.panel1-contr-to-hypo-auto[
+
+```r
+XcTr &lt;- cbind(
+  intercept = 1,
+  contr.treatment(3)
+)
+
+*XcTr
+```
+]
+ 
+.panel2-contr-to-hypo-auto[
+
+```
+  intercept 2 3
+1         1 0 0
+2         1 1 0
+3         1 0 1
+```
+]
+ 
+.panel3-contr-to-hypo-auto[
+対比行列に…
+]
+
+---
+count: false
+ 
+## Inverting the procedure  
+  - 対比行列に一般化逆行列を適用すると，仮説行列が作れる  
+- 対比行列（に切片の列を加えたもの）に一般化逆行列を適用すれば，仮説行列が取り出せる  
+  - 対比行列で何を対比しているのか調べられる  
+
+.panel1-contr-to-hypo-auto[
+
+```r
+XcTr &lt;- cbind(
+  intercept = 1,
+  contr.treatment(3)
+)
+
+XcTr |&gt;
+* hypr::ginv2()
+```
+]
+ 
+.panel2-contr-to-hypo-auto[
+
+```
+          1  2  3 
+intercept  1  0  0
+2         -1  1  0
+3         -1  0  1
+```
+]
+ 
+.panel3-contr-to-hypo-auto[
+一般化逆行列を適用し，仮説行列を作る  
+  
+この仮説行列が確かめている仮説：  
+  
+`$$\begin{aligned}  &amp;\begin{cases}    {H_0}_1: (1 \times \mu_1) + (0 \times \mu_2) + (0 \times \mu_3) = 0\\    {H_0}_2: (-1 \times \mu_1) + (1 \times \mu_2) + (0 \times \mu_3) = 0\\    {H_0}_3: (-1 \times \mu_1) + (0 \times \mu_2) + (1 \times \mu_3) = 0  \end{cases}\\  \Leftrightarrow &amp;   \begin{cases}    {H_0}_1: \mu_1 = 0\\    {H_0}_2: \mu_2 - \mu_1 = 0\\    {H_0}_3: \mu_3 - \mu_1 = 0  \end{cases}\\  \end{aligned}$$`
+]
+
+---
+count: false
+ 
+## Inverting the procedure  
+  - 対比行列に一般化逆行列を適用すると，仮説行列が作れる  
+- 対比行列（に切片の列を加えたもの）に一般化逆行列を適用すれば，仮説行列が取り出せる  
+  - 対比行列で何を対比しているのか調べられる  
+
+.panel1-contr-to-hypo-auto[
+
+```r
+XcTr &lt;- cbind(
+  intercept = 1,
+  contr.treatment(3)
+)
+
+XcTr |&gt;
+  hypr::ginv2() |&gt;
+* t()
+```
+]
+ 
+.panel2-contr-to-hypo-auto[
+
+```
+  intercept 2  3 
+1  1        -1 -1
+2  0         1  0
+3  0         0  1
+```
+]
+ 
+.panel3-contr-to-hypo-auto[
+仮説行列を転置
+]
+
+&lt;style&gt;
+.panel1-contr-to-hypo-auto {
+  color: black;
+  width: 24.25%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-contr-to-hypo-auto {
+  color: black;
+  width: 24.25%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-contr-to-hypo-auto {
+  color: black;
+  width: 48.5%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+---
+
+
+
+---
+
+
 
 ---
 
