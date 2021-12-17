@@ -8933,12 +8933,7 @@ count: false
 .panel1-center-contrast-coefficient-rotate[
 
 ```r
-*contrast &lt;- contr.sum(4)
-
-contrast |&gt;
-  colSums()
-
-contrast
+*contr.sum(4) |&gt; colSums()
 ```
 ]
  
@@ -8946,14 +8941,6 @@ contrast
 
 ```
 [1] 0 0 0
-```
-
-```
-  [,1] [,2] [,3]
-1    1    0    0
-2    0    1    0
-3    0    0    1
-4   -1   -1   -1
 ```
 ]
  
@@ -8970,12 +8957,7 @@ count: false
 .panel1-center-contrast-coefficient-rotate[
 
 ```r
-*contrast &lt;- contr.sdif(4)
-
-contrast |&gt;
-  colSums()
-
-contrast
+*contr.sdif(4) |&gt; colSums()
 ```
 ]
  
@@ -8984,14 +8966,6 @@ contrast
 ```
 2-1 3-2 4-3 
   0   0   0 
-```
-
-```
-    2-1  3-2   4-3
-1 -0.75 -0.5 -0.25
-2  0.25 -0.5 -0.25
-3  0.25  0.5 -0.25
-4  0.25  0.5  0.75
 ```
 ]
  
@@ -9008,28 +8982,15 @@ count: false
 .panel1-center-contrast-coefficient-rotate[
 
 ```r
-*contrast &lt;- contr.poly(4)
-
-contrast |&gt;
-  colSums()
-
-contrast
+*contr.poly(4) |&gt; colSums() |&gt; fractions()
 ```
 ]
  
 .panel2-center-contrast-coefficient-rotate[
 
 ```
-                   .L                    .Q                    .C 
- 0.000000000000000000  0.000000000000000000 -0.000000000000000028 
-```
-
-```
-        .L   .Q    .C
-[1,] -0.67  0.5 -0.22
-[2,] -0.22 -0.5  0.67
-[3,]  0.22 -0.5 -0.67
-[4,]  0.67  0.5  0.22
+.L .Q .C 
+ 0  0  0 
 ```
 ]
  
@@ -9046,12 +9007,7 @@ count: false
 .panel1-center-contrast-coefficient-rotate[
 
 ```r
-*contrast &lt;- contr.helmert(4)
-
-contrast |&gt;
-  colSums()
-
-contrast
+*contr.helmert(4) |&gt; colSums()
 ```
 ]
  
@@ -9059,14 +9015,6 @@ contrast
 
 ```
 [1] 0 0 0
-```
-
-```
-  [,1] [,2] [,3]
-1   -1   -1   -1
-2    1   -1   -1
-3    0    2   -1
-4    0    0    3
 ```
 ]
  
@@ -9083,12 +9031,7 @@ count: false
 .panel1-center-contrast-coefficient-rotate[
 
 ```r
-*contrast &lt;- contr.treatment(4)
-
-contrast |&gt;
-  colSums()
-
-contrast
+*contr.treatment(4) |&gt; colSums()
 ```
 ]
  
@@ -9097,14 +9040,6 @@ contrast
 ```
 2 3 4 
 1 1 1 
-```
-
-```
-  2 3 4
-1 0 0 0
-2 1 0 0
-3 0 1 0
-4 0 0 1
 ```
 ]
  
@@ -9432,6 +9367,644 @@ hi   1   -1   -1
 
 ---
 
+
+name: orthogonal-contrast
+
+count: false
+ 
+## Orthogonal contrasts  
+  
+**直交対比**：対比行列の中で，2つの対比（列）を選び，行ごとに掛け算し，その掛け算を足し合わせた時に0になる
+.panel1-orthogonal-contrast-coefficient-matrix-auto[
+
+```r
+*Xsum &lt;- cbind(
+* F1    = c(1,  1, -1, -1),
+* F2    = c(1, -1,  1, -1),
+* F1xF2 = c(1, -1, -1,  1)
+*) 
+
+Xsum
+```
+]
+ 
+.panel2-orthogonal-contrast-coefficient-matrix-auto[
+
+```
+     F1 F2 F1xF2
+[1,]  1  1     1
+[2,]  1 -1    -1
+[3,] -1  1    -1
+[4,] -1 -1     1
+```
+]
+ 
+.panel3-orthogonal-contrast-coefficient-matrix-auto[
+1つの要因につき2水準ずつある要因が2個ある場合の，対比行列を作成  
+  
+この対比行列は，sum contrast  
+  
+全部で4条件ある
+]
+
+---
+count: false
+ 
+## Orthogonal contrasts  
+  
+**直交対比**：対比行列の中で，2つの対比（列）を選び，行ごとに掛け算し，その掛け算を足し合わせた時に0になる
+.panel1-orthogonal-contrast-coefficient-matrix-auto[
+
+```r
+Xsum &lt;- cbind(
+  F1    = c(1,  1, -1, -1),
+  F2    = c(1, -1,  1, -1),
+  F1xF2 = c(1, -1, -1,  1)
+) |&gt;
+* as_tibble()
+
+Xsum
+```
+]
+ 
+.panel2-orthogonal-contrast-coefficient-matrix-auto[
+
+```
+# A tibble: 4 x 3
+     F1    F2 F1xF2
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     1     1     1
+2     1    -1    -1
+3    -1     1    -1
+4    -1    -1     1
+```
+]
+ 
+.panel3-orthogonal-contrast-coefficient-matrix-auto[
+tibbleデータフレームに変換  
+  
+matrixオブジェクトに比べ，行や列に対する操作が簡単になる
+]
+
+&lt;style&gt;
+.panel1-orthogonal-contrast-coefficient-matrix-auto {
+  color: black;
+  width: 48.5%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-orthogonal-contrast-coefficient-matrix-auto {
+  color: black;
+  width: 32.3333333333333%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-orthogonal-contrast-coefficient-matrix-auto {
+  color: black;
+  width: 16.1666666666667%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+count: false
+ 
+## Orthogonal contrasts  
+  
+**直交対比**：対比行列の中で，2つの対比（列）を選び，行ごとに掛け算し，その掛け算を足し合わせた時に0になる
+.panel1-orthogonal-contrast-coefficient-auto[
+
+```r
+*sel.cols &lt;- Xsum |&gt; dplyr::select(F1, F2)
+```
+]
+ 
+.panel2-orthogonal-contrast-coefficient-auto[
+
+]
+ 
+.panel3-orthogonal-contrast-coefficient-auto[
+**F1**と**F2**を選択し，**sel.cols**というデータフレームにする
+]
+
+---
+count: false
+ 
+## Orthogonal contrasts  
+  
+**直交対比**：対比行列の中で，2つの対比（列）を選び，行ごとに掛け算し，その掛け算を足し合わせた時に0になる
+.panel1-orthogonal-contrast-coefficient-auto[
+
+```r
+sel.cols &lt;- Xsum |&gt; dplyr::select(F1, F2)
+
+*sel.cols
+```
+]
+ 
+.panel2-orthogonal-contrast-coefficient-auto[
+
+```
+# A tibble: 4 x 2
+     F1    F2
+  &lt;dbl&gt; &lt;dbl&gt;
+1     1     1
+2     1    -1
+3    -1     1
+4    -1    -1
+```
+]
+ 
+.panel3-orthogonal-contrast-coefficient-auto[
+元の対比行列から2列だけ取り出した**sel.cols**
+]
+
+---
+count: false
+ 
+## Orthogonal contrasts  
+  
+**直交対比**：対比行列の中で，2つの対比（列）を選び，行ごとに掛け算し，その掛け算を足し合わせた時に0になる
+.panel1-orthogonal-contrast-coefficient-auto[
+
+```r
+sel.cols &lt;- Xsum |&gt; dplyr::select(F1, F2)
+
+sel.cols |&gt;
+* rowwise()
+```
+]
+ 
+.panel2-orthogonal-contrast-coefficient-auto[
+
+```
+# A tibble: 4 x 2
+# Rowwise: 
+     F1    F2
+  &lt;dbl&gt; &lt;dbl&gt;
+1     1     1
+2     1    -1
+3    -1     1
+4    -1    -1
+```
+]
+ 
+.panel3-orthogonal-contrast-coefficient-auto[
+**sel.cols**に対し，行ごとの処理を実行させる
+]
+
+---
+count: false
+ 
+## Orthogonal contrasts  
+  
+**直交対比**：対比行列の中で，2つの対比（列）を選び，行ごとに掛け算し，その掛け算を足し合わせた時に0になる
+.panel1-orthogonal-contrast-coefficient-auto[
+
+```r
+sel.cols &lt;- Xsum |&gt; dplyr::select(F1, F2)
+
+sel.cols |&gt;
+  rowwise() |&gt;
+* summarise(
+*   everything() |&gt;
+*     c_across() |&gt;
+*     prod()
+* )
+```
+]
+ 
+.panel2-orthogonal-contrast-coefficient-auto[
+
+```
+# A tibble: 4 x 1
+  `prod(c_across(everything()))`
+                           &lt;dbl&gt;
+1                              1
+2                             -1
+3                             -1
+4                              1
+```
+]
+ 
+.panel3-orthogonal-contrast-coefficient-auto[
+- **everything()**でデータフレームの全ての列を選択  
+  
+- 先ほど選択した列に対し，**c_across()**で一括処理を行うよう指定  
+  
+- 列の値同士を掛け合わせる
+]
+
+---
+count: false
+ 
+## Orthogonal contrasts  
+  
+**直交対比**：対比行列の中で，2つの対比（列）を選び，行ごとに掛け算し，その掛け算を足し合わせた時に0になる
+.panel1-orthogonal-contrast-coefficient-auto[
+
+```r
+sel.cols &lt;- Xsum |&gt; dplyr::select(F1, F2)
+
+sel.cols |&gt;
+  rowwise() |&gt;
+  summarise(
+    everything() |&gt;
+      c_across() |&gt;
+      prod()
+  ) |&gt;
+* sum()
+```
+]
+ 
+.panel2-orthogonal-contrast-coefficient-auto[
+
+```
+[1] 0
+```
+]
+ 
+.panel3-orthogonal-contrast-coefficient-auto[
+掛け合わさった値を全て足すと0になる
+]
+
+&lt;style&gt;
+.panel1-orthogonal-contrast-coefficient-auto {
+  color: black;
+  width: 48.5%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-orthogonal-contrast-coefficient-auto {
+  color: black;
+  width: 32.3333333333333%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-orthogonal-contrast-coefficient-auto {
+  color: black;
+  width: 16.1666666666667%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+count: false
+ 
+## Orthogonal contrasts  
+  
+**直交対比**：対比行列の中で，2つの対比（列）を選び，行ごとに掛け算し，その掛け算を足し合わせた時に0になる
+.panel1-orthogonal-contrast-coefficient-rotate-rotate[
+
+```r
+*sel.cols &lt;- Xsum |&gt; dplyr::select(F2, F1xF2)
+
+sel.cols |&gt;
+  rowwise() |&gt;
+  summarise(
+    everything() |&gt;
+      c_across() |&gt;
+      prod()
+  ) |&gt;
+  sum()
+```
+]
+ 
+.panel2-orthogonal-contrast-coefficient-rotate-rotate[
+
+```
+[1] 0
+```
+]
+ 
+.panel3-orthogonal-contrast-coefficient-rotate-rotate[
+**F2**と**F1xF2**を選択した場合
+]
+
+---
+count: false
+ 
+## Orthogonal contrasts  
+  
+**直交対比**：対比行列の中で，2つの対比（列）を選び，行ごとに掛け算し，その掛け算を足し合わせた時に0になる
+.panel1-orthogonal-contrast-coefficient-rotate-rotate[
+
+```r
+*sel.cols &lt;- Xsum |&gt; dplyr::select(F1, F1xF2)
+
+sel.cols |&gt;
+  rowwise() |&gt;
+  summarise(
+    everything() |&gt;
+      c_across() |&gt;
+      prod()
+  ) |&gt;
+  sum()
+```
+]
+ 
+.panel2-orthogonal-contrast-coefficient-rotate-rotate[
+
+```
+[1] 0
+```
+]
+ 
+.panel3-orthogonal-contrast-coefficient-rotate-rotate[
+**F1**と**F1xF2**を選択した場合
+]
+
+&lt;style&gt;
+.panel1-orthogonal-contrast-coefficient-rotate-rotate {
+  color: black;
+  width: 48.5%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-orthogonal-contrast-coefficient-rotate-rotate {
+  color: black;
+  width: 32.3333333333333%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-orthogonal-contrast-coefficient-rotate-rotate {
+  color: black;
+  width: 16.1666666666667%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+count: false
+ 
+## Orthogonal contrasts  
+  
+- 対比行列から2列ずつ選択して計算しなくても，対比行列の直交性は確認できる  
+- **対比行列内の2列に相関がなければよい**  
+  - **F1**と**F2**の相関が0  
+  - **F2**と**F1xF2**の相関が0  
+  - **F1**と**F1xF2**の相関が0
+
+.panel1-correlation-orthogonal-contrast-coefficient-auto[
+
+```r
+*Xsum |&gt; cor()
+```
+]
+ 
+.panel2-correlation-orthogonal-contrast-coefficient-auto[
+
+```
+      F1 F2 F1xF2
+F1     1  0     0
+F2     0  1     0
+F1xF2  0  0     1
+```
+]
+
+&lt;style&gt;
+.panel1-correlation-orthogonal-contrast-coefficient-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-correlation-orthogonal-contrast-coefficient-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-correlation-orthogonal-contrast-coefficient-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+## 1要因複数水準では，Orthogonal contrastsにならない場合もある
+
+- ここまでのOrthogonal contrastsは，複数要因での対比
+  - 1つの要因につき2水準ずつある要因が2個ある場合
+- **3水準以上ある要因1個の場合には，Orthogonal contrastsにならない場合もある**
+
+---
+
+count: false
+ 
+## 1要因複数水準では，Orthogonal contrastsにならない場合もある
+.panel1-multi-level-factor-orthogonality-rotate[
+
+```r
+*contr.sum(4) |&gt; cor()
+```
+]
+ 
+.panel2-multi-level-factor-orthogonality-rotate[
+
+```
+     [,1] [,2] [,3]
+[1,]  1.0  0.5  0.5
+[2,]  0.5  1.0  0.5
+[3,]  0.5  0.5  1.0
+```
+]
+ 
+.panel3-multi-level-factor-orthogonality-rotate[
+Sum contrastsを適用  
+  
+**Orthogonal contrastsにならない**
+]
+
+---
+count: false
+ 
+## 1要因複数水準では，Orthogonal contrastsにならない場合もある
+.panel1-multi-level-factor-orthogonality-rotate[
+
+```r
+*contr.sdif(4) |&gt; cor()
+```
+]
+ 
+.panel2-multi-level-factor-orthogonality-rotate[
+
+```
+     2-1  3-2  4-3
+2-1 1.00 0.58 0.33
+3-2 0.58 1.00 0.58
+4-3 0.33 0.58 1.00
+```
+]
+ 
+.panel3-multi-level-factor-orthogonality-rotate[
+Repeated contrastsを適用  
+  
+**Orthogonal contrastsにならない**
+]
+
+---
+count: false
+ 
+## 1要因複数水準では，Orthogonal contrastsにならない場合もある
+.panel1-multi-level-factor-orthogonality-rotate[
+
+```r
+*contr.treatment(4) |&gt; cor()
+```
+]
+ 
+.panel2-multi-level-factor-orthogonality-rotate[
+
+```
+      2     3     4
+2  1.00 -0.33 -0.33
+3 -0.33  1.00 -0.33
+4 -0.33 -0.33  1.00
+```
+]
+ 
+.panel3-multi-level-factor-orthogonality-rotate[
+Treatment contrastsを適用  
+  
+**Orthogonal contrastsにならない**
+]
+
+---
+count: false
+ 
+## 1要因複数水準では，Orthogonal contrastsにならない場合もある
+.panel1-multi-level-factor-orthogonality-rotate[
+
+```r
+*contr.poly(4) |&gt; cor() |&gt; fractions()
+```
+]
+ 
+.panel2-multi-level-factor-orthogonality-rotate[
+
+```
+   .L .Q .C
+.L 1  0  0 
+.Q 0  1  0 
+.C 0  0  1 
+```
+]
+ 
+.panel3-multi-level-factor-orthogonality-rotate[
+Polynomial contrastsを適用  
+  
+Orthogonal contrastsになる
+]
+
+---
+count: false
+ 
+## 1要因複数水準では，Orthogonal contrastsにならない場合もある
+.panel1-multi-level-factor-orthogonality-rotate[
+
+```r
+*contr.helmert(4) |&gt; cor()
+```
+]
+ 
+.panel2-multi-level-factor-orthogonality-rotate[
+
+```
+     [,1] [,2] [,3]
+[1,]    1    0    0
+[2,]    0    1    0
+[3,]    0    0    1
+```
+]
+ 
+.panel3-multi-level-factor-orthogonality-rotate[
+Helmert contrastsを適用  
+  
+Orthogonal contrastsになる
+]
+
+&lt;style&gt;
+.panel1-multi-level-factor-orthogonality-rotate {
+  color: black;
+  width: 28.7040816326531%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-multi-level-factor-orthogonality-rotate {
+  color: black;
+  width: 38.6020408163265%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-multi-level-factor-orthogonality-rotate {
+  color: black;
+  width: 29.6938775510204%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
 
 
 ---

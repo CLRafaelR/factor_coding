@@ -57,7 +57,7 @@ class: inverse, middle
 
 ---
 
-```{r child = '02-design-model-matrix.Rmd', eval = FALSE}
+```{r child = '02-orthogonal-contrasts.Rmd'}
 ```
 
 ---

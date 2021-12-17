@@ -236,7 +236,7 @@ HcSum |>
 
 ---
 
-`r chunk_reveal("sum-hypothesis-matrix-ginv", left_assign = "detect", title = "## 一般化逆行列を使い，仮説行列を対比行列に変換",  display_type = c("code", "output", "md"), md = c("仮説行列に対し…", "一般化逆行列を適用，仮説行列を対比行列に変換", "仮説行列に対し…", "一般化逆行列を適用，仮説行列を対比行列に変換", "行名・列名を再付与", "分数表記に"))`
+`r chunk_reveal("sum-hypothesis-matrix-ginv", left_assign = "detect", title = "## 一般化逆行列を使い，仮説行列を対比行列に変換",  display_type = c("code", "output", "md"), md = c("仮説行列に対し…", "一般化逆行列を適用，仮説行列を対比行列に変換", "仮説行列に対し…", "一般化逆行列を適用，仮説行列を対比行列に変換", "行名・列名を再付与", "分数表記に"), widths = c(3, 2, 1))`
 
 
 ```{r}
@@ -248,7 +248,9 @@ XcSum <- HcSum |>
 
 XcSum <- HcSum |>
   ginv() |>
-  provideDimnames(base = dimnames(HcSum)[2:1]) |>
+  provideDimnames(
+    base = dimnames(HcSum)[2:1]
+  ) |>
   fractions()
 ```
 
