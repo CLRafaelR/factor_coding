@@ -1,16 +1,31 @@
 name: inverting-the-procedure
 
-`r chunk_reveal("center-contrast-coefficient", left_assign = "detect", break_type = "rotate", title = "## Centered contrasts  \n  \n**中心化された対比**：対比行列の中で，個々の水準に割り当てられている対比係数を，対比ごと（列ごと）に足し合わせた時に0になる", display_type = c("code", "output", "md"), md = c("Sum contrastsを適用", "Repeated contrastsを適用", "Polynomial contrastsを適用", "Helmert contrastsを適用", "Treatment contrastsを適用  \n  \n**Treatment contrastsでは，0にならず，1になる**"))`
+## Inverting the procedure
+
+- ここまで，仮説行列から対比行列を作ってきた
+- ここでは，「対比行列から仮説行列を作るとどうなるか」考える
+  - 仮説行列から対比行列を作る際に使った一般化逆行列の意味や，なぜ一般化逆行列が必要なのかが理解できる
+
+---
+
+
+`r chunk_reveal("inverting-hypo-contr", left_assign = "TRUE", title = "## Inverting the procedure", display_type = c("code", "output", "md"), md = c("Repeated contrastの仮説行列を作成", "仮説行列に一般化逆行列を適用すると，対比行列ができる", "仮説行列に一般化逆行列を適用し，さらにもう1回一般化逆行列を適用すると，仮説行列に戻ってくる  \n  \n**対比行列に一般化逆行列を適用すると，仮説行列が作れる**"))`
 
 ```{r}
-#| center-contrast-coefficient,
+#| inverting-hypo-contr,
 #| include = FALSE
 
-contr.sum(4) |> colSums() #ROTATE
-contr.sdif(4) |> colSums() #ROTATE
-contr.poly(4) |> colSums() |> fractions() #ROTATE
-contr.helmert(4) |> colSums() #ROTATE
-contr.treatment(4) |> colSums() #ROTATE
+HcRe <- rbind(
+  c2vs1 = c(F1 = -1, F2 = 1, F3 = 0),
+  c3vs2 = c(F1 = 0, F2 = -1, F3 = 1)
+)
+
+HcRe |> hypr::ginv2()
+
+HcRe |>
+  hypr::ginv2() |>
+  hypr::ginv2()
+
 ```
 
 ---
