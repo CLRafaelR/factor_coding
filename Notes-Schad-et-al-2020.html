@@ -4977,6 +4977,8 @@ name: sum-contrast-weights
 
 ---
 
+name: hypotheis-matrix-how-to
+
 ## 重みづけを抽出し，「仮説行列」に書く
 
 `\(\mu_1\)`, `\(\mu_2\)`, `\(\mu_3\)` には重みづけがある
@@ -5054,7 +5056,13 @@ cH02 -0.33  0.67 -0.33
 ]
  
 .panel3-sum-hypothesis-matrix-transpose-auto[
-仮説行列
+仮説行列  
+  
+`$${H_0}_0: (\frac{1}{3}\mu_1) + (\frac{1}{3}\mu_2) + (\frac{1}{3}\mu_3) = 0$$`  
+  
+`$${H_0}_1: (\frac{2}{3}\mu_1) + (-\frac{1}{3}\mu_2) + (-\frac{1}{3}\mu_3) = 0$$`  
+  
+`$${H_0}_2: (-\frac{1}{3}\mu_1) + (\frac{2}{3}\mu_2) + (-\frac{1}{3}\mu_3) = 0$$`
 ]
 
 ---
@@ -5080,7 +5088,13 @@ cH02 -1/3  2/3 -1/3
 ]
  
 .panel3-sum-hypothesis-matrix-transpose-auto[
-小数表記を分数表記に改める
+小数表記を分数表記に改める  
+  
+`$${H_0}_0: (\frac{1}{3}\mu_1) + (\frac{1}{3}\mu_2) + (\frac{1}{3}\mu_3) = 0$$`  
+  
+`$${H_0}_1: (\frac{2}{3}\mu_1) + (-\frac{1}{3}\mu_2) + (-\frac{1}{3}\mu_3) = 0$$`  
+  
+`$${H_0}_2: (-\frac{1}{3}\mu_1) + (\frac{2}{3}\mu_2) + (-\frac{1}{3}\mu_3) = 0$$`
 ]
 
 ---
@@ -5115,7 +5129,13 @@ cH02 -0.33  0.67 -0.33
 ]
  
 .panel3-sum-hypothesis-matrix-transpose-auto[
-仮説行列
+仮説行列  
+  
+`$${H_0}_0: (\frac{1}{3}\mu_1) + (\frac{1}{3}\mu_2) + (\frac{1}{3}\mu_3) = 0$$`  
+  
+`$${H_0}_1: (\frac{2}{3}\mu_1) + (-\frac{1}{3}\mu_2) + (-\frac{1}{3}\mu_3) = 0$$`  
+  
+`$${H_0}_2: (-\frac{1}{3}\mu_1) + (\frac{2}{3}\mu_2) + (-\frac{1}{3}\mu_3) = 0$$`
 ]
 
 ---
@@ -5218,7 +5238,6 @@ hi   1/3 -1/3 -1/3
   font-size: 80%
 }
 &lt;/style&gt;
-
 
 
 
@@ -8904,13 +8923,13 @@ class: inverse, middle
 ---
 
 
-name: repeated-contrast-weights
+name: centered-contrast
 
 count: false
  
 ## Centered contrasts  
   
-**中心化された対比** 対比行列の中で，個々の水準に割り当てられている対比係数を，対比ごと（列ごと）に足し合わせた時に0になる
+**中心化された対比**：対比行列の中で，個々の水準に割り当てられている対比係数を，対比ごと（列ごと）に足し合わせた時に0になる
 .panel1-center-contrast-coefficient-rotate[
 
 ```r
@@ -8947,7 +8966,7 @@ count: false
  
 ## Centered contrasts  
   
-**中心化された対比** 対比行列の中で，個々の水準に割り当てられている対比係数を，対比ごと（列ごと）に足し合わせた時に0になる
+**中心化された対比**：対比行列の中で，個々の水準に割り当てられている対比係数を，対比ごと（列ごと）に足し合わせた時に0になる
 .panel1-center-contrast-coefficient-rotate[
 
 ```r
@@ -8985,7 +9004,7 @@ count: false
  
 ## Centered contrasts  
   
-**中心化された対比** 対比行列の中で，個々の水準に割り当てられている対比係数を，対比ごと（列ごと）に足し合わせた時に0になる
+**中心化された対比**：対比行列の中で，個々の水準に割り当てられている対比係数を，対比ごと（列ごと）に足し合わせた時に0になる
 .panel1-center-contrast-coefficient-rotate[
 
 ```r
@@ -9023,7 +9042,7 @@ count: false
  
 ## Centered contrasts  
   
-**中心化された対比** 対比行列の中で，個々の水準に割り当てられている対比係数を，対比ごと（列ごと）に足し合わせた時に0になる
+**中心化された対比**：対比行列の中で，個々の水準に割り当てられている対比係数を，対比ごと（列ごと）に足し合わせた時に0になる
 .panel1-center-contrast-coefficient-rotate[
 
 ```r
@@ -9060,7 +9079,7 @@ count: false
  
 ## Centered contrasts  
   
-**中心化された対比** 対比行列の中で，個々の水準に割り当てられている対比係数を，対比ごと（列ごと）に足し合わせた時に0になる
+**中心化された対比**：対比行列の中で，個々の水準に割り当てられている対比係数を，対比ごと（列ごと）に足し合わせた時に0になる
 .panel1-center-contrast-coefficient-rotate[
 
 ```r
@@ -9121,6 +9140,289 @@ Treatment contrastsを適用
   font-size: 80%
 }
 &lt;/style&gt;
+
+
+
+
+
+---
+
+## Centered contrastsにおける切片
+
+- 仮説行列の中では，切片の列（ `\({H_0}_0\)` ）は足し合わせても0にならない
+  - 1になる
+- 仮説行列の切片の列（ `\({H_0}_0\)` ）の総計が1になるのは，一般化逆行列を適用して対比行列を作ったときに，対比行列の切片の列に1だけが入るようにするため
+- 対比行列の切片の列に1だけが入るようにするのは，切片の解釈を容易にするため
+
+---
+
+count: false
+ 
+## Centered contrastsにおける切片
+.panel1-hypotheis-contrast-matrix-center-auto[
+
+```r
+*HcSum &lt;- rbind(
+* cH00 = c(low =  1/3, med =  1/3, hi =  1/3),
+* cH01 = c(low =  2/3, med = -1/3, hi = -1/3),
+* cH02 = c(low = -1/3, med =  2/3, hi = -1/3)
+*) 
+```
+]
+ 
+.panel2-hypotheis-contrast-matrix-center-auto[
+
+]
+ 
+.panel3-hypotheis-contrast-matrix-center-auto[
+仮説行列を作成  
+  
+[ここ](#hypotheis-matrix-how-to)で作成した例
+]
+
+---
+count: false
+ 
+## Centered contrastsにおける切片
+.panel1-hypotheis-contrast-matrix-center-auto[
+
+```r
+HcSum &lt;- rbind(
+  cH00 = c(low =  1/3, med =  1/3, hi =  1/3),
+  cH01 = c(low =  2/3, med = -1/3, hi = -1/3),
+  cH02 = c(low = -1/3, med =  2/3, hi = -1/3)
+)
+
+*HcSum
+```
+]
+ 
+.panel2-hypotheis-contrast-matrix-center-auto[
+
+```
+       low   med    hi
+cH00  0.33  0.33  0.33
+cH01  0.67 -0.33 -0.33
+cH02 -0.33  0.67 -0.33
+```
+]
+ 
+.panel3-hypotheis-contrast-matrix-center-auto[
+仮説行列
+]
+
+---
+count: false
+ 
+## Centered contrastsにおける切片
+.panel1-hypotheis-contrast-matrix-center-auto[
+
+```r
+HcSum &lt;- rbind(
+  cH00 = c(low =  1/3, med =  1/3, hi =  1/3),
+  cH01 = c(low =  2/3, med = -1/3, hi = -1/3),
+  cH02 = c(low = -1/3, med =  2/3, hi = -1/3)
+)
+
+HcSum |&gt;
+* t()
+```
+]
+ 
+.panel2-hypotheis-contrast-matrix-center-auto[
+
+```
+    cH00  cH01  cH02
+low 0.33  0.67 -0.33
+med 0.33 -0.33  0.67
+hi  0.33 -0.33 -0.33
+```
+]
+ 
+.panel3-hypotheis-contrast-matrix-center-auto[
+仮説行列を転置 *transpose*  
+今度は各行が水準，各列が仮説に変わる
+]
+
+---
+count: false
+ 
+## Centered contrastsにおける切片
+.panel1-hypotheis-contrast-matrix-center-auto[
+
+```r
+HcSum &lt;- rbind(
+  cH00 = c(low =  1/3, med =  1/3, hi =  1/3),
+  cH01 = c(low =  2/3, med = -1/3, hi = -1/3),
+  cH02 = c(low = -1/3, med =  2/3, hi = -1/3)
+)
+
+HcSum |&gt;
+  t() |&gt;
+* fractions()
+```
+]
+ 
+.panel2-hypotheis-contrast-matrix-center-auto[
+
+```
+    cH00 cH01 cH02
+low  1/3  2/3 -1/3
+med  1/3 -1/3  2/3
+hi   1/3 -1/3 -1/3
+```
+]
+ 
+.panel3-hypotheis-contrast-matrix-center-auto[
+小数表記を分数表記に改める
+]
+
+---
+count: false
+ 
+## Centered contrastsにおける切片
+.panel1-hypotheis-contrast-matrix-center-auto[
+
+```r
+HcSum &lt;- rbind(
+  cH00 = c(low =  1/3, med =  1/3, hi =  1/3),
+  cH01 = c(low =  2/3, med = -1/3, hi = -1/3),
+  cH02 = c(low = -1/3, med =  2/3, hi = -1/3)
+)
+
+HcSum |&gt;
+  t() |&gt;
+  fractions()|&gt;
+* colSums()
+```
+]
+ 
+.panel2-hypotheis-contrast-matrix-center-auto[
+
+```
+cH00 cH01 cH02 
+   1    0    0 
+```
+]
+ 
+.panel3-hypotheis-contrast-matrix-center-auto[
+列ごとに足し合わせる  
+  
+仮説行列の中では，切片の列（ `\({H_0}_0\)` ）は足し合わせても0にならない
+]
+
+---
+count: false
+ 
+## Centered contrastsにおける切片
+.panel1-hypotheis-contrast-matrix-center-auto[
+
+```r
+HcSum &lt;- rbind(
+  cH00 = c(low =  1/3, med =  1/3, hi =  1/3),
+  cH01 = c(low =  2/3, med = -1/3, hi = -1/3),
+  cH02 = c(low = -1/3, med =  2/3, hi = -1/3)
+)
+
+HcSum |&gt;
+  t() |&gt;
+  fractions()|&gt;
+  colSums()
+
+*HcSum
+```
+]
+ 
+.panel2-hypotheis-contrast-matrix-center-auto[
+
+```
+cH00 cH01 cH02 
+   1    0    0 
+```
+
+```
+       low   med    hi
+cH00  0.33  0.33  0.33
+cH01  0.67 -0.33 -0.33
+cH02 -0.33  0.67 -0.33
+```
+]
+ 
+.panel3-hypotheis-contrast-matrix-center-auto[
+仮説行列から…
+]
+
+---
+count: false
+ 
+## Centered contrastsにおける切片
+.panel1-hypotheis-contrast-matrix-center-auto[
+
+```r
+HcSum &lt;- rbind(
+  cH00 = c(low =  1/3, med =  1/3, hi =  1/3),
+  cH01 = c(low =  2/3, med = -1/3, hi = -1/3),
+  cH02 = c(low = -1/3, med =  2/3, hi = -1/3)
+)
+
+HcSum |&gt;
+  t() |&gt;
+  fractions()|&gt;
+  colSums()
+
+HcSum |&gt;
+* hypr::ginv2()
+```
+]
+ 
+.panel2-hypotheis-contrast-matrix-center-auto[
+
+```
+cH00 cH01 cH02 
+   1    0    0 
+```
+
+```
+    cH00 cH01 cH02
+low  1    1    0  
+med  1    0    1  
+hi   1   -1   -1  
+```
+]
+ 
+.panel3-hypotheis-contrast-matrix-center-auto[
+対比行列を作成  
+  
+切片の列には，1だけが入っている
+]
+
+&lt;style&gt;
+.panel1-hypotheis-contrast-matrix-center-auto {
+  color: black;
+  width: 28.7040816326531%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-hypotheis-contrast-matrix-center-auto {
+  color: black;
+  width: 38.6020408163265%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-hypotheis-contrast-matrix-center-auto {
+  color: black;
+  width: 29.6938775510204%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
 
 
 

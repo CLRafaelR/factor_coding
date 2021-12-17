@@ -156,6 +156,8 @@ $${H_0}_0: (\underbrace{\frac{1}{3}}_{\mu_1\text{への重み}}\mu_1) + (\underb
 
 ---
 
+name: hypotheis-matrix-how-to
+
 ## 重みづけを抽出し，「仮説行列」に書く
 
 $\mu_1$, $\mu_2$, $\mu_3$ には重みづけがある
@@ -219,13 +221,12 @@ bind_rows(
 
 ---
 
-`r chunk_reveal("sum-hypothesis-matrix-transpose", left_assign = "detect", title = "## 重みづけを抽出し，「仮説行列」に書く",  display_type = c("code", "output", "md"), md = c("仮説行列", "小数表記を分数表記に改める", "仮説行列", "仮説行列を転置 *transpose*  \n今度は各行が水準，各列が仮説に変わる", "小数表記を分数表記に改める"))`
-
+`r chunk_reveal("sum-hypothesis-matrix-transpose", left_assign = "detect", title = "## 重みづけを抽出し，「仮説行列」に書く",  display_type = c("code", "output", "md"), md = c("仮説行列  \n  \n$${H_0}_0: (\\frac{1}{3}\\mu_1) + (\\frac{1}{3}\\mu_2) + (\\frac{1}{3}\\mu_3) = 0$$  \n  \n$${H_0}_1: (\\frac{2}{3}\\mu_1) + (-\\frac{1}{3}\\mu_2) + (-\\frac{1}{3}\\mu_3) = 0$$  \n  \n$${H_0}_2: (-\\frac{1}{3}\\mu_1) + (\\frac{2}{3}\\mu_2) + (-\\frac{1}{3}\\mu_3) = 0$$", "小数表記を分数表記に改める  \n  \n$${H_0}_0: (\\frac{1}{3}\\mu_1) + (\\frac{1}{3}\\mu_2) + (\\frac{1}{3}\\mu_3) = 0$$  \n  \n$${H_0}_1: (\\frac{2}{3}\\mu_1) + (-\\frac{1}{3}\\mu_2) + (-\\frac{1}{3}\\mu_3) = 0$$  \n  \n$${H_0}_2: (-\\frac{1}{3}\\mu_1) + (\\frac{2}{3}\\mu_2) + (-\\frac{1}{3}\\mu_3) = 0$$", "仮説行列  \n  \n$${H_0}_0: (\\frac{1}{3}\\mu_1) + (\\frac{1}{3}\\mu_2) + (\\frac{1}{3}\\mu_3) = 0$$  \n  \n$${H_0}_1: (\\frac{2}{3}\\mu_1) + (-\\frac{1}{3}\\mu_2) + (-\\frac{1}{3}\\mu_3) = 0$$  \n  \n$${H_0}_2: (-\\frac{1}{3}\\mu_1) + (\\frac{2}{3}\\mu_2) + (-\\frac{1}{3}\\mu_3) = 0$$", "仮説行列を転置 *transpose*  \n今度は各行が水準，各列が仮説に変わる", "小数表記を分数表記に改める"))`
 
 ```{r}
 #| sum-hypothesis-matrix-transpose,
 #| include = FALSE
-HcSum |> 
+HcSum |>
   fractions()
 
 HcSum |>
