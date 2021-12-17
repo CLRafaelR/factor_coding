@@ -1,10 +1,26 @@
-name: inverting-the-procedure
+name: intercept-importance
 
-## Inverting the procedure
+## The importance of the intercept
 
-- ここまで，仮説行列から対比行列を作ってきた
-- ここでは，「対比行列から仮説行列を作るとどうなるか」考える
-  - 仮説行列から対比行列を作る際に使った一般化逆行列の意味や，なぜ一般化逆行列が必要なのかが理解できる
+- ここまで，対比行列から仮説行列を作ってきた
+- その際，対比行列に切片の列を加えた
+- **対比行列に切片の列を加えずに，一般化逆行列を適用するとどうなるか？**
 
 ---
 
+`r chunk_reveal("contr-to-hypo-no-int", left_assign = "detect", title = "## The importance of the intercept", display_type = c("code", "output", "md"), md = c("Treatment contrastの対比行列を作成  \n  \nここでは**切片の列は加えない**", "対比行列に…", "一般化逆行列を適用し，仮説行列を作る  \n  \nこの仮説行列が確かめている仮説：  \n  \n$$\\begin{aligned}  &\\begin{cases}    {H_0}_2: (0 \\times \\mu_1) + (1 \\times \\mu_2) + (0 \\times \\mu_3) = 0\\\\    {H_0}_3: (0 \\times \\mu_1) + (0 \\times \\mu_2) + (1 \\times \\mu_3) = 0  \\end{cases}\\\\  \\Leftrightarrow &   \\begin{cases}    {H_0}_2: \\mu_2 = 0\\\\    {H_0}_3: \\mu_3 = 0  \\end{cases}\\\\  \\end{aligned}$$  \n  \n**誤った仮説が出てきてしまう**  \n  \n**中心化されていない対比行列には，切片の列を加えることが重要**", "仮説行列を転置"), widths = c(1, 1, 2))`
+
+```{r}
+#| contr-to-hypo-no-int,
+#| include = FALSE
+
+XcTr <- cbind(
+  contr.treatment(3)
+)
+
+XcTr |>
+  hypr::ginv2() |>
+  t()
+```
+
+---

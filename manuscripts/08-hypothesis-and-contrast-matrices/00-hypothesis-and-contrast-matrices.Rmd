@@ -25,7 +25,7 @@ class: inverse, middle
 
 ---
 
-```{r child = '03-intercept.Rmd', eval = FALSE}
+```{r child = '03-matrix-form.Rmd'}
 ```
 
 ---

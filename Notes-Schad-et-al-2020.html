@@ -10844,10 +10844,381 @@ XcTr |&gt;
 ---
 
 
+name: intercept-importance
+
+## The importance of the intercept
+
+- ここまで，対比行列から仮説行列を作ってきた
+- その際，対比行列に切片の列を加えた
+- **対比行列に切片の列を加えずに，一般化逆行列を適用するとどうなるか？**
+
+---
+
+count: false
+ 
+## The importance of the intercept
+.panel1-contr-to-hypo-no-int-auto[
+
+```r
+*XcTr &lt;- cbind(
+* contr.treatment(3)
+*) 
+```
+]
+ 
+.panel2-contr-to-hypo-no-int-auto[
+
+]
+ 
+.panel3-contr-to-hypo-no-int-auto[
+Treatment contrastの対比行列を作成  
+  
+ここでは**切片の列は加えない**
+]
+
+---
+count: false
+ 
+## The importance of the intercept
+.panel1-contr-to-hypo-no-int-auto[
+
+```r
+XcTr &lt;- cbind(
+  contr.treatment(3)
+)
+
+*XcTr
+```
+]
+ 
+.panel2-contr-to-hypo-no-int-auto[
+
+```
+  2 3
+1 0 0
+2 1 0
+3 0 1
+```
+]
+ 
+.panel3-contr-to-hypo-no-int-auto[
+対比行列に…
+]
+
+---
+count: false
+ 
+## The importance of the intercept
+.panel1-contr-to-hypo-no-int-auto[
+
+```r
+XcTr &lt;- cbind(
+  contr.treatment(3)
+)
+
+XcTr |&gt;
+* hypr::ginv2()
+```
+]
+ 
+.panel2-contr-to-hypo-no-int-auto[
+
+```
+  1 2 3
+2 0 1 0
+3 0 0 1
+```
+]
+ 
+.panel3-contr-to-hypo-no-int-auto[
+一般化逆行列を適用し，仮説行列を作る  
+  
+この仮説行列が確かめている仮説：  
+  
+`$$\begin{aligned}  &amp;\begin{cases}    {H_0}_2: (0 \times \mu_1) + (1 \times \mu_2) + (0 \times \mu_3) = 0\\    {H_0}_3: (0 \times \mu_1) + (0 \times \mu_2) + (1 \times \mu_3) = 0  \end{cases}\\  \Leftrightarrow &amp;   \begin{cases}    {H_0}_2: \mu_2 = 0\\    {H_0}_3: \mu_3 = 0  \end{cases}\\  \end{aligned}$$`  
+  
+**誤った仮説が出てきてしまう**  
+  
+**中心化されていない対比行列には，切片の列を加えることが重要**
+]
+
+---
+count: false
+ 
+## The importance of the intercept
+.panel1-contr-to-hypo-no-int-auto[
+
+```r
+XcTr &lt;- cbind(
+  contr.treatment(3)
+)
+
+XcTr |&gt;
+  hypr::ginv2() |&gt;
+* t()
+```
+]
+ 
+.panel2-contr-to-hypo-no-int-auto[
+
+```
+  2 3
+1 0 0
+2 1 0
+3 0 1
+```
+]
+ 
+.panel3-contr-to-hypo-no-int-auto[
+仮説行列を転置
+]
+
+&lt;style&gt;
+.panel1-contr-to-hypo-no-int-auto {
+  color: black;
+  width: 24.25%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-contr-to-hypo-no-int-auto {
+  color: black;
+  width: 24.25%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-contr-to-hypo-no-int-auto {
+  color: black;
+  width: 48.5%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
 
 ---
 
 
+name: matrix-form
+
+## The hypothesis matrix and contrast matrix in matrix form
+
+- ここまで，さまざまな行列作ってきた
+- 行列が一般化線形モデルの中でどのように使われているか理解する
+
+---
+
+## Matrix notation for the contrast matrix
+
+- 対比により，離散的な条件同士の比較を数値で行っている
+  - factorをcovariateに変換している
+- treatment contrastの場合：
+
+`$$x =
+\begin{cases}
+0 &amp; \text{F1 のとき} \\
+1 &amp; \text{F2 のとき}
+\end{cases}$$`
+
+`$$\therefore \begin{align}\overbrace{y}^{\text{応答変数}} &amp; = \overbrace{{\beta}_0}^{\text{切片}} + \overbrace{{\beta}_1}^{\text{傾き}} x\\
+&amp; =
+\begin{cases}
+{\beta}_0 + {\beta}_1 \times 0 &amp; \text{F1 のとき}\\
+{\beta}_0 + {\beta}_1 \times 1 &amp; \text{F2 のとき}
+\end{cases}\\
+&amp; =
+\begin{cases}
+{\beta}_0 &amp; \text{F1 のとき}\\
+{\beta}_0 + {\beta}_1 &amp; \text{F2 のとき}
+\end{cases}
+\end{align}$$`
+
+- ↑の（場合分けされている）式を，対比行列を使い1つにまとめる
+
+---
+
+## Matrix notation for the contrast matrix
+
+- 対比行列
+
+`$$\begin{matrix}
+&amp; \\
+\pmb{X}_c = 
+    \left ( \vphantom{ \begin{matrix} 12 \\ 12 \end{matrix} } \right .
+\end{matrix}
+\hspace{-1.2em}
+\begin{matrix}
+    \beta_0\text{に掛ける数} &amp; \beta_1\text{に掛ける数}x \\ \hline
+    1 &amp; 0 \\
+    1 &amp; 1
+\end{matrix}
+\hspace{-0.2em}
+\begin{matrix}
+&amp; \\
+\left . \vphantom{ \begin{matrix} 12 \\ 12 \end{matrix} } \right )
+    \begin{matrix}
+    \text{統制条件} \\ \text{実験条件}
+    \end{matrix}
+\end{matrix}$$`
+
+---
+
+## Matrix notation for the contrast matrix
+
+`$$\begin{aligned}
+\pmb{X}_c \pmb{\beta}
+&amp; =
+\left(
+\begin{matrix}
+1 \,\,\, 0\\
+1 \,\,\, 1
+\end{matrix}
+\right)
+\left(
+\begin{matrix}
+\beta_0\\
+\beta_1
+\end{matrix}
+\right)\\
+&amp; =
+\left(
+\begin{matrix}
+1 \times \beta_0 + 0 \times \beta_1\\
+1 \times \beta_0 + 1 \times \beta_1
+\end{matrix}
+\right)\\
+&amp; =
+\left(
+\begin{matrix}
+\beta_0\\
+\beta_0+\beta_1
+\end{matrix}
+\right)\\
+&amp; =
+\left(
+\begin{matrix}
+\mu_1\\
+\mu_2
+\end{matrix}
+\right)\\
+&amp; =
+\pmb{\mu}\\
+\therefore \pmb{\mu}
+&amp; =
+\pmb{X}_c \pmb{\beta}\\
+\Leftrightarrow \mu
+&amp; =
+\beta_0 + \beta_1 x
+\begin{cases}
+x = 0 &amp; \text{F1 のとき} \\
+x =1 &amp; \text{F2 のとき}\end{cases}
+\end{aligned}$$`
+
+---
+
+&lt;!-- --&gt;
+
+---
+
+## 統計で `\(\beta\)` （係数）を計算するために
+
+`\(\pmb{\mu} = \pmb{X}_c \pmb{\beta}\)`
+
+- `\(\pmb{\mu}\)` は，実験結果から分かる
+- `\(\pmb{X}_c\)` は，対比行列なので分析者が設定した値
+- 既に分かっている `\(\pmb{\mu}\)` と `\(\pmb{X}_c\)` を使えば， `\(\pmb{\beta}\)` を計算できる
+
+---
+
+## 統計で `\(\beta\)` （係数）を計算するために
+
+`\(\pmb{\mu} = \pmb{X}_c \pmb{\beta}\)`
+
+- ↑の式の両辺に， `\(\pmb{X}_c\)` を相殺する操作を掛ければ， `\(\pmb{\beta}\)` （そして `\(\pmb{\beta}\)` の中にある個々の `\(\beta\)` の値）が分かる
+- 行列の世界では，ある行列 `\(\pmb{X}_c\)` がある場合，その `\(\pmb{X}_c\)` に対して， `\(\pmb{X}_c\)` の逆行列 `\({\pmb{X}_c}^{inv}\)` を掛けると， `\(\pmb{X}_c\)` が単位行列 `\(\pmb{I}\)` に変わる
+  - `\(\therefore \pmb{X}_c \times {\pmb{X}_c}^{inv} = \pmb{I}\)`
+- 単位行列 `\(\pmb{I}\)` と他の行列と掛け合わせると，単位行列 `\(\pmb{I}\)` に掛けた行列がそのまま取り出せる
+  - `\(\therefore \pmb{I} \times \pmb{\beta} = \pmb{\beta}\)`
+
+`$$\begin{aligned}
+\therefore
+{\pmb{X}_c}^{inv} \times \pmb{\mu}
+&amp; =
+{\pmb{X}_c}^{inv} \times \pmb{X}_c \pmb{\beta}\\
+\Leftrightarrow
+{\pmb{X}_c}^{inv} \times \pmb{\mu}
+&amp; =
+\pmb{\beta}\\
+\Leftrightarrow
+\pmb{\beta}
+&amp; =
+{\pmb{X}_c}^{inv} \times \pmb{\mu}\\
+\end{aligned}$$`
+
+---
+
+## 統計で `\(\beta\)` （係数）を計算するために
+
+`$$\pmb{\beta} = {\pmb{X}_c}^{inv} \times \pmb{\mu}$$`
+
+- ここで，対比行列 `\(\pmb{X}_c\)` の逆行列 `\({\pmb{X}_c}^{inv}\)` は，仮説行列 `\(\pmb{H}_c\)`
+- 1要因2水準のTreatment contrastに対する仮説行列は， `\(\pmb{H}_c = \left(\begin{matrix}1 \,\,\, 0\\-1 \,\,\, 1\end{matrix}\right)\)`
+
+`$$\begin{aligned}
+\therefore
+\pmb{\beta}
+&amp; =
+{\pmb{X}_c}^{inv} \times \pmb{\mu}\\
+&amp; =
+\pmb{H}_c \times \pmb{\mu}\\
+&amp; =
+\left(
+  \begin{matrix}
+  1 \,\,\, 0\\
+  -1 \,\,\, 1
+  \end{matrix}
+\right)
+\times \pmb{\mu}\\
+&amp; =
+\left(
+  \begin{matrix}
+  1 \,\,\, 0\\
+  -1 \,\,\, 1
+  \end{matrix}
+\right)
+\times
+\left(
+\begin{matrix}
+\mu_1\\
+\mu_2
+\end{matrix}
+\right)
+\\
+&amp; =
+\left(
+\begin{matrix}
+1 \times \mu_1 + 0 \times \mu_2\\
+-1 \times \mu_1 + 1 \times \mu_2
+\end{matrix}
+\right)\\
+&amp; =
+\left(
+\begin{matrix}
+\mu_1\\
+\mu_2- \mu_1
+\end{matrix}
+\right)
+\end{aligned}$$`
 
 ---
 
