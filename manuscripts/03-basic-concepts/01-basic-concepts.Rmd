@@ -720,7 +720,7 @@ $H_0: {\mu}_{\text{F1}} = 0$
 
 ---
 
-`r chunk_reveal("sum-simdat", title = "### Scaled sum contrastsとその意味", display_type = c("code", "output", "md"), md = c("$$x = \\begin{cases} -0.5 & \\text{F1 のとき} \\\\ 0.5 & \\text{F2 のとき} \\end{cases}$$"), left_assign = TRUE)`
+`r chunk_reveal("sum-simdat", title = "### Scaled sum contrastsとその意味", display_type = c("code", "output", "md"), md = c("$$x = \\begin{cases} -0.5 & \\text{F1 のとき} \\\\ 0.5 & \\text{F2 のとき} \\end{cases}$$"), left_assign = TRUE, widths = c(3, 2, 1))`
 
 ```{r sum-simdat, include = FALSE}
 contrasts(simdat$F) <- c(-0.5, 0.5)

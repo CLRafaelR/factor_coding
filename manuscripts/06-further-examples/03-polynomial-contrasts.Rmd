@@ -261,10 +261,28 @@ lm(DV ~ F, data = simdat3) |>
 
 ## Polynomial contrastの長所
 
+::: columns
+
+:::: pull-left
+
 - Polynomial contrastでlinear trendを指定することで，全体的な増加傾向をlinear trendの係数として表現することができる
   - 全体的な増加傾向の検出力も上がる
   - （データに応じ，全体的な減少傾向もlinear trendの係数として表現可能なはず）
 - 要因の水準が増えれば増えるほど，他の対比方法（コーディング方法）やオムニバスF検定よりも，polynomial contrastを使う時の方が，少ない変数で応答変数を説明できる
   - オムニバスF検定：全ての水準から2つ選んでできる水準の組み合わせ全てについて1回ずつ統計を掛ける
+
+::::
+
+:::: pull-right
+
+```{r}
+#| ref.label = c('schema-simdat3-polynomial'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+::::
+
+:::
 
 ---
