@@ -1,2 +1,83 @@
 name: intercept
 
+## The role of the intercept in non-centered contrasts
+
+.pull-left[
+
+- 中心化されていない対比では，切片が重要
+- **Treatment contrast**：中心化されていない対比
+- 中心化されていない対比
+  - 対比行列の中で，各列の和が0でない対比
+- ここで，**切片の列**と**他の列1列**が直交する場合を考える
+  - 切片の列に入っている数値 $c_{1, i} = 1$
+  - 切片でない列1列に入っている数値 $c_{2, i}$
+
+$$\begin{aligned}
+\Sigma_i (c_{1, i} \times c_{2, i}) & = \Sigma_i (1 \times c_{2, i})
+& = \Sigma_i c_{2, i}
+\end{aligned}$$
+
+- $\overbrace{\Sigma_i c_{2, i}}^{切片でない列1列に入っている数値の総和}$ は，その切片でない列が中心化されているかを確かめる式
+- $\therefore$ 「切片でない列が中心化されているか否か」は，「その列と切片の列が直交しているか否か」から分かる
+
+]
+
+.pull-right[
+
+- 切片の列が入っているtreatment contrastの行列を作る
+- 次のページで，切片の列と他の列が直交するか確認する
+
+```{r}
+#| treatment-contrast-matrix,
+#| echo = TRUE,
+#| eval = FALSE
+
+XcTreatment <- cbind(
+  1,
+  contr.treatment(4)
+) |>
+  as_tibble(
+    .name_repair = ~ c(
+      "Intercept", "F1vsF2", "F1vsF3", "F1vsF4"
+    )
+  )
+```
+
+```{r}
+#| ref.label = c('treatment-contrast-matrix'),
+#| echo = FALSE,
+#| eval = TRUE
+```
+
+]
+
+---
+
+`r chunk_reveal("treatment-contrast-coefficient-rotate", left_assign = "detect", break_type = "rotate", title = "## The role of the intercept in non-centered contrasts  \n- 切片の列と他の列が直交するか確認する  \n- **直交対比**：対比行列の中で，2つの対比（列）を選び，行ごとに掛け算し，その掛け算を足し合わせた時に0になる  \n", display_type = c("code", "output", "md"), md = c("**切片**と**F1vsF2**を選択した場合  \n  \n**和が0にならない**  \n  \n**=切片と直交していない**", "**切片**と**F1vsF3**を選択した場合  \n  \n**和が0にならない**  \n  \n**=切片と直交していない**", "**切片**と**F1vsF4**を選択した場合  \n  \n**和が0にならない**  \n  \n**=切片と直交していない**"), widths = c(3, 2, 1))`
+
+```{r}
+#| treatment-contrast-coefficient-rotate,
+#| include = FALSE
+
+sel.cols <- XcTreatment |> dplyr::select(Intercept, F1vsF2) #ROTATE
+sel.cols <- XcTreatment |> dplyr::select(Intercept, F1vsF3) #ROTATE
+sel.cols <- XcTreatment |> dplyr::select(Intercept, F1vsF4) #ROTATE
+
+sel.cols |>
+  rowwise() |>
+  summarise(
+    everything() |>
+      c_across() |>
+      prod()
+  ) |>
+  sum()
+```
+
+---
+
+## The role of the intercept in non-centered contrasts
+
+- 中心化されていない対比では，切片が重要
+- **Treatment contrast**：中心化されていない対比
+- 中心化されていない対比
+  - 対比行列の中で，各列の和が0でない対比

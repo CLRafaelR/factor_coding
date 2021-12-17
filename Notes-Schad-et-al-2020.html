@@ -10272,7 +10272,7 @@ F4 -1 -1  1
 
 ### 対比行列を直接作れる場合
 
-- 対比が完全に直交している場合，かつ説明変数の比率が問題にならない場合
+- **対比が完全に直交している場合**，かつ説明変数の比率が問題にならない場合
 - 一般化逆行列を使わずに，対比行列を直接作ることができる
 
 ::::
@@ -10290,7 +10290,206 @@ F4 -1 -1  1
 
 ---
 
+---
 
+
+name: intercept
+
+## The role of the intercept in non-centered contrasts
+
+.pull-left[
+
+- 中心化されていない対比では，切片が重要
+- **Treatment contrast**：中心化されていない対比
+- 中心化されていない対比
+  - 対比行列の中で，各列の和が0でない対比
+- 切片の列と他の列1列が直交する場合
+  - 切片の列に入っている数値 `\(c_{1, i} = 1\)`
+  - 切片でない列1列に入っている数値 `\(c_{2, i}\)`
+
+`$$\begin{aligned}
+\Sigma_i (c_{1, i} \times c_{2, i}) &amp; = \Sigma_i (1 \times c_{2, i})
+&amp; = \Sigma_i c_{2, i}
+\end{aligned}$$`
+
+- `\(\overbrace{\Sigma_i c_{2, i}}^{切片でない列1列に入っている数値の総和}\)` は，その切片でない列が中心化されているかを確かめる式
+
+]
+
+.pull-right[
+
+- 切片の列が入っているtreatment contrastの行列を作る
+- 次のページで，切片の列と他の列が直交するか確認する
+
+
+```r
+XcTreatment &lt;- cbind(
+  1,
+  contr.treatment(4)
+) |&gt;
+  as_tibble(
+    .name_repair = ~ c(
+      "Intercept", "F1vsF2", "F1vsF3", "F1vsF4"
+    )
+  )
+```
+
+
+
+]
+
+---
+
+count: false
+ 
+## The role of the intercept in non-centered contrasts  
+- 切片の列と他の列が直交するか確認する  
+- **直交対比**：対比行列の中で，2つの対比（列）を選び，行ごとに掛け算し，その掛け算を足し合わせた時に0になる  
+
+.panel1-treatment-contrast-coefficient-rotate-rotate[
+
+```r
+*sel.cols &lt;- XcTreatment |&gt; dplyr::select(Intercept, F1vsF2)
+
+sel.cols |&gt;
+  rowwise() |&gt;
+  summarise(
+    everything() |&gt;
+      c_across() |&gt;
+      prod()
+  ) |&gt;
+  sum()
+```
+]
+ 
+.panel2-treatment-contrast-coefficient-rotate-rotate[
+
+```
+[1] 1
+```
+]
+ 
+.panel3-treatment-contrast-coefficient-rotate-rotate[
+**切片**と**F1vsF2**を選択した場合  
+  
+**和が0にならない**  
+  
+**=切片と直交していない**
+]
+
+---
+count: false
+ 
+## The role of the intercept in non-centered contrasts  
+- 切片の列と他の列が直交するか確認する  
+- **直交対比**：対比行列の中で，2つの対比（列）を選び，行ごとに掛け算し，その掛け算を足し合わせた時に0になる  
+
+.panel1-treatment-contrast-coefficient-rotate-rotate[
+
+```r
+*sel.cols &lt;- XcTreatment |&gt; dplyr::select(Intercept, F1vsF3)
+
+sel.cols |&gt;
+  rowwise() |&gt;
+  summarise(
+    everything() |&gt;
+      c_across() |&gt;
+      prod()
+  ) |&gt;
+  sum()
+```
+]
+ 
+.panel2-treatment-contrast-coefficient-rotate-rotate[
+
+```
+[1] 1
+```
+]
+ 
+.panel3-treatment-contrast-coefficient-rotate-rotate[
+**切片**と**F1vsF3**を選択した場合  
+  
+**和が0にならない**  
+  
+**=切片と直交していない**
+]
+
+---
+count: false
+ 
+## The role of the intercept in non-centered contrasts  
+- 切片の列と他の列が直交するか確認する  
+- **直交対比**：対比行列の中で，2つの対比（列）を選び，行ごとに掛け算し，その掛け算を足し合わせた時に0になる  
+
+.panel1-treatment-contrast-coefficient-rotate-rotate[
+
+```r
+*sel.cols &lt;- XcTreatment |&gt; dplyr::select(Intercept, F1vsF4)
+
+sel.cols |&gt;
+  rowwise() |&gt;
+  summarise(
+    everything() |&gt;
+      c_across() |&gt;
+      prod()
+  ) |&gt;
+  sum()
+```
+]
+ 
+.panel2-treatment-contrast-coefficient-rotate-rotate[
+
+```
+[1] 1
+```
+]
+ 
+.panel3-treatment-contrast-coefficient-rotate-rotate[
+**切片**と**F1vsF4**を選択した場合  
+  
+**和が0にならない**  
+  
+**=切片と直交していない**
+]
+
+&lt;style&gt;
+.panel1-treatment-contrast-coefficient-rotate-rotate {
+  color: black;
+  width: 48.5%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-treatment-contrast-coefficient-rotate-rotate {
+  color: black;
+  width: 32.3333333333333%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-treatment-contrast-coefficient-rotate-rotate {
+  color: black;
+  width: 16.1666666666667%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+## The role of the intercept in non-centered contrasts
+
+- 中心化されていない対比では，切片が重要
+- **Treatment contrast**：中心化されていない対比
+- 中心化されていない対比
+  - 対比行列の中で，各列の和が0でない対比
 
 ---
 

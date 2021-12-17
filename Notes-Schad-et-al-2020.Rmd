@@ -195,6 +195,11 @@ library(gghighlight)
 
 ---
 
+```{r child = "manuscripts/08-hypothesis-and-contrast-matrices/00-hypothesis-and-contrast-matrices.Rmd"}
+```
+
+---
+
 <!-- adjust font size in this css code chunk, currently 80 -->
 
 ```{css, eval = TRUE, echo = FALSE}

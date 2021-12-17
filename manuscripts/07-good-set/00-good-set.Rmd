@@ -62,12 +62,7 @@ class: inverse, middle
 
 ---
 
-```{r child = '03-intercept.Rmd', eval = FALSE}
-```
-
----
-
-```{r child = '04-custom-contrasts.Rmd', eval = FALSE}
+```{r child = '03-intercept.Rmd'}
 ```
 
 ---

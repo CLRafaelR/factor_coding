@@ -1,0 +1,36 @@
+class: inverse, middle, center
+
+# A closer look at hypothesis and contrast matrices (pp.18--23)
+
+---
+
+class: inverse, middle
+<!-- class: inverse, middle, split-50 -->
+
+## 仮説行列と対比行列，そしてなぜ一般化逆行列が必要だったのか明らかに
+
+2. Inverting the procedure: from a contrast matrix to the associated hypothesis matrix
+3. The importance of the intercept when transforming between the contrast matrix and the hypothesis matrix in non-centered contrasts
+4. The hypothesis matrix and contrast matrix in matrix form
+
+---
+
+```{r child = '01-inverting-the-procedure.Rmd'}
+```
+
+---
+
+```{r child = '02-orthogonal-contrasts.Rmd', eval = FALSE}
+```
+
+---
+
+```{r child = '03-intercept.Rmd', eval = FALSE}
+```
+
+---
+
+```{r child = '04-custom-contrasts.Rmd', eval = FALSE}
+```
+
+---

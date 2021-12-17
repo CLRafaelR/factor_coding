@@ -1,0 +1,49 @@
+name: inverting-the-procedure
+
+`r chunk_reveal("center-contrast-coefficient", left_assign = "detect", break_type = "rotate", title = "## Centered contrasts  \n  \n**中心化された対比**：対比行列の中で，個々の水準に割り当てられている対比係数を，対比ごと（列ごと）に足し合わせた時に0になる", display_type = c("code", "output", "md"), md = c("Sum contrastsを適用", "Repeated contrastsを適用", "Polynomial contrastsを適用", "Helmert contrastsを適用", "Treatment contrastsを適用  \n  \n**Treatment contrastsでは，0にならず，1になる**"))`
+
+```{r}
+#| center-contrast-coefficient,
+#| include = FALSE
+
+contr.sum(4) |> colSums() #ROTATE
+contr.sdif(4) |> colSums() #ROTATE
+contr.poly(4) |> colSums() |> fractions() #ROTATE
+contr.helmert(4) |> colSums() #ROTATE
+contr.treatment(4) |> colSums() #ROTATE
+```
+
+---
+
+## Centered contrastsにおける切片
+
+- 仮説行列の中では，切片の列（ ${H_0}_0$ ）は足し合わせても0にならない
+  - 1になる
+- 仮説行列の切片の列（ ${H_0}_0$ ）の総計が1になるのは，一般化逆行列を適用して対比行列を作ったときに，対比行列の切片の列に1だけが入るようにするため
+- 対比行列の切片の列に1だけが入るようにするのは，切片の解釈を容易にするため
+
+---
+
+`r chunk_reveal("hypotheis-contrast-matrix-center", left_assign = "detect", title = "## Centered contrastsにおける切片", display_type = c("code", "output", "md"), md = c("仮説行列を作成  \n  \n[ここ](#hypotheis-matrix-how-to)で作成した例", "仮説行列", "仮説行列を転置 *transpose*  \n今度は各行が水準，各列が仮説に変わる", "小数表記を分数表記に改める", "列ごとに足し合わせる  \n  \n仮説行列の中では，切片の列（ ${H_0}_0$ ）は足し合わせても0にならない", "仮説行列から…", "対比行列を作成  \n  \n切片の列には，1だけが入っている"))`
+
+
+```{r}
+#| hypotheis-contrast-matrix-center,
+#| include = FALSE
+
+HcSum <- rbind(
+  cH00 = c(low =  1/3, med =  1/3, hi =  1/3),
+  cH01 = c(low =  2/3, med = -1/3, hi = -1/3),
+  cH02 = c(low = -1/3, med =  2/3, hi = -1/3)
+)
+
+HcSum |>
+  t() |>
+  fractions()|>
+  colSums()
+
+HcSum |>
+  hypr::ginv2()
+```
+
+---
