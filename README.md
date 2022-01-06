@@ -1,5 +1,7 @@
 # Factor Coding （質的変数のコーディング方法）
 
+Read this in other languages: [English](https://github.com/CLRafaelR/factor_coding/blob/main/README-en.md)
+
 Rを使い質的変数（主に名義尺度）をコーディングして統計モデリングを行うための，Schad et al (2020)に対する日本語注解
 
 Schad, D. J., Vasishth, S., Hohenstein, S., & Kliegl, R. (2020). How to capitalize on a priori contrasts in linear (mixed) models: A tutorial. *Journal of Memory and Language*. https://doi.org/10.1016/j.jml.2019.104038

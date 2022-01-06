@@ -1,5 +1,7 @@
 # Factor Coding
 
+この資料は次の言語でも読めます: [日本語](https://github.com/CLRafaelR/factor_coding/blob/main/README.md)
+
 Annotations in Japanese to Schad et al (2020) to understand how to code nominal scales using R
 
 Schad, D. J., Vasishth, S., Hohenstein, S., & Kliegl, R. (2020). How to capitalize on a priori contrasts in linear (mixed) models: A tutorial. *Journal of Memory and Language*. https://doi.org/10.1016/j.jml.2019.104038
