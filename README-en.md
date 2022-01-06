@@ -16,3 +16,7 @@ The annotations also covers the following chapters of textbooks for the psycholo
   - Codes are rewritten using [`tidyverse`](https://www.tidyverse.org/)'s functions and [the native pipe `|>`](https://stat.ethz.ch/pipermail/r-announce/2021/000670.html#:~:text=the%20new%20native%20pipe%20operator%20%22%7C%3E%22)
 - written in Japanese
   - one of the first annotations to the original article in non-English languages
+
+## License
+
+The content of this project itself is licensed under the [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.en). The source code used to format and display that content and the code in the materials are licensed under the [MIT license]().
