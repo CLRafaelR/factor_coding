@@ -2,7 +2,12 @@
 
 Annotations in Japanese to Schad et al (2020) to understand how to code nominal scales using R
 
-Schad, Daniel J., Shravan Vasishth, Sven Hohenstein, and Reinhold Kliegl. (2020). How to capitalize on a priori contrasts in linear (mixed) models: A tutorial. *Journal of Memory and Language*. https://doi.org/10.1016/j.jml.2019.104038
+Schad, D. J., Vasishth, S., Hohenstein, S., & Kliegl, R. (2020). How to capitalize on a priori contrasts in linear (mixed) models: A tutorial. *Journal of Memory and Language*. https://doi.org/10.1016/j.jml.2019.104038
+
+The annotations also covers the following chapters of textbooks for the psychologists/linguists who want to master statistics:
+
+1. Vasishth, S., Schad, D., Bürki, A., & Kliegl, R. (In preparation). [*Contrast coding*](https://vasishth.github.io/Freq_CogSci/basic-concepts-illustrated-using-a-two-level-factor.html). In Vasishth, S., Schad, D., Bürki, A., & Kliegl, R. (Eds.), Linear Mixed Models in Linguistics and Psychology: A Comprehensive Introduction. https://vasishth.github.io/Freq_CogSci/basic-concepts-illustrated-using-a-two-level-factor.html
+2. Nicenboim, B., Schad, D., and Vasishth, S. (In preparation). [*Contrast coding*](https://vasishth.github.io/bayescogsci/book/ch-contr.html). In Nicenboim, B., Schad, D., and Vasishth, S. (Eds.), An Introduction to Bayesian Data Analysis for Cognitive Science. https://vasishth.github.io/bayescogsci/book/ch-contr.html
 
 ## What is the difference between this material and the original article?
 
