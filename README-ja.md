@@ -19,3 +19,8 @@ Schad, D. J., Vasishth, S., Hohenstein, S., & Kliegl, R. (2020). How to capitali
 - 日本語で書かれている点
   - 英語以外の言語による，原著論文への最初の注釈
 
+## ライセンス
+
+本資料は，「How to capitalize on a priori contrasts in linear (mixed) models: A tutorial」(© Daniel J Schad, Shravan Vasishth, Sven Hohenstein, Reinhold Kliegl 2020 https://doi.org/10.1016/j.jml.2019.104038 (CC BY 4.0)) を翻訳・改変して作成した日本語版注釈書である。
+
+このプロジェクトの内容自体は、[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.en)の下でライセンスされている。内容の体裁や表示に使用したソースコード、および資料中のコードは、[MITライセンス]()の下でライセンスされている。
