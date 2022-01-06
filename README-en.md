@@ -21,4 +21,4 @@ The annotations also covers the following chapters of textbooks for the psycholo
 
 This is annotations to "How to capitalize on a priori contrasts in linear (mixed) models: A tutorial" in Japanese created by translating/modifying it (© Daniel J Schad, Shravan Vasishth, Sven Hohenstein, Reinhold Kliegl 2020 https://doi.org/10.1016/j.jml.2019.104038 (Licensed under CC BY 4.0)).
 
-The content of this project itself is licensed under the [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.en). The source code used to format and display that content and the code in the materials are licensed under the [MIT license]().
+The content of this project itself is licensed under the [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.en). The source code used to format and display that content and the code in the materials are licensed under the [MIT license](https://github.com/CLRafaelR/factor_coding/blob/main/LICENSE.md).
